@@ -31,7 +31,7 @@ mod:RegisterEvents(
 )
 
 local warnSmash						= mod:NewSpellAnnounce(18944, 2, nil, false, 2)
-local warnKnockAway					= mod:NewSpellAnnounce(18945, 2, nil, "Tank|Healer")
+local warnKnockAway					= mod:NewSpellAnnounce(18945, 2, nil, "Tank")
 local warnMassiveTremor				= mod:NewSpellAnnounce(19129, 3, nil, false, 2)
 local warnSurge						= mod:NewSpellAnnounce(19196, 2, nil, "Tank|Healer", 2)
 local warnLavaBreath				= mod:NewSpellAnnounce(19272, 2, nil, false, 2)
