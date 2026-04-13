@@ -28,7 +28,7 @@ mod:AddInfoFrameOption()
 
 local warnFear				= mod:NewSpellAnnounce(26580, 2)
 local warnToxicVolley		= mod:NewSpellAnnounce(25812, 2, nil, "RemovePoison")
-local warnHeal				= mod:NewCastAnnounce(25807, 3)
+local warnHeal				= mod:NewCastAnnounce(25807, 3, nil, nil, "HasInterrupt")
 local warnBugDied			= mod:NewAnnounce("WarnBugDied", 2, "133570")
 
 local specWarnHeal			= mod:NewSpecialWarningInterrupt(25807, "HasInterrupt", nil, nil, 1, 2)
