@@ -54,7 +54,7 @@ local specwarnShadowCommand	= mod:NewSpecialWarningTarget(22667, nil, nil, 2, 1,
 local specwarnVeilShadow	= mod:NewSpecialWarningDispel(22687, "RemoveCurse", nil, nil, 1, 2)
 local specwarnClassCall		= mod:NewSpecialWarning("specwarnClassCall", nil, nil, nil, 1, 2)
 
-local timerIntermission		= mod:NewIntermissionTimer("v12.9-14.9", nil, CL.INTERMISSION, true, nil, nil, "136106")
+local timerIntermission		= mod:NewIntermissionTimer("v15.7-17.3", nil, CL.INTERMISSION, true, nil, nil, "136106") -- 12.9-14.9 when using IsEncounterInProgress()
 local timerClassCall 		= mod:NewTimer(30, "TimerClassCall", nil, nil, nil, 5)
 local timerFearCD			= mod:NewVarTimer("v27-90.1", 22686, nil, nil, nil, 2)
 local timerShadowFlameCD	= mod:NewVarTimer("v8.1-37.2", 22539, nil, false)
@@ -73,8 +73,8 @@ function mod:OnCombatStart()
     if IsEncounterInProgress() and not self.vb.triggerEncounterStart then
 		self.vb.triggerEncounterStart = true
 		self:SendSync("Phase", 1)
-	elseif not IsEncounterInProgress() and self:GetStage(1) then
-        self:SendSync("Phase", 1.5)
+	--elseif not IsEncounterInProgress() and self:GetStage(1) then
+        --self:SendSync("Phase", 1.5)
 	elseif IsEncounterInProgress() and self:GetStage(1.5) then
 		self:SendSync("Phase", 2)
         self:UnregisterOnUpdateHandler()
@@ -182,6 +182,8 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		self:SendSync("ClassCall", "MONK")
 --	elseif msg == L.YellEvoker or msg:find(L.YellEvoker) then
 --		self:SendSync("ClassCall", "EVOKER")
+	elseif msg == L.YellP2 or msg:find(L.YellP2) then
+		self:SendSync:("Phase", 1.5)
 	elseif msg == L.YellP3 or msg:find(L.YellP3) then
 		self:SendSync("Phase", 3)
 	end
