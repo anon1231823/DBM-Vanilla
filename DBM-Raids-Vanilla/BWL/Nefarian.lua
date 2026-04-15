@@ -72,11 +72,17 @@ function mod:OnCombatStart()
 	self:RegisterOnUpdateHandler(function()
     if IsEncounterInProgress() and not self.vb.triggerEncounterStart then
 		self.vb.triggerEncounterStart = true
-		self:SendSync("Phase", 1)
+		self:SetStage(1)
+		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(1))
 	--elseif not IsEncounterInProgress() and self:GetStage(1) then
         --self:SendSync("Phase", 1.5)
 	elseif IsEncounterInProgress() and self:GetStage(1.5) then
-		self:SendSync("Phase", 2)
+		self:SetStage(2)
+		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
+		warnPhase:Play("ptwo")
+		timerIntermission:Stop()
+		timerFearCD:Start()
+		timerShadowFlameCD:Start()
         self:UnregisterOnUpdateHandler()
     end
 	end, 0.2)
@@ -191,7 +197,8 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if self:GetStage(2) and self:GetUnitCreatureId(uId) == 11583 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.25 then
-		self:SendSync("Phase", 2.5)
+		self:SetStage(2.5)
+		warnPhase3Soon:Show()
 	end
 end
 
@@ -219,20 +226,13 @@ do
 			if self:GetStage(phase, 3) then
 				self:SetStage(phase)
 				if phase % 1 == 0 then
-					warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(phase))
+				warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(phase))
 				end
-
 				if phase == 1.5 then
 					warnPhase2Soon:Show()
-					timerIntermission:Start()
-				elseif phase == 2 then
-					warnPhase:Play("ptwo")
-					timerIntermission:Stop()
-					timerFearCD:Start()
-					timerShadowFlameCD:Start()
-				elseif phase == 2.5 then
-					warnPhase3Soon:Show()
-				elseif phase == 3 then
+					timerIntermission:Start()	
+				end
+				if phase == 3 then
 					warnPhase:Play("pthree")
 				end
 			end

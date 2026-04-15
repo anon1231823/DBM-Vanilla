@@ -46,21 +46,31 @@ mod:AddInfoFrameOption()
 mod:AddDropdownOption("AirowsEnabled", {"Never", "TwoCamp", "ArrowsRightLeft", "ArrowsInverse"}, "Never", "misc", nil, 28089)
 
 local currentCharge
---local down = 0
 local lastShift = 0
 
 function mod:OnCombatStart()
-	self:SendSync("Phase", 1)
+	self:SetStage(1)
+	warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(1))
 	currentCharge = nil
-	--down = 0
 	self:ScheduleMethod(40.6, "TankThrow")
 	timerThrow:Start(20.6)
 	warnThrowSoon:Schedule(37.6)
 	self:RegisterOnUpdateHandler(function()
 	if not IsEncounterInProgress() and self:GetStage(1) then
-		self:SendSync("Phase", 1.5)
+		self:SetStage(1.5)
+		self:UnscheduleMethod("TankThrow")
+		warnPhase2Soon:Show()
+		warnThrowSoon:Cancel()
+		timerThrow:Stop()
+		timerIntermission:Start()
+		if self.Options.InfoFrame then
+			DBM.InfoFrame:Hide()
+		end
 	elseif IsEncounterInProgress() and self:GetStage(1.5) then
-        self:SendSync("Phase", 2)
+		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
+        timerEnrage:Start()
+		timerIntermission:Stop()
+		warnPhase:Play("ptwo")
         self:UnregisterOnUpdateHandler()
 	end
     end, 0.2)
@@ -140,33 +150,6 @@ function mod:UNIT_AURA()
 			end
 		end
 		currentCharge = charge
-	end
-end
-
-function mod:OnSync(msg, arg)
-	if msg == "Phase" then
-		local phase = tonumber(arg)
-		if not phase then return end
-		if self:GetStage(phase, 3) then  -- only if stage changed
-			self:SetStage(phase)
-			if phase % 1 == 0 then
-			warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(phase))
-			end
-			if phase == 1.5 then
-				self:UnscheduleMethod("TankThrow")
-				warnPhase2Soon:Show()
-				warnThrowSoon:Cancel()
-				timerThrow:Stop()
-				timerIntermission:Start()
-				if self.Options.InfoFrame then
-					DBM.InfoFrame:Hide()
-				end
-			elseif phase == 2 then
-				timerEnrage:Start()
-				timerIntermission:Stop()
-				warnPhase:Play("ptwo")
-			end
-		end
 	end
 end
 

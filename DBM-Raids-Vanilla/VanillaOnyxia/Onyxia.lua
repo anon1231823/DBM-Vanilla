@@ -62,7 +62,8 @@ mod:AddSetIconOption("SetIconOnFireball", 18392, true, 0, {8})
 --mod.vb.whelpsCount = 0
 
 function mod:OnCombatStart()
-	self:SendSync("Phase", 1)
+	self:SetStage(1)
+	warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(1))
 	timerFlameBreathCD:Start("v11.3-28.5")
 	timerWingBuffetCD:Start("v11.3-24.5")
 	if self.Options.SoundWTF3 then
@@ -178,7 +179,9 @@ function mod:OnSync(msg, arg)
 		if not phase then return end
 		if self:GetStage(phase, 3) then
 			self:SetStage(phase)
+			if phase % 1 == 0 then
 			warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(phase))
+			end
 			if phase == 2 then
 				warnPhase:Play("ptwo")
 				timerWingBuffetCD:Stop()

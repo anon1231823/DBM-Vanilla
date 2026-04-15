@@ -71,7 +71,8 @@ local function isBlackEssenceEnabled()
 end
 
 function mod:OnCombatStart()
-	self:SendSync("Phase", 1)
+	self:SetStage(1)
+	warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(1))
 	timerAddsSpawn:Start()
 	self.vb.eggsLeft = 30
 	if not self.vb.firstEngageTime then
@@ -146,7 +147,9 @@ function mod:OnSync(msg, arg)
 		if not phase then return end
 		if self:GetStage(phase, 3) then  -- only if stage changed
 			self:SetStage(phase)
+			if phase % 1 == 0 then
 			warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(phase))
+			end
 			if phase == 2 then
 				warnPhase:Play("ptwo")
 			end

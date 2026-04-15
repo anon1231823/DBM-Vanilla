@@ -102,10 +102,19 @@ local function AnnounceBlastTargets(self)
 end
 
 function mod:OnCombatStart()
-	self:SendSync("Phase", 1)
+	self:SetStage(1)
+	warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(1))
+	timerPhase2:Start()
 	self:RegisterOnUpdateHandler(function()
     if IsEncounterInProgress() and self:GetStage(1) then
-        self:SendSync("Phase", 2)
+		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
+        timerPhase2:Stop()
+		warnPhase:Play("ptwo")
+		timerFissureCD:Start("v10.4-38.4")
+		timerFrostboltCD:Start("v15.3-85.9")
+		timerManaBombCD:Start("v20.2-46.5")
+		timerFrostBlastCD:Start("v30.3-92.7")
+		timerMCCD:Start("v21.8-103.4")
 		if DBM:IsSeasonal("SeasonOfDiscovery") then
 			warnPhase:Cancel()
 			warnPhase:CancelVoice()
@@ -210,30 +219,8 @@ function mod:UNIT_HEALTH(uId)
 		self:SetStage(2.5)
 		warnPhase3Soon:Show()
 	elseif self:GetStage(2.5) and self:GetUnitCreatureId(uId) == 15990 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.40 and not DBM:IsSeasonal("SeasonOfDiscovery") then
-		self:SendSync("Phase", 3)
-	end
-end
-
-function mod:OnSync(msg, arg)
-	if msg == "Phase" then
-		local phase = tonumber(arg)
-		if not phase then return end
-		if self:GetStage(phase, 3) then  -- only if stage changed
-			self:SetStage(phase)
-			warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(phase))
-			if phase == 1 then
-				timerPhase2:Start()
-			elseif phase == 2 then
-				timerPhase2:Stop()
-				warnPhase:Play("ptwo")
-				timerFissureCD:Start("v10.4-38.4")
-				timerFrostboltCD:Start("v15.3-85.9")
-				timerManaBombCD:Start("v20.2-46.5")
-				timerFrostBlastCD:Start("v30.3-92.7")
-				timerMCCD:Start("v21.8-103.4")
-			elseif phase == 3 then
-				warnPhase:Play("pthree")
-			end
-		end
+		self:SetStage(3)
+		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(3))
+		warnPhase:Play("pthree")
 	end
 end
