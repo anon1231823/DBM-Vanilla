@@ -230,7 +230,7 @@ do
 				end
 				if phase == 1.5 then
 					warnPhase2Soon:Show()
-					timerIntermission:Start()	
+					timerIntermission:Start()
 				end
 				if phase == 3 then
 					warnPhase:Play("pthree")
