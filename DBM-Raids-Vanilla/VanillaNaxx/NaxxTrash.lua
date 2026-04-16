@@ -11,7 +11,7 @@ mod:RegisterEvents(
 	"SPELL_SUMMON 28294"
 )
 
-local specWarnLightningTotem		= mod:NewSpecialWarningSwitch(28294, nil, nil, nil, 1, 2)
+local specWarnLightningTotem		= mod:NewSpecialWarningSwitch(28294, "Dps", nil, nil, 1, 2)
 local warnFear						= mod:NewSpellAnnounce(19134, 2)
 
 function mod:SPELL_SUMMON(args)
