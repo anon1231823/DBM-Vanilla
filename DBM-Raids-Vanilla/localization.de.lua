@@ -68,11 +68,7 @@ L:SetWarningLocalization{
 }
 L:SetOptionLocalization{
 	WarnFreeze	= "Verkünde Einfrieren Status",
-	WarnShatter	= "Verkünde Zerspringen Status",
-	TimerRejoin = "Zeige Zeit bis $spell:25896"
-}
-L:SetTimerLocalization{
-	TimerRejoin	= "Wieder mit Viscidus vereinen"
+	WarnShatter	= "Verkünde Zerspringen Status"
 }
 L:SetMiscLocalization{
 	Slow	= "wird langsamer",

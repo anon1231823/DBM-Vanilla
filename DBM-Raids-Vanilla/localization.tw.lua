@@ -68,11 +68,7 @@ L:SetWarningLocalization{
 }
 L:SetOptionLocalization{
 	WarnFreeze	= "提示冰凍狀態",
-	WarnShatter	= "提示打碎狀態",
-	TimerRejoin = "為$spell:25896顯示計時器"
-}
-L:SetTimerLocalization{
-	TimerRejoin	= "維希度斯重返"
+	WarnShatter	= "提示打碎狀態"
 }
 L:SetMiscLocalization{
 	Slow		= "開始變慢了！",

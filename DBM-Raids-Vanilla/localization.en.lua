@@ -66,11 +66,7 @@ L:SetWarningLocalization{
 }
 L:SetOptionLocalization{
 	WarnFreeze	= "Announce Freeze status",
-	WarnShatter	= "Announce Shatter status",
-	TimerRejoin = "Show timer for $spell:25896"
-}
-L:SetTimerLocalization{
-	TimerRejoin	= "Rejoin Viscidus"
+	WarnShatter	= "Announce Shatter status"
 }
 L:SetMiscLocalization{
 	Slow	= "begins to slow",
