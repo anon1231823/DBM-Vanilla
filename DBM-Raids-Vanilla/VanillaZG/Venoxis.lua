@@ -107,7 +107,19 @@ end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
    if self:GetStage(1) and spellId == 23849 then
+		self:SendSync("Phase2")
+   end
+end
+
+function mod:OnSync(msg)
+	if not self:IsInCombat() then return end
+	if msg == "PriestDied" then
+		if self:AntiSpam(20, 2) then
+			warnSimulKill:Show()
+			timerSimulKill:Start()
+		end
+	elseif msg == "Phase2"
 		self:SetStage(2)
 		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
-   end
+	end
 end

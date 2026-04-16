@@ -113,13 +113,7 @@ end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
    if self:GetStage(1) and spellId == 24169 then
-		self:SetStage(2)
-		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
-		warnPhase:Play("ptwo")
-		timerSimulKill:Stop()
-		if self.Options.InfoFrame then
-			DBM.InfoFrame:Hide()
-		end
+		self:SendSync("Phase2")
    end
 end
 
@@ -129,6 +123,14 @@ function mod:OnSync(msg)
 		if self:AntiSpam(20, 2) then
 			warnSimulKill:Show()
 			timerSimulKill:Start()
+		end
+	elseif msg == "Phase2"
+		self:SetStage(2)
+		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
+		warnPhase:Play("ptwo")
+		timerSimulKill:Stop()
+		if self.Options.InfoFrame then
+			DBM.InfoFrame:Hide()
 		end
 	end
 end
