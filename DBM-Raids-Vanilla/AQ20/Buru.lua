@@ -26,7 +26,7 @@ mod:RegisterEventsInCombat(
 local WarnDismember				= mod:NewStackAnnounce(96, 3, nil, "Tank", 2)
 local warnPursue				= mod:NewAnnounce("WarnPursue", 3, 62374)
 
-local specWarnDismember			= mod:NewSpecialWarningStack(96, nil, 5, nil, nil, 1, 6)
+local specWarnDismember			= mod:NewSpecialWarningStack(96, "Tank", 5, nil, nil, 1, 6)
 local specWarnDismemberTaunt	= mod:NewSpecialWarningTaunt(96, "Tank", nil, nil, 1, 2)
 local specWarnPursue			= mod:NewSpecialWarning("SpecWarnPursue", nil, nil, nil, 4, 2)
 

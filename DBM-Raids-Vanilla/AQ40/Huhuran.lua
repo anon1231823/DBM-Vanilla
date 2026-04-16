@@ -33,7 +33,7 @@ local warnFrenzy		= mod:NewSpellAnnounce(26051, 3, nil, "Tank|RemoveEnrage|Heale
 local warnBerserkSoon	= mod:NewSoonAnnounce(26068, 2)
 local warnBerserk		= mod:NewSpellAnnounce(26068, 2)
 
-local specWarnAcid		= mod:NewSpecialWarningStack(26050, nil, 10, nil, nil, 1, 6)
+local specWarnAcid		= mod:NewSpecialWarningStack(26050, "Tank", 10, nil, nil, 1, 6)
 local specWarnAcidTaunt	= mod:NewSpecialWarningTaunt(26050, "Tank", nil, nil, 1, 2)
 local specWarnFrenzy	= mod:NewSpecialWarningDispel(26051, "RemoveEnrage", nil, nil, 1, 6)
 

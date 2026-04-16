@@ -31,7 +31,7 @@ local warnFrenzy		= mod:NewSpellAnnounce(26527, 3)
 
 local specWarnSandTrap	= mod:NewSpecialWarningYou(25656, nil, nil, nil, 1, 2)
 local yellSandTrap		= mod:NewYell(25656)
-local specWarnWound		= mod:NewSpecialWarningStack(25646, nil, 5, nil, nil, 1, 6)
+local specWarnWound		= mod:NewSpecialWarningStack(25646, "Tank", 5, nil, nil, 1, 6)
 local specWarnWoundTaunt= mod:NewSpecialWarningTaunt(25646, "Tank", nil, nil, 1, 2)
 
 local timerWound		= mod:NewTargetTimer(15, 25646, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
