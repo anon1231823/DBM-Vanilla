@@ -48,6 +48,7 @@ local timerGouge		= mod:NewTargetTimer(4, 12540, nil, nil, nil, 3)
 
 
 function mod:OnCombatStart()
+	self:SetStage(1)
 	warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(1))
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Show(10, "bosshealth", {
@@ -111,8 +112,14 @@ end
 --end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-   if spellId == 24169 then
-		self:SendSync("Phase2")
+   if self:GetStage(1) and spellId == 24169 then
+		self:SetStage(2)
+		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
+		warnPhase:Play("ptwo")
+		timerSimulKill:Stop()
+		if self.Options.InfoFrame then
+			DBM.InfoFrame:Hide()
+		end
    end
 end
 
@@ -122,13 +129,6 @@ function mod:OnSync(msg)
 		if self:AntiSpam(20, 2) then
 			warnSimulKill:Show()
 			timerSimulKill:Start()
-		end
-	elseif msg == "Phase2" then
-		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
-		warnPhase:Play("ptwo")
-		timerSimulKill:Stop()
-		if self.Options.InfoFrame then
-			DBM.InfoFrame:Hide()
 		end
 	end
 end

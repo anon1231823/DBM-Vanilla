@@ -48,12 +48,11 @@ local timerFire			= mod:NewTargetTimer(8, 23860, nil, "RemoveMagic|Healer", nil,
 
 mod.vb.prewarn_Phase2 = false
 
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart()
 	self.vb.prewarn_Phase2 = false
 	self:SetStage(1)
 	warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(1))
 end
-
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpell(23861) then
@@ -107,7 +106,7 @@ function mod:UNIT_HEALTH(uId)
 end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-   if spellId == 23849 then
+   if self:GetStage(1) and spellId == 23849 then
 		self:SetStage(2)
 		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
    end
