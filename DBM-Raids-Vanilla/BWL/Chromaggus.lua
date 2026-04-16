@@ -70,7 +70,7 @@ if DBM:IsSeasonal("SeasonOfDiscovery") then
 end
 
 mod:AddNamePlateOption("NPAuraOnVulnerable", 22277)
-mod:AddInfoFrameOption(22277, true)
+mod:AddInfoFrameOption(22277, false)
 
 mod.vb.breathCount = 0
 local mydebuffs = 0
