@@ -44,8 +44,8 @@ local warnGreen			= mod:NewSpellAnnounce(23169, 2, nil, "RemovePoison")
 local warnBlue			= mod:NewSpellAnnounce(23153, 2, nil, "RemoveMagic")
 local warnBlack			= mod:NewSpellAnnounce(23154, 2, nil, "RemoveCurse")
 local warnFrenzy		= mod:NewSpellAnnounce(23128, 3, nil, "Tank|RemoveEnrage|Healer")
-local warnPhase2Soon	= mod:NewPrePhaseAnnounce(2)
-local warnPhase 		= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
+local warnEnrageSoon	= mod:NewSoonAnnounce(23537, 2)
+local warnEnrage 		= mod:NewSpellAnnounce(23537, 4)
 local warnMutation		= mod:NewCountAnnounce(23174, 4) ---@type Announce -- string as count in :Show() is unusual but valid
 local warnVuln			= mod:NewAnnounce("WarnVulnerable", 1, nil, "SpellCaster", "WarnVulnerableNew")
 
@@ -172,8 +172,6 @@ local nextBreath, nextVolley, volleyCount = 0, 0, 0
 local rolloverWarnShown
 function mod:OnCombatStart()
 	self.vb.breathCount = 0
-	warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(1))
-	self:SetStage(1)
 	rolloverWarnShown = false
 	nextBreath = GetTime() + 30
 	nextVolley = GetTime() + 40
@@ -352,7 +350,7 @@ function mod:UNIT_HEALTH(uId)
 	end
 	local health = UnitHealth(uId) / UnitHealthMax(uId)
 	if health <= 0.25 and self:GetStage(1) then
-		warnPhase2Soon:Show()
+		warnEnrageSoon:Show()
 		self:SetStage(1.5)
 	elseif warnRollOverSoon and health <= 0.65 and health >= 0.6 and self:IsBwlBlackEssenceEnabled() and not rolloverWarnShown then
 		warnRollOverSoon:Show()
