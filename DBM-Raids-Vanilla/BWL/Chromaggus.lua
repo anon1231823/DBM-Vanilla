@@ -317,8 +317,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		timerFrenzy:Start()
 	elseif args:IsSpell(23537) and args:IsDestTypeHostile() then
-			warnEnrage:Show()
-		end
+		warnEnrage:Show()
 	elseif args:IsSpell(22277, 22278, 22279, 22280, 22281) then
 		bossGuid = args.destGUID
 		timerVuln:Start()
