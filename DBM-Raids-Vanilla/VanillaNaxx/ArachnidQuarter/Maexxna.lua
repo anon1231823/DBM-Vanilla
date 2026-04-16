@@ -17,15 +17,19 @@ mod:SetZone(533)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED 28622",
-	"SPELL_CAST_SUCCESS 29484"--54125
+	"SPELL_AURA_APPLIED 28622 28747",
+	"SPELL_CAST_SUCCESS 29484"
 )
+
+mod.vb.enrageWarning = false
 
 local warnWebWrap		= mod:NewTargetAnnounce(28622, 2, nil, "RangedDps|Healer")
 local warnWebSpraySoon	= mod:NewSoonAnnounce(29484, 1)
 local warnWebSprayNow	= mod:NewSpellAnnounce(29484, 3)
 local warnSpidersSoon	= mod:NewAnnounce("WarningSpidersSoon", 2, 17332)
 local warnSpidersNow	= mod:NewAnnounce("WarningSpidersNow", 4, 17332)
+local warnEnrageSoon	= mod:NewSoonAnnounce(28747, 2)
+local warnEnrage 		= mod:NewSpellAnnounce(28747, 4)
 
 local specWarnWebWrap	= mod:NewSpecialWarningSwitch(28622, "RangedDps|Healer", nil, 2, 1, 2)
 local yellWebWrap		= mod:NewYell(28622)
@@ -35,6 +39,7 @@ local timerWebWrap		= mod:NewVarTimer("v39.6-40.9", 28622, nil, "RangedDps|Heale
 local timerSpider		= mod:NewTimer(30, "TimerSpider", 17332, nil, nil, 1)
 
 function mod:OnCombatStart()
+	self.vb.enrageWarning = false
 	warnWebSpraySoon:Schedule(35.5)
 	timerWebSpray:Start()
 	timerWebWrap:Start(20.1)
@@ -55,6 +60,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnWebWrap:ScheduleVoice(0.5, "targetchange")
 			timerWebWrap:Start()
 		end
+	elseif args:IsSpell(28747) then
+		warnEnrage:Show()
 	end
 end
 
@@ -66,5 +73,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnSpidersSoon:Schedule(25)
 		warnSpidersNow:Schedule(30)
 		timerSpider:Start()
+	end
+end
+
+function mod:UNIT_HEALTH(uId)
+	if self.vb.enrageWarning == false and self:GetUnitCreatureId(uId) == 15952 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 then
+		self.vb.enrageWarning = true
+		warnEnrageSoon:Show()
 	end
 end
