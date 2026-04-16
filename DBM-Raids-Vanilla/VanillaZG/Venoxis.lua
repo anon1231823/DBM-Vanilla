@@ -118,7 +118,7 @@ function mod:OnSync(msg)
 			warnSimulKill:Show()
 			timerSimulKill:Start()
 		end
-	elseif msg == "Phase2"
+	elseif msg == "Phase2" then
 		self:SetStage(2)
 		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
 	end
