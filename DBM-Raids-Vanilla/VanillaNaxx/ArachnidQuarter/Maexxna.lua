@@ -78,7 +78,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self.vb.enrageWarning == false and self:GetUnitCreatureId(uId) == 15952 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 then
+	if not self.vb.enrageWarning and self:GetUnitCreatureId(uId) == 15952 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 then
 		self.vb.enrageWarning = true
 		warnEnrageSoon:Show()
 	end
