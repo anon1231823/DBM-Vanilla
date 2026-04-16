@@ -18,7 +18,8 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 28622 28747",
-	"SPELL_CAST_SUCCESS 29484"
+	"SPELL_CAST_SUCCESS 29484",
+	"UNIT_HEALTH"
 )
 
 mod.vb.enrageWarning = false
