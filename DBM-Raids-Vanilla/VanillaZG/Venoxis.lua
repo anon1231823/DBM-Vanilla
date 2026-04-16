@@ -113,12 +113,7 @@ end
 
 function mod:OnSync(msg)
 	if not self:IsInCombat() then return end
-	if msg == "PriestDied" then
-		if self:AntiSpam(20, 2) then
-			warnSimulKill:Show()
-			timerSimulKill:Start()
-		end
-	elseif msg == "Phase2" then
+	if msg == "Phase2" then
 		self:SetStage(2)
 		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
 	end
