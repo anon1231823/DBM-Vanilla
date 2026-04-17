@@ -10,7 +10,7 @@ mod:SetUsedIcons(8)
 mod:SetHotfixNoticeRev(20191122000000)--2019, 11, 22
 mod:SetZone(249)
 
-mod:RegisterCombat("combat_yell", L.YellPull)
+mod:RegisterCombat("combat_yell", L.YellP1)
 
 --[[
 (ability.id = 17086 or ability.id = 18351 or ability.id = 18500 or ability.id = 18564 or ability.id = 18576 or ability.id = 17086 or ability.id = 18596 or ability.id = 18609 or ability.id = 18617 or ability.id = 18435 or ability.id = 18431) and type = "begincast"
