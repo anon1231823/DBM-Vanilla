@@ -26,7 +26,7 @@ mod:RegisterEventsInCombat(
 --TODO, is it really nessesarly to use SPELL_DAMAGE here?
 local warnFrenzy		= mod:NewSpellAnnounce(28371, 3, nil, "Tank|RemoveEnrage|Healer", 2)
 local warnRoar			= mod:NewSpellAnnounce(29685, 2)
-local warnDecimate		= mod:NewSpellAnnounce(28374, 3)
+local warnDecimate		= mod:NewSpellAnnounce(28374, 3, "136075") -- Retail uses this icon for Decimate
 
 local specwarnFrenzy	= mod:NewSpecialWarningDispel(28371, "RemoveEnrage", nil, nil, 1, 6)
 
