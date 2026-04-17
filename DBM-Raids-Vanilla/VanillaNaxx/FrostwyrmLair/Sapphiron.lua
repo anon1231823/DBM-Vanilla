@@ -28,6 +28,8 @@ ability.id = 28524 and type = "begincast"
  or (ability.id = 28542 or ability.id = 28560) and type = "cast"
 --]]
 --TODO, air phase and landing better detection from transcriptor, timer adjustments
+local airPhaseTimer = 64.3
+
 local warnDrainLifeNow	= mod:NewSpellAnnounce(28542, 2)
 local warnDrainLifeSoon	= mod:NewSoonAnnounce(28542, 1, nil, "RemoveCurse")
 local warnIceBlock
@@ -46,7 +48,7 @@ local warnFrostBreath	= mod:NewSpecialWarning("WarningFrostBreath", nil, nil, ni
 local yellIceBlock		= mod:NewYell(28522)
 
 local timerDrainLife	= mod:NewVarTimer("v21.1-27.5", 28542, nil, "RemoveCurse", nil, 3, nil, DBM_COMMON_L.CURSE_ICON)
-local timerAirPhase		= mod:NewTimer(64.3, "TimerAir", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp", nil, nil, 6)
+local timerAirPhase		= mod:NewTimer(airPhaseTimer, "TimerAir", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp", nil, nil, 6)
 local timerLanding		= mod:NewTimer(DBM:IsSeasonal("SeasonOfDiscovery") and 36 or 28.5, "TimerLanding", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendBurrow.blp", nil, nil, 6)
 local timerFrostBreath	= mod:NewTimer(7, "TimerFrostBreath", 15876, nil, nil, 2, DBM_COMMON_L.DEADLY_ICON) -- Using the icon for spell 15876 Ice Blast because Frost Breath icon is the default Samwise icon
 
@@ -70,8 +72,6 @@ local UnitAffectingCombat = UnitAffectingCombat
 local function resetIsFlying(self)
 	self.vb.isFlying = false
 end
-
-local airPhaseTimer = 64.3
 
 local function Landing()
 	mod.vb.iceBlocks = 0
