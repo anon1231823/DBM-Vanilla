@@ -7,6 +7,10 @@ else
 	mod.statTypes = "normal"
 end
 
+mod:RegisterEventsInCombat(
+	"SPELL_AURA_APPLIED 28131",
+)
+
 mod:SetRevision("@file-date-integer@")
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(16028)
@@ -16,8 +20,15 @@ mod:SetZone(533)
 
 mod:RegisterCombat("combat_yell", L.Pull1, L.Pull2)
 
-local enrageTimer	= mod:NewBerserkTimer(360)
+local enrageTimer	= mod:NewBerserkTimer(420)
+local warnEnrage 	= mod:NewSpellAnnounce(28131, 4)
 
 function mod:OnCombatStart()
-	enrageTimer:Start(360)
+	enrageTimer:Start()
+end
+
+function mod:SPELL_AURA_APPLIED(args)
+	if args:IsSpell(28131) then
+		warnEnrage:Show()
+	end
 end
