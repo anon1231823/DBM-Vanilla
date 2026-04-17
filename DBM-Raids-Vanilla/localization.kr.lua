@@ -1051,7 +1051,7 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	TimerWave	= "%d번 병력",
+	TimerWave	= "%d/18번 병력",
 	TimerPhase2	= "2단계"
 })
 

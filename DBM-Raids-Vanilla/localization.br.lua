@@ -1027,7 +1027,7 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	TimerWave	= "Onda %d",
+	TimerWave	= "Onda %d/18",
 	TimerPhase2	= "Fase 2"
 })
 

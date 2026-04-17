@@ -1055,7 +1055,7 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	TimerWave	= "Волна %d",
+	TimerWave	= "Волна %d/18",
 	TimerPhase2	= "2-я фаза"
 })
 

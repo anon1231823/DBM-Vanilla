@@ -1031,7 +1031,7 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	TimerWave			= "Vague %d",
+	TimerWave			= "Vague %d/18",
 	TimerPhase2			= "Phase 2"
 })
 

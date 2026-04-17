@@ -951,7 +951,7 @@ L:SetOptionLocalization({
 })
 
 L:SetTimerLocalization({
-	TimerWave	= "第%d波",
+	TimerWave	= "第%d/18波",
 	TimerPhase2	= "第二階段"
 })
 
