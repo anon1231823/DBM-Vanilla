@@ -71,7 +71,7 @@ local function resetIsFlying(self)
 	self.vb.isFlying = false
 end
 
-local airPhaseTimer = 66 -- TODO: maybe slightly shorter on non-mythic? but at most a few seconds, doesn't matter because the cast resets it
+local airPhaseTimer = 64.3
 
 local function Landing()
 	mod.vb.iceBlocks = 0
@@ -83,19 +83,19 @@ local function Landing()
 	end
 end
 
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart()
 	noTargetTime = 0
 	self.vb.isFlying = false
 	self.vb.iceBlocks = 0
 	-- TODO: confirm this, it seems to have changed with the Mythic hot fixes for both mythic and normal?
 	local isMythic = select(5, DBM:GetCurrentInstanceDifficulty()) == 4
-	local initialAirPhaseTimer = isMythic and 39.66 or DBM:IsSeasonal("SeasonOfDiscovery") and 31 or 48.5
-	warnAirPhaseSoon:Schedule(initialAirPhaseTimer - 10 - delay)
-	timerAirPhase:Start(initialAirPhaseTimer - delay)
-	berserkTimer:Start(900-delay)
+	local initialAirPhaseTimer = isMythic and 39.66 or DBM:IsSeasonal("SeasonOfDiscovery") and 31 or 39.1
+	warnAirPhaseSoon:Schedule(initialAirPhaseTimer - 10)
+	timerAirPhase:Start(initialAirPhaseTimer)
+	berserkTimer:Start(900)
 	if DBM:IsSeasonal("SeasonOfDiscovery") then -- FIXME: should filter for mythic, but I don't trust the current detection logic
-		timerBomb:Start(30.75 - delay)
-		self:Schedule(initialAirPhaseTimer + 1 - delay, timerBomb.Stop, timerBomb)
+		timerBomb:Start(30.75)
+		self:Schedule(initialAirPhaseTimer + 1, timerBomb.Stop, timerBomb)
 	end
 	self:RegisterOnUpdateHandler(function(self, elapsed)
 		if not self:IsInCombat() then return end
