@@ -48,7 +48,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	end
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
+function mod:SPELL_CAST_START(args)
 	if args:IsSpell(28311) then
 		warnSlimeBolt:Show()
 	end
