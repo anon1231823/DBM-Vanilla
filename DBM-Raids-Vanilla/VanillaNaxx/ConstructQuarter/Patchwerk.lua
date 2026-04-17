@@ -21,8 +21,8 @@ mod:SetZone(533)
 
 mod:RegisterCombat("combat_yell", L.Pull1, L.Pull2)
 
-local warnEnrage 		= mod:NewSpellAnnounce(28131, 4)
 local warnEnrageSoon	= mod:NewSoonAnnounce(28131, 2)
+local warnEnrage 		= mod:NewSpellAnnounce(28131, 4)
 
 local timerBerserk		= mod:NewBerserkTimer(420)
 
