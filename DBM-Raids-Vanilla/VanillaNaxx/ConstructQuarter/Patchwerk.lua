@@ -9,6 +9,7 @@ end
 
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 28131",
+	"SPELL_CAST_SUCCESS",
 	"UNIT_HEALTH"
 )
 
@@ -23,6 +24,7 @@ mod:RegisterCombat("combat_yell", L.Pull1, L.Pull2)
 
 local warnEnrage 		= mod:NewSpellAnnounce(28131, 4)
 local warnEnrageSoon	= mod:NewSoonAnnounce(28131, 2)
+local warnSlimeBolt		= mod:NewSpellAnnounce(28311, 4)
 
 local timerBerserk		= mod:NewBerserkTimer(420)
 
@@ -43,5 +45,11 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(28131) then
 		warnEnrage:Show()
+	end
+end
+
+function mod:SPELL_CAST_SUCCESS(args)
+	if args:IsSpell(28311) then
+		warnSlimeBolt:Show()
 	end
 end

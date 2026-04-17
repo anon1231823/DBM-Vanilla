@@ -20,7 +20,8 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 28522 28547 1219729 1219732",
 	"SPELL_CAST_START 28524",
-	"SPELL_CAST_SUCCESS 28542"
+	"SPELL_CAST_SUCCESS 28542",
+	"UNIT_HEALTH"
 )
 
 --[[
@@ -178,5 +179,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnDrainLifeNow:Show()
 		warnDrainLifeSoon:Schedule(18.5)
 		timerDrainLife:Start()
+	end
+end
+
+function mod:UNIT_HEALTH(uId)
+	if not self.vb.isFlying and self:GetUnitCreatureId(uId) == 15989 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then
+		warnAirPhaseSoon:Cancel()
+		timerAirPhase:Stop()
 	end
 end
