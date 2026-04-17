@@ -118,7 +118,7 @@ function mod:OnCombatStart()
 		if noTargetTime > 0.5 and not self.vb.isFlying then
 			noTargetTime = 0
 			self.vb.isFlying = true
-			self:Schedule(DBM:IsSeasonal("SeasonOfDiscovery") and 40 or 30, resetIsFlying, self)
+			self:Schedule(60, resetIsFlying, self)
 			timerDrainLife:Cancel()
 			warnDrainLifeSoon:Cancel()
 			timerAirPhase:Cancel()
@@ -183,7 +183,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if not self.vb.isFlying and self:GetUnitCreatureId(uId) == 15989 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then
+	if timerAirPhase:IsStarted() and self:GetUnitCreatureId(uId) == 15989 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then
 		warnAirPhaseSoon:Cancel()
 		timerAirPhase:Stop()
 	end
