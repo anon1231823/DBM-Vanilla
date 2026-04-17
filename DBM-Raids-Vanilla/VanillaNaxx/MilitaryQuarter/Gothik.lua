@@ -44,7 +44,6 @@ mod:AddInfoFrameOption(nil, true)
 
 mod.vb.wave = 0
 local mobCounts = {}
-local totalWaves = 18
 
 local liveMobIds = {
 	[16124] = L.Trainee,
@@ -160,8 +159,7 @@ function mod:OnCombatStart()
 	self:Schedule(270, function()
     warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
 	end)
-	timerWave:Start(27)
-	timerWave:UpdateName(self.vb.wave + 1 .. "/" .. totalWaves)
+	timerWave:Start(27, self.vb.wave + 1)
 	warnWaveSoon:Schedule(24, self.vb.wave + 1, getWaveString(self.vb.wave + 1))
 	self:ScheduleMethod(27, "NextWave")
 	if DBM:IsSeasonal("SeasonOfDiscovery") then
