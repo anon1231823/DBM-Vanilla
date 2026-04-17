@@ -7,12 +7,14 @@ mod.isTrashMod = true
 mod:SetZone(533)
 
 mod:RegisterEvents(
-	"SPELL_CAST_SUCCESS 19134",
+	"SPELL_CAST_SUCCESS 19134 28431 28440",
 	"SPELL_SUMMON 28294"
 )
 
-local specWarnLightningTotem		= mod:NewSpecialWarningSwitch(28294, "Dps", nil, nil, 1, 2)
-local warnFear						= mod:NewSpellAnnounce(19134, 2)
+local warnFear					= mod:NewSpellAnnounce(19134, 2)
+local specWarnLightningTotem	= mod:NewSpecialWarningSwitch(28294, "Dps", nil, nil, 1, 2)
+local warnPoisonCharge			= mod:NewSpellAnnounce(28431, 2, nil, "RemovePoison")
+local warnVeilofShadow			= mod:NewSpellAnnounce(28440, 2, nil, "RemoveCurse|Healer")
 
 function mod:SPELL_SUMMON(args)
 	if args:IsSpell(28294) then -- Happens ~1 time per trash pack, no antispam in case you pull two packs and both summon shortly after each other
@@ -22,7 +24,11 @@ function mod:SPELL_SUMMON(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpell(19134) and self:AntiSpam(3, 1) then
+	if args:IsSpell(19134) and self:AntiSpam(3) then
 		warnFear:Show()
+	elseif args:IsSpell(28431) and self:AntiSpam(3, 2) then
+		warnPoisonCharge:Show()
+	elseif args:IsSpell(28440) and self:AntiSpam(3, 1) then
+		warnVeilofShadow:Show()
 	end
 end
