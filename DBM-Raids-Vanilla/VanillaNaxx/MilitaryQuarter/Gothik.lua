@@ -139,8 +139,7 @@ function mod:NextWave()
 	end
 	local next = wavesClassic[self.vb.wave].next
 	if next then
-		timerWave:Start(next)
-		timerWave:UpdateName(self.vb.wave + 1 .. "/" .. totalWaves)
+		timerWave:Start(next, self.vb.wave + 1)
 		warnWaveSoon:Schedule(next - 3, self.vb.wave + 1, getWaveString(self.vb.wave + 1))
 		self:ScheduleMethod(next, "NextWave")
 	end
