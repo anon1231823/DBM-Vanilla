@@ -8,7 +8,7 @@ else
 end
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED 28131",
+	"SPELL_AURA_APPLIED 28131"
 )
 
 mod:SetRevision("@file-date-integer@")
