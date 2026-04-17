@@ -25,12 +25,12 @@ mod:RegisterEventsInCombat(
 mod.vb.enrageWarning = false
 
 local warnWebWrap		= mod:NewTargetAnnounce(28622, 2, nil, "RangedDps|Healer")
-local warnWebSpraySoon	= mod:NewSoonAnnounce(29484, 1)
 local warnWebSprayNow	= mod:NewSpellAnnounce(29484, 3)
+local warnWebSpraySoon	= mod:NewSoonAnnounce(29484, 1)
 local warnSpidersSoon	= mod:NewAnnounce("WarningSpidersSoon", 2, 17332)
 local warnSpidersNow	= mod:NewAnnounce("WarningSpidersNow", 4, 17332)
-local warnEnrageSoon	= mod:NewSoonAnnounce(28747, 2)
 local warnEnrage 		= mod:NewSpellAnnounce(28747, 4)
+local warnEnrageSoon	= mod:NewSoonAnnounce(28747, 2)
 
 local specWarnWebWrap	= mod:NewSpecialWarningSwitch(28622, "RangedDps|Healer", nil, 2, 1, 2)
 local yellWebWrap		= mod:NewYell(28622)

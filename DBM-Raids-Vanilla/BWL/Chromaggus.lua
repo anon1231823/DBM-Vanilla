@@ -44,8 +44,8 @@ local warnGreen			= mod:NewSpellAnnounce(23169, 2, nil, "RemovePoison")
 local warnBlue			= mod:NewSpellAnnounce(23153, 2, nil, "RemoveMagic")
 local warnBlack			= mod:NewSpellAnnounce(23154, 2, nil, "RemoveCurse")
 local warnFrenzy		= mod:NewSpellAnnounce(23128, 3, nil, "Tank|RemoveEnrage|Healer")
-local warnEnrageSoon	= mod:NewSoonAnnounce(23537, 2)
 local warnEnrage 		= mod:NewSpellAnnounce(23537, 4)
+local warnEnrageSoon	= mod:NewSoonAnnounce(23537, 2)
 local warnMutation		= mod:NewCountAnnounce(23174, 4) ---@type Announce -- string as count in :Show() is unusual but valid
 local warnVuln			= mod:NewAnnounce("WarnVulnerable", 1, nil, "SpellCaster", "WarnVulnerableNew")
 
