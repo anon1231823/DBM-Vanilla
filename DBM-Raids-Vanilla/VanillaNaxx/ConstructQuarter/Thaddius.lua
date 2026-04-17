@@ -67,6 +67,7 @@ function mod:OnCombatStart()
 			DBM.InfoFrame:Hide()
 		end
 	elseif IsEncounterInProgress() and self:GetStage(1.5) then
+		self:SetStage(2)
 		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
         timerEnrage:Start()
 		timerIntermission:Stop()
