@@ -20,11 +20,23 @@ mod:SetZone(533)
 
 mod:RegisterCombat("combat_yell", L.Pull1, L.Pull2)
 
-local enrageTimer	= mod:NewBerserkTimer(420)
-local warnEnrage 	= mod:NewSpellAnnounce(28131, 4)
+local warnEnrage 		= mod:NewSpellAnnounce(28131, 4)
+local warnEnrageSoon	= mod:NewSoonAnnounce(28131, 2)
+
+local timerBerserk		= mod:NewBerserkTimer(420)
+
+mod.vb.warnEnrageSoon = false
 
 function mod:OnCombatStart()
-	enrageTimer:Start()
+	timerBerserk:Start()
+	self.vb.warnEnrageSoon = false
+end
+
+function mod:UNIT_HEALTH(uId)
+	if not self.vb.warnEnrageSoon and self:GetUnitCreatureId(uId) == 16028 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then
+		self.vb.warnEnrageSoon = true
+		warnEnrageSoon:Show()
+	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
