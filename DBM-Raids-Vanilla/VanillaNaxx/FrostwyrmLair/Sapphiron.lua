@@ -118,7 +118,7 @@ function mod:OnCombatStart()
 		if noTargetTime > 0.5 and not self.vb.isFlying then
 			noTargetTime = 0
 			self.vb.isFlying = true
-			self:Schedule(60, resetIsFlying, self)
+			self:Schedule(35, resetIsFlying, self) -- Schedule this long enough after landing, 7.5 seconds seems enough
 			timerDrainLife:Cancel()
 			warnDrainLifeSoon:Cancel()
 			timerAirPhase:Cancel()
