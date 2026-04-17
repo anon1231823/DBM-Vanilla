@@ -107,6 +107,7 @@ function mod:OnCombatStart()
 	timerPhase2:Start()
 	self:RegisterOnUpdateHandler(function()
     if IsEncounterInProgress() and self:GetStage(1) then
+		self:SetStage(2)
 		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
         timerPhase2:Stop()
 		warnPhase:Play("ptwo")
