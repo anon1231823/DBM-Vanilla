@@ -203,6 +203,10 @@ end
 
 function mod:UNIT_DIED(args)
 	self:RemoveTrackTrashAbilityMob(args.destGUID)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 15277 and timerSpecWarnExplode:IsStarted() then
+		timerSpecWarnExplode:Stop()
+	end
 end
 
 do
