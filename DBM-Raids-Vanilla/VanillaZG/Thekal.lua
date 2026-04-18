@@ -20,7 +20,6 @@ mod:SetBossHPInfoToHighest()
 mod:SetZone(309)
 
 mod:RegisterCombat("combat")
---mod:RegisterKill("yell", L.YellKill)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 24208",
@@ -28,8 +27,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_REMOVED 21060 12540",
 	"SPELL_SUMMON 24183",
 	"UNIT_SPELLCAST_SUCCEEDED",
-	"CHAT_MSG_MONSTER_EMOTE"
-	--"CHAT_MSG_MONSTER_YELL"
+	"CHAT_MSG_MONSTER_EMOTE",
+	"CHAT_MSG_MONSTER_YELL"
 )
 
 mod:AddInfoFrameOption()
@@ -105,16 +104,10 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg)
 	end
 end
 
---function mod:CHAT_MSG_MONSTER_YELL(msg)
-	--if (msg == L.YellPhase2 or msg:find(L.YellPhase2)) and self:GetStage(1) then -- Bossfight (tank and spank)
-		--self:SendSync("YellPhase2")
-	--end
---end
-
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-   if self:GetStage(1) and spellId == 24169 then
-		self:SendSync("Phase2")
-   end
+function mod:CHAT_MSG_MONSTER_YELL(msg)
+	if self:GetStage(1) and (msg == L.YellPhase2 or msg:find(L.YellPhase2)) then
+		self:SendSync("YellPhase2")
+	end
 end
 
 function mod:OnSync(msg)
