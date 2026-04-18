@@ -618,8 +618,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	PriestDied	= "%s死了。",
-	YellPhase2	= "西瓦尔拉，让我感受你的愤怒吧！",
-	YellKill	= "哈卡再也不能束缚我了！我终于可以安息了！"
+	YellPhase2	= "西瓦尔拉，让我感受你的愤怒吧！"
 })
 
 -------------------

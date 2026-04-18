@@ -655,8 +655,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	PriestDied	= "%s stirbt.",
-	YellPhase2	= "Shirvallah, erfülle mich mit deinem Zorn!",
-	YellKill	= "Hakkar kontrolliert mich nicht länger! Endlich Frieden!"
+	YellPhase2	= "Shirvallah, erfülle mich mit deinem Zorn!"
 })
 
 -------------------
