@@ -121,7 +121,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpell(25698) and not self:IsTrivial() then
 		specWarnExplode:Show()
 		specWarnExplode:Play("justrun")
-		timerSpecWarnExplode:Start()
+		timerSpecWarnExplode:Start(nil, args.sourceGUID)
 	elseif args:IsSpell(26079) then
 		warnCauseInsanity:CombinedShow(0.75, args.destName)
 		timerCauseInsanity:Start(args.destName)
@@ -204,8 +204,8 @@ end
 function mod:UNIT_DIED(args)
 	self:RemoveTrackTrashAbilityMob(args.destGUID)
 	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 15277 and timerSpecWarnExplode:IsStarted() then
-		timerSpecWarnExplode:Stop()
+	if cid == 15277 then
+		timerSpecWarnExplode:Stop(args.destGUID)
 	end
 end
 
