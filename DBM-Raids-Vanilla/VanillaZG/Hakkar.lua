@@ -134,7 +134,7 @@ function mod:OnCombatStart()
 	enrageTimer:Start(585)
 	warnSiphonSoon:Schedule(80)
 	timerSiphon:Start(90)
-	timerInsanityCD:Start()
+	timerInsanityCD:Start("v20.7-22.7")
 	--Hard Mode Timers
 	--This just checks for Hakkar's health which is higher on hard mode
 	--Can't just start these on all normal mode pulls
