@@ -77,14 +77,10 @@ local function updateInfoFrame()
 	table.wipe(lines)
 	table.wipe(sortedLines)
 	if mod.vb.freezeState == 0 then
-		sortedLines[1] = L.FrostHits
-		sortedLines[2] = L.FrostHitsPerSecond
-		lines[L.FrostHits] = frostHits .. "/200"
+		sortedLines[1] = L.FrostHitsPerSecond
 		lines[L.FrostHitsPerSecond] = ("%.1f"):format(getHitsPerSecond(frostHitTimes, 7, 15))
 	elseif mod.vb.freezeState == 1 then
-		sortedLines[1] = L.MeleeHits
-		sortedLines[2] = L.MeleeHitsPerSecond
-		lines[L.MeleeHits] = meleeHits .. "/200"
+		sortedLines[1] = L.MeleeHitsPerSecond
 		lines[L.MeleeHitsPerSecond] = ("%.1f"):format(getHitsPerSecond(meleeHitTimes, 10, 20))
 	end
 	return lines, sortedLines
