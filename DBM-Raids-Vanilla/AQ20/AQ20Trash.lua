@@ -59,6 +59,7 @@ local specWarnExplosion				= mod:NewSpecialWarning("SpecWarnExplosion", nil, nil
 
 local timerExplosion				= mod:NewTimer(30, "TimerExplosion")
 local timerBurst					= mod:NewNextTimer(30, 1215202)
+local timerSpecWarnExplode			= mod:NewCastTimer(6, 25698) -- Duration is 7s but it expires after 6s
 
 
 local aq40Trash = DBM:GetModByName("AQ40Trash")
@@ -80,6 +81,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpell(25698) and not self:IsTrivial() then
 		specWarnExplode:Show()
 		specWarnExplode:Play("justrun")
+		timerSpecWarnExplode:Start(nil, args.sourceGUID)
 	elseif args:IsSpell(26079) then
 		warnCauseInsanity:CombinedShow(0.75, args.destName)
 	elseif args:IsSpell(1215202) then
@@ -172,4 +174,8 @@ end
 
 function mod:UNIT_DIED(args)
 	aq40Trash:RemoveTrackTrashAbilityMob(args.destGUID)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 15355 then
+		timerSpecWarnExplode:Stop(args.destGUID)
+	end
 end
