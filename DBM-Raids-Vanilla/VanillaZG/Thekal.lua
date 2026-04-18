@@ -105,7 +105,7 @@ end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if self:GetStage(1) and (msg == L.YellPhase2 or msg:find(L.YellPhase2)) then
-		self:SendSync("YellPhase2")
+		self:SendSync("Phase2")
 	end
 end
 
