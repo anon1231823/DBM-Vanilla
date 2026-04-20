@@ -30,7 +30,7 @@ end
 mod:RegisterCombat("combat_yell", L.YellP1)
 mod:SetWipeTime(50)--guesswork
 mod:SetHotfixNoticeRev(20200310000000)--2020, Mar, 10th
-mod:SetMinSyncRevision(20200310000000)--2020, Mar, 10th
+mod:SetMinSyncRevision(20260419000000) -- 2026, April 19th
 mod:SetZone(469)
 
 mod:RegisterEventsInCombat(
@@ -188,8 +188,8 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		self:SendSync("ClassCall", "MONK")
 --	elseif msg == L.YellEvoker or msg:find(L.YellEvoker) then
 --		self:SendSync("ClassCall", "EVOKER")
-	elseif msg == L.YellP2 or msg:find(L.YellP2) then
-		self:SendSync("Phase", 1.5)
+	--elseif msg == L.YellP2 or msg:find(L.YellP2) then
+		--self:SendSync("Phase", 1.5)
 	elseif msg == L.YellP3 or msg:find(L.YellP3) then
 		self:SendSync("Phase", 3)
 	end
