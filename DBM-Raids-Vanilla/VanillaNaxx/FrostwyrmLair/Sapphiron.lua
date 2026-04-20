@@ -51,7 +51,7 @@ local yellIceBlock		= mod:NewYell(28522)
 local timerDrainLife	= mod:NewVarTimer("v21.1-27.5", 28542, nil, "RemoveCurse", nil, 3, nil, DBM_COMMON_L.CURSE_ICON)
 local timerAirPhase		= mod:NewTimer(airPhaseTimer, "TimerAir", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp", nil, nil, 6)
 local timerLanding		= mod:NewTimer(DBM:IsSeasonal("SeasonOfDiscovery") and 36 or 28.5, "TimerLanding", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendBurrow.blp", nil, nil, 6)
-local timerFrostBreath	= mod:NewTimer(7, "TimerFrostBreath", 15876, nil, nil, 2, DBM_COMMON_L.DEADLY_ICON) -- Using the icon for spell 15876 Ice Blast because Frost Breath icon is the default Samwise icon
+local timerFrostBreath 	= mod:NewTimer(7, "TimerFrostBreath", 15876, nil, nil, 2, DBM_COMMON_L.DEADLY_ICON, true, 1, 5) -- Using the icon for spell 15876 Ice Blast because Frost Breath icon is the default Samwise icon
 
 local timerBomb, specWarnBomb, specWarnBombSoak, yellBomb, yellBombFades
 if DBM:IsSeasonal("SeasonOfDiscovery") then
