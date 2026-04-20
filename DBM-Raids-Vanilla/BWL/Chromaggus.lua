@@ -72,6 +72,7 @@ end
 mod:AddNamePlateOption("NPAuraOnVulnerable", 22277)
 mod:AddInfoFrameOption(22277, false)
 
+mod.vb.warnEnrageSoon = false
 mod.vb.breathCount = 0
 local mydebuffs = 0
 local lastVulnName = nil
@@ -172,6 +173,7 @@ local nextBreath, nextVolley, volleyCount = 0, 0, 0
 local rolloverWarnShown
 function mod:OnCombatStart()
 	self.vb.breathCount = 0
+	self.vb.warnEnrageSoon = false
 	rolloverWarnShown = false
 	nextBreath = GetTime() + 30
 	nextVolley = GetTime() + 40
@@ -346,7 +348,8 @@ function mod:UNIT_HEALTH(uId)
 		return
 	end
 	local health = UnitHealth(uId) / UnitHealthMax(uId)
-	if health <= 0.25 then
+	if not self.vb.warnEnrageSoon and health <= 0.25 then
+		self.vb.warnEnrageSoon = true
 		warnEnrageSoon:Show()
 	elseif warnRollOverSoon and health <= 0.65 and health >= 0.6 and self:IsBwlBlackEssenceEnabled() and not rolloverWarnShown then
 		warnRollOverSoon:Show()
