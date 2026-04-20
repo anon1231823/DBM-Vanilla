@@ -39,7 +39,7 @@ local warnBroodBronze			= mod:NewTargetNoFilterAnnounce(22291, 2, nil, "Melee")
 local specWarnHealingCircle		= mod:NewSpecialWarningInterrupt(22458, nil, nil, nil, 1, 2)
 local specWarnGTFO				= mod:NewSpecialWarningGTFO(22428, nil, nil, nil, 1, 8)
 
-local timerFlameStrikeCD		= mod:NewCDNPTimer(8.1, 22275, nil, nil, nil, 3)--8.1-10.9, often it can be 10.9 repeating
+local timerFlameStrikeCD		= mod:NewCDNPTimer(8.1, 22275, nil, nil, nil, 2)--8.1-10.9, often it can be 10.9 repeating
 local timerBroodBronze			= mod:NewTargetTimer(5, 22291, nil, "Melee", nil, 3)
 
 mod:AddNamePlateOption("NPAuraOnVulnerable", 22277)
