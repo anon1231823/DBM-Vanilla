@@ -36,7 +36,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 22425",
 	"SPELL_CAST_SUCCESS 23040 19873",
 	"SPELL_AURA_APPLIED 23023",
-	"CHAT_MSG_MONSTER_EMOTE",
+	--"CHAT_MSG_MONSTER_EMOTE",
+	"UNIT_SPELLCAST_SUCCEEDED",
 	"UNIT_DIED"
 )
 
@@ -124,10 +125,15 @@ function mod:SPELL_AURA_APPLIED(args)
 	end
 end
 
-function mod:CHAT_MSG_MONSTER_EMOTE(msg)
-	if (msg == L.Phase2Emote or msg:find(L.Phase2Emote)) and self:GetStage(1) then
-		self:SendSync("Phase", 2)
-	end
+--function mod:CHAT_MSG_MONSTER_EMOTE(msg)
+	--if (msg == L.Phase2Emote or msg:find(L.Phase2Emote)) and self:GetStage(1) then
+		--self:SendSync("Phase", 2)
+	--end
+--end
+function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
+   if self:GetStage(1) and spellId == 23040 then
+		self:SendSync("Phase2")
+   end
 end
 
 function mod:UNIT_DIED(args)
