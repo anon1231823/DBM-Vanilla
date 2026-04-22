@@ -58,22 +58,28 @@ function mod:SPELL_CAST_SUCCESS(args)
 	end
 end
 
-function mod:UNIT_DIED(args)
-	if self:GetCIDFromGUID(args.destGUID) == 16803 then--Deathknight Understudy
-		timerTaunt:Stop(args.destGUID)
-		timerShieldWall:Stop(args.destGUID)
-		timerMindExhaustionCD:Stop(args.destGUID)
+function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
+	if spellId == 29051 then
+		local guid = UnitGUID(uId)
+		if guid then
+			local cid = self:GetCIDFromGUID(guid)
+			if cid == 16803 then
+				self:SendSync("MindExhaustion", guid)
+			end
+		end
 	end
 end
 
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-   if spellId == 29051 then
-		self:SendSync("MindExhaustion")
-   end
+function mod:OnSync(event, guid)
+    if event == "MindExhaustion" and guid then
+        timerMindExhaustionCD:Start(guid)
+    end
 end
 
-function mod:OnSync(event)
-	if event == "MindExhaustion" then
-		timerMindExhaustionCD:Start()
+function mod:UNIT_DIED(args)
+	if self:GetCIDFromGUID(args.destGUID) == 16803 then
+		timerTaunt:Stop(args.destGUID)
+		timerShieldWall:Stop(args.destGUID)
+		timerMindExhaustionCD:Stop(args.destGUID)
 	end
 end
