@@ -149,7 +149,7 @@ function mod:UNIT_AURA()
 end
 
 function mod:CHAT_MSG_MONSTER_EMOTE(msg)
-	if msg == L.Emote or msg:find(L.Emote) then
+	if self:GetStage(1) and (msg == L.Emote or msg:find(L.Emote)) then
 		self:SendSync("EmoteTrigger")
 	end
 end
