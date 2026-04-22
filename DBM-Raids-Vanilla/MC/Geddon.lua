@@ -82,7 +82,7 @@ if DBM:IsSeasonal("SeasonOfDiscovery") then
 	}
 end
 
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart()
 	timerIgniteManaCD:Start("v6.3-27.5")
 	timerInfernoCD:Start("v11.3-33.4")
 	timerBombCD:Start("v11.3-30.7")

@@ -47,7 +47,7 @@ mod:AddSetIconOption("SetIconOnMC", 785, true, 0, {4, 5, 6, 7, 8})
 mod.vb.splitCount = 0
 mod.vb.MCIcon = 8
 
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart()
 	self.vb.splitCount = 0
 	self.vb.MCIcon = 8
 end

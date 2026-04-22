@@ -58,7 +58,7 @@ local function isBlackEssenceEnabled()
 	end
 end
 
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart()
 	self.vb.teleportPrewarnShown = false
 end
 

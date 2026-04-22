@@ -37,7 +37,7 @@ local addsGuidCheck = {}
 mod.vb.prewarn_enrage = false
 mod.vb.guardsRemaining = 3
 
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart()
 	table.wipe(addsGuidCheck)
 	self.vb.guardsRemaining = 3
 	self.vb.prewarn_enrage = false

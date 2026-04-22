@@ -35,7 +35,7 @@ local timerEnrageCD			= mod:NewVarTimer("v56-76", 28131, nil, "RemoveEnrage", ni
 
 mod.vb.enraged = false
 
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart()
 	timerEnrageCD:Start(56)
 	self.vb.enraged = false
 end

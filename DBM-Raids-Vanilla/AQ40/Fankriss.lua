@@ -31,7 +31,7 @@ local specWarnWoundTaunt	= mod:NewSpecialWarningTaunt(25646, "Tank", nil, nil, 1
 local timerWound			= mod:NewTargetTimer(20, 25646, nil, "Tank", 2, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerEntangle			= mod:NewTargetTimer(8, 720, nil, nil, nil, 3)
 
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart()
 	if not self:IsTrivial() then
 		self:RegisterShortTermEvents(
 			"SPELL_AURA_APPLIED 720 731 1121 25646",
