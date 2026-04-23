@@ -77,7 +77,9 @@ local function updateInfoFrame()
 	table.wipe(lines)
 	table.wipe(sortedLines)
 	if mod.vb.freezeState == 0 then
-		sortedLines[1] = L.FrostHitsPerSecond
+		sortedLines[1] = L.FrostHits
+		sortedLines[2] = L.FrostHitsPerSecond
+		lines[L.FrostHits] = frostHits .. "/200"
 		lines[L.FrostHitsPerSecond] = ("%.1f"):format(getHitsPerSecond(frostHitTimes, 7, 15))
 	elseif mod.vb.freezeState == 1 then
 		sortedLines[1] = L.MeleeHitsPerSecond
@@ -127,6 +129,10 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(25989) and args:IsPlayer() and self:AntiSpam(3, 2) then
 		specWarnGTFO:Show(args.spellName)
 		specWarnGTFO:Play("watchfeet")
+	elseif args:IsSpell(20005) and args:IsDestTypeHostile() then 
+		frostHits = frostHits + 1
+		DBM:Debug("frostHits=" .. frostHits)
+		frostHitTimes[#frostHitTimes + 1] = GetTime()
 	end
 end
 
