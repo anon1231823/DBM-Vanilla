@@ -181,6 +181,7 @@ L:SetMiscLocalization{
 	Phase4 		= "começa a rachar",
 	Phase5 		= "parece estar a ponto de se estilhaçar",
 	--Phase6 		= "explode",
+	FrostHits 	= "Golpes de gelo",
 	FrostHitsPerSecond = "Golpes de gelo por segundo",
 	MeleeHitsPerSecond = "Golpes corpo a corpo por segundo"
 }

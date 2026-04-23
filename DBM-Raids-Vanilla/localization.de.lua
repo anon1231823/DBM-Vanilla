@@ -77,6 +77,7 @@ L:SetMiscLocalization{
 	Phase4 	= "geht die Puste aus",
 	Phase5 	= "ist kurz davor, zu zerspringen",
 	--Phase6 	= "Explodes.",
+	FrostHits = "Frosttreffer",
 	FrostHitsPerSecond   = "Frosttreffer pro Sekunde",
 	MeleeHitsPerSecond   = "Nahkampftreffer pro Sekunde"
 }

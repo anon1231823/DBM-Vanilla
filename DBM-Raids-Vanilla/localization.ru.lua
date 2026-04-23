@@ -78,6 +78,7 @@ L:SetMiscLocalization{
 	Phase4 	= "начинает раскалываться",
 	Phase5 	= "едва держится",
 	Phase6 	= "Взрывается.",
+	FrostHits	= "Удары льда",
 	FrostHitsPerSecond	= "Удары льда в секунду",
 	MeleeHitsPerSecond	= "Ближние удары в секунду"
 }

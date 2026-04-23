@@ -75,6 +75,7 @@ L:SetMiscLocalization{
 	Phase4 	= "begins to crack",
 	Phase5 	= "looks ready to shatter",
 	Phase6 	= "Explodes.",
+	FrostHits = "Frost hits",
 	FrostHitsPerSecond = "Frost hits per second",
 	MeleeHitsPerSecond = "Melee hits per second"
 }
