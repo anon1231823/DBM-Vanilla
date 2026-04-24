@@ -197,8 +197,7 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if self:GetStage(2) and self:GetUnitCreatureId(uId) == 11583 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.25 then
-		self:SetStage(2.5)
-		warnPhase3Soon:Show()
+		self:SendSync("Phase", 2.5)
 	end
 end
 
@@ -231,8 +230,9 @@ do
 				if phase == 1.5 then
 					warnPhase2Soon:Show()
 					timerIntermission:Start()
-				end
-				if phase == 3 then
+				elseif phase == 2.5 then
+					warnPhase3Soon:Show()
+				elseif phase == 3 then
 					warnPhase:Play("pthree")
 				end
 			end

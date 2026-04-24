@@ -8,6 +8,7 @@ else
 end
 
 mod:SetRevision("@file-date-integer@")
+mod:SetMinSyncRevision(20260419000000) -- 2026, April 19th
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15990)
 mod:SetEncounterID(1114)
@@ -216,12 +217,29 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self:GetStage(2) and self:GetUnitCreatureId(uId) == 15990 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.48 then
-		self:SetStage(2.5)
-		warnPhase3Soon:Show()
-	elseif self:GetStage(2.5) and self:GetUnitCreatureId(uId) == 15990 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.40 and not DBM:IsSeasonal("SeasonOfDiscovery") then
-		self:SetStage(3)
-		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(3))
-		warnPhase:Play("pthree")
+	local cid = self:GetUnitCreatureId(uId)
+	if self:GetStage(2) and cid == 15990 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.48 then
+		self:SendSync("Phase", 2.5)
+	elseif self:GetStage(2.5) and cid == 15990 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.40 and not DBM:IsSeasonal("SeasonOfDiscovery") then
+		self:SendSync("Phase", 3)
+	end
+end
+
+function mod:OnSync(msg, arg)
+	if not self:IsInCombat() then return end
+	if msg == "Phase" then
+		local phase = tonumber(arg)
+		if not phase then return end
+		if self:GetStage(phase, 3) then
+			self:SetStage(phase)
+			if phase % 1 == 0 then
+				warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(phase))
+			end
+			if phase == 2.5 then
+				warnPhase3Soon:Show()
+			elseif phase == 3 then
+			warnPhase:Play("pthree")
+			end
+		end
 	end
 end
