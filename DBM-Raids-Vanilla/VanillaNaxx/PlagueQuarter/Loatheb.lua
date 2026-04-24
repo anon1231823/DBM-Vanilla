@@ -43,10 +43,11 @@ mod:RegisterEventsInCombat(
 	"UNIT_DIED"
 )
 
+local isWarlock 			= select(2, UnitClass("player")) == "WARLOCK"
 local warnSporeNow			= mod:NewCountAnnounce(29234, 2, "134530", "RangedDps")
 local warnSporeSoon			= mod:NewSoonAnnounce(29234, 1, "134530", "RangedDps")
 local warnDoomNow			= mod:NewCountAnnounce(29204, 3)
-local warnRemoveCurse		= mod:NewSpellAnnounce(30281, 3)
+local warnRemoveCurse		= mod:NewSpellAnnounce(30281, 3, nil, isWarlock)
 -- SoD
 -- TODO: remove alerts from non-SoD clients to fix UI, but I real want to handle that better in Core rather than special-casing it in all the mods
 local warnHealSoon, warnHealNow, timerAura, timerNextAura
@@ -62,7 +63,7 @@ end
 
 local timerSpore			= mod:NewNextCountTimer(12.9, 29234, nil, "RangedDps", nil, 5, "134530", DBM_COMMON_L.DAMAGE_ICON)
 local timerDoom				= mod:NewNextTimer("v29.1-32.4", 29204, nil, nil, nil, 2)
-local timerRemoveCurseCD	= mod:NewNextTimer(30.7, 30281, nil, nil, nil, 5)
+local timerRemoveCurseCD	= mod:NewNextTimer(30.7, 30281, nil, isWarlock, nil, 5)
 
 mod:AddInfoFrameOption(29184, "Tank|Healer")
 mod:AddDropdownOption("Sorting", {"Alphabetical", "Duration"}, "Duration", "misc", nil, 29184)
