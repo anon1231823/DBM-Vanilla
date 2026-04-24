@@ -9,11 +9,11 @@ end
 
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 28131",
-	"SPELL_CAST_START",
-	"UNIT_HEALTH"
+	"SPELL_CAST_START"
 )
 
 mod:SetRevision("@file-date-integer@")
+mod:SetMinSyncRevision(20260419000000) -- 2026, April 19th
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(16028)
 mod:SetEncounterID(1118)
@@ -33,10 +33,23 @@ mod.vb.warnEnrageSoon = false
 function mod:OnCombatStart()
 	timerBerserk:Start()
 	self.vb.warnEnrageSoon = false
+	self:RegisterShortTermEvents(
+		"UNIT_HEALTH"
+	)
 end
 
 function mod:UNIT_HEALTH(uId)
 	if not self.vb.warnEnrageSoon and self:GetUnitCreatureId(uId) == 16028 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then
+		self.vb.warnEnrageSoon = true
+		warnEnrageSoon:Show()
+		self:SendSync("Enrage")
+		self:UnregisterShortTermEvents()
+	end
+end
+
+function mod:OnSync(msg)
+	if not self:IsInCombat() then return end
+	if msg == "Enrage" and not self.vb.warnEnrageSoon then
 		self.vb.warnEnrageSoon = true
 		warnEnrageSoon:Show()
 	end

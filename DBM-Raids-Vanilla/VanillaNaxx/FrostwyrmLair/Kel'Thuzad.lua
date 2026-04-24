@@ -27,8 +27,7 @@ end
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 27808 27819 28410 1222430",
 	"SPELL_AURA_REMOVED 28410",
-	"SPELL_CAST_SUCCESS 27810 27819 27808 28408 28479",
-	"UNIT_HEALTH mouseover target"
+	"SPELL_CAST_SUCCESS 27810 27819 27808 28408 28479"
 )
 
 -- SoD
@@ -106,6 +105,9 @@ function mod:OnCombatStart()
 	self:SetStage(1)
 	warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(1))
 	timerPhase2:Start()
+	self:RegisterShortTermEvents(
+		"UNIT_HEALTH"
+	)
 	self:RegisterOnUpdateHandler(function()
     if IsEncounterInProgress() and self:GetStage(1) then
 		self:SetStage(2)
@@ -222,6 +224,7 @@ function mod:UNIT_HEALTH(uId)
 		self:SendSync("Phase", 2.5)
 	elseif self:GetStage(2.5) and cid == 15990 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.40 and not DBM:IsSeasonal("SeasonOfDiscovery") then
 		self:SendSync("Phase", 3)
+		self:UnregisterShortTermEvents()
 	end
 end
 
@@ -238,7 +241,7 @@ function mod:OnSync(msg, arg)
 			if phase == 2.5 then
 				warnPhase3Soon:Show()
 			elseif phase == 3 then
-			warnPhase:Play("pthree")
+				warnPhase:Play("pthree")
 			end
 		end
 	end

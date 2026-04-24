@@ -8,6 +8,7 @@ else
 end
 
 mod:SetRevision("@file-date-integer@")
+mod:SetMinSyncRevision(20260419000000) -- 2026, April 19th
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15952)
 mod:SetEncounterID(1116)
@@ -18,8 +19,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 28622 28747",
-	"SPELL_CAST_SUCCESS 29484",
-	"UNIT_HEALTH"
+	"SPELL_CAST_SUCCESS 29484"
 )
 
 mod.vb.enrageWarning = false
@@ -47,6 +47,9 @@ function mod:OnCombatStart()
 	warnSpidersSoon:Schedule(25)
 	warnSpidersNow:Schedule(30)
 	timerSpider:Start()
+	self:RegisterShortTermEvents(
+		"UNIT_HEALTH"
+	)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
@@ -79,6 +82,16 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if not self.vb.enrageWarning and self:GetUnitCreatureId(uId) == 15952 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 then
+		self.vb.enrageWarning = true
+		warnEnrageSoon:Show()
+		self:SendSync("Enrage")
+		self:UnregisterShortTermEvents()
+	end
+end
+
+function mod:OnSync(msg)
+	if not self:IsInCombat() then return end
+	if msg == "Enrage" and not self.vb.enrageWarning then
 		self.vb.enrageWarning = true
 		warnEnrageSoon:Show()
 	end

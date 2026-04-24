@@ -23,7 +23,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 19633",
 	"SPELL_DAMAGE 15847",
 	"UNIT_DIED",
-	"UNIT_HEALTH",
 	"LOADING_SCREEN_DISABLED",
 	"CHAT_MSG_MONSTER_YELL"
 )
@@ -67,6 +66,9 @@ function mod:OnCombatStart()
 	warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(1))
 	timerFlameBreathCD:Start("v11.3-28.5")
 	timerWingBuffetCD:Start("v11.3-24.5")
+	self:RegisterShortTermEvents(
+		"UNIT_HEALTH"
+	)
 	if self.Options.SoundWTF3 then
 		DBM:PlaySoundFile("Interface\\AddOns\\DBM-Raids-Vanilla\\VanillaOnyxia\\sounds\\dps-very-very-slowly.ogg")
 		self:Schedule(20, DBM.PlaySoundFile, DBM, "Interface\\AddOns\\DBM-Raids-Vanilla\\VanillaOnyxia\\sounds\\hit-it-like-you-mean-it.ogg")
@@ -163,14 +165,10 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if self:GetStage(1) and self:GetUnitCreatureId(uId) == 10184 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.70 then
-		self:SetStage(1.5)
-		warnPhase2Soon:Show()
+		self:SendSync("Phase", 1.5)
 	elseif self:GetStage(2) and self:GetUnitCreatureId(uId) == 10184 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.45 then
-		self:SetStage(2.5)
-		warnPhase3Soon:Show()
-		if self.Options.SoundWTF3 then
-			self:Unschedule(DBM.PlaySoundFile, DBM)
-		end
+		self:SendSync("Phase", 2.5)
+		self:UnregisterShortTermEvents()
 	end
 end
 
@@ -183,7 +181,9 @@ function mod:OnSync(msg, arg)
 			if phase % 1 == 0 then
 			warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(phase))
 			end
-			if phase == 2 then
+			if phase == 1.5 then
+				warnPhase2Soon:Show()
+			elseif phase == 2 then
 				warnPhase:Play("ptwo")
 				timerWingBuffetCD:Stop()
 				timerFlameBreathCD:Stop()
@@ -203,6 +203,11 @@ function mod:OnSync(msg, arg)
 					-- This is likely going to be the only Deep Breath that happens and the only one where we have an exact timing, so make sure everyone is as prepared as possible
 					-- with an extra special warning before the cast even starts
 					specWarnBreathSoon:Schedule(25)
+				end
+			elseif phase == 2.5 then
+				warnPhase3Soon:Show()
+				if self.Options.SoundWTF3 then
+					self:Unschedule(DBM.PlaySoundFile, DBM)
 				end
 			elseif phase == 3 then
 				warnPhase:Play("pthree")

@@ -20,8 +20,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 28522 28547 1219729 1219732",
 	"SPELL_CAST_START 28524",
-	"SPELL_CAST_SUCCESS 28542",
-	"UNIT_HEALTH"
+	"SPELL_CAST_SUCCESS 28542"
 )
 
 --[[
@@ -92,6 +91,9 @@ function mod:OnCombatStart()
 	noTargetTime = 0
 	self.vb.isFlying = false
 	self.vb.iceBlocks = 0
+	self:RegisterShortTermEvents(
+		"UNIT_HEALTH"
+	)
 	-- TODO: confirm this, it seems to have changed with the Mythic hot fixes for both mythic and normal?
 	local initialAirPhaseTimer = isMythic and 39.66 or DBM:IsSeasonal("SeasonOfDiscovery") and 31 or "v39.1-45.9" -- Air phase timer is variable on Era
 	if isMythic or DBM:IsSeasonal("SeasonOfDiscovery") then
@@ -191,6 +193,16 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if timerAirPhase:IsStarted() and self:GetUnitCreatureId(uId) == 15989 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then
+		warnAirPhaseSoon:Cancel()
+		timerAirPhase:Stop()
+		self:SendSync("CancelAirPhase")
+		self:UnregisterShortTermEvents()
+	end
+end
+
+function mod:OnSync(msg)
+	if not self:IsInCombat() then return end
+	if msg == "CancelAirPhase" and timerAirPhase:IsStarted() then
 		warnAirPhaseSoon:Cancel()
 		timerAirPhase:Stop()
 	end

@@ -38,8 +38,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 22667 22687",
 	"SPELL_AURA_REMOVED 22667",
 	"CHAT_MSG_MONSTER_YELL",
-	"UNIT_DIED",
-	"UNIT_HEALTH"
+	"UNIT_DIED"
 )
 
 local WarnAddsLeft			= mod:NewAnnounce("WarnAddsLeft", 2, "134154")
@@ -69,6 +68,9 @@ function mod:OnCombatStart()
 	table.wipe(addsGuidCheck)
 	self.vb.addLeft = 42
 	self.vb.triggerEncounterStart = false
+	self:RegisterShortTermEvents(
+		"UNIT_HEALTH"
+	)
 	self:RegisterOnUpdateHandler(function()
     if IsEncounterInProgress() and not self.vb.triggerEncounterStart then
 		self.vb.triggerEncounterStart = true
@@ -198,6 +200,7 @@ end
 function mod:UNIT_HEALTH(uId)
 	if self:GetStage(2) and self:GetUnitCreatureId(uId) == 11583 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.25 then
 		self:SendSync("Phase", 2.5)
+		self:UnregisterShortTermEvents()
 	end
 end
 

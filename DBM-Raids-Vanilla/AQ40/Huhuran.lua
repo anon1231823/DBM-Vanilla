@@ -10,6 +10,7 @@ local mod	= DBM:NewMod("Huhuran", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision("@file-date-integer@")
+mod:SetMinSyncRevision(20260419000000) -- 2026, April 19th
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15509)
 mod:SetEncounterID(714)
@@ -22,8 +23,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 26180 26053 26051 26068 26050 1215757 1215752 1215753 1215755 1215885",
 	"SPELL_AURA_APPLIED_DOSE 26050 1215757",
 	"SPELL_AURA_REMOVED 26180 26053 26050 1215757 1215752 1215753 26051 1215755",
-	"SPELL_CAST_SUCCESS 26051 26053 1215752 1215755",
-	"UNIT_HEALTH"
+	"SPELL_CAST_SUCCESS 26051 26053 1215752 1215755"
 )
 
 local warnSting			= mod:NewTargetAnnounce(26180, 2)
@@ -56,6 +56,9 @@ function mod:OnCombatStart()
 	timerStingCD:Start("v6.8-43.7")
 	timerPoisonCD:Start("v11.3-38.8")
 	timerEnrageCD:Start("v6.5-25.9")
+	self:RegisterShortTermEvents(
+		"UNIT_HEALTH"
+	)
 end
 
 local function warnStingTargets()
@@ -130,7 +133,17 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	if UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 and self:GetUnitCreatureId(uId) == 15509 and not self.vb.prewarn_berserk then
-		warnBerserkSoon:Show()
 		self.vb.prewarn_berserk = true
+		warnBerserkSoon:Show()
+		self:SendSync("Berserk")
+		self:UnregisterShortTermEvents()
+	end
+end
+
+function mod:OnSync(msg)
+	if not self:IsInCombat() then return end
+	if msg == "Berserk" and not self.vb.prewarn_berserk then
+		self.vb.prewarn_berserk = true
+		warnBerserkSoon:Show()
 	end
 end

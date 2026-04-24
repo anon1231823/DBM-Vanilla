@@ -10,6 +10,7 @@ local mod	= DBM:NewMod("Ouro", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision("@file-date-integer@")
+mod:SetMinSyncRevision(20260419000000) -- 2026, April 19th
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15517)
 mod:SetEncounterID(716)
@@ -44,12 +45,12 @@ if DBM:IsSeasonal("SeasonOfDiscovery") then
 	specWarnEye		= mod:NewSpecialWarning("SpecWarnEye", nil, nil, nil, 3, 2)
 end
 
-mod.vb.prewarn_enrage = false
-mod.vb.enraged = false
+mod.vb.berserk = false
+mod.vb.berserked = false
 
 function mod:OnCombatStart()
-	self.vb.prewarn_enrage = false
-	self.vb.enraged = false
+	self.vb.berserk = false
+	self.vb.berserked = false
 	timerBlastCD:Start("v22.1-28.3")
 	timerSweepCD:Start("v24.1-27.4")
 	timerSubmerge:Start(184)
@@ -74,7 +75,7 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(26615) and args:IsDestTypeHostile() then
-		self.vb.Berserked = true
+		self.vb.berserked = true
 		warnBerserk:Show()
 		timerSubmerge:Stop()
 	end
@@ -92,7 +93,7 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpell(26058) and self:AntiSpam(3) and not self.vb.Berserked then
+	if args:IsSpell(26058) and self:AntiSpam(3) and not self.vb.berserked then
 		timerBlastCD:Stop()
 		timerSweepCD:Stop()
 		timerSubmerge:Stop()
@@ -103,10 +104,19 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if UnitHealth(uId) / UnitHealthMax(uId) <= 0.23 and self:GetUnitCreatureId(uId) == 15517 and not self.vb.prewarn_enrage then
-		self.vb.prewarn_enrage = true
+	if UnitHealth(uId) / UnitHealthMax(uId) <= 0.23 and self:GetUnitCreatureId(uId) == 15517 and not self.vb.prewarn_berserk then
+		self.vb.prewarn_berserk = true
 		warnBerserkSoon:Show()
+		self:SendSync("Berserk")
 		self:UnregisterShortTermEvents()
+	end
+end
+
+function mod:OnSync(msg)
+	if not self:IsInCombat() then return end
+	if msg == "Berserk" and not self.vb.prewarn_berserk then
+		self.vb.prewarn_berserk = true
+		warnBerserkSoon:Show()
 	end
 end
 
