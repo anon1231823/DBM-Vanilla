@@ -45,11 +45,11 @@ if DBM:IsSeasonal("SeasonOfDiscovery") then
 	specWarnEye		= mod:NewSpecialWarning("SpecWarnEye", nil, nil, nil, 3, 2)
 end
 
-mod.vb.berserk = false
+mod.vb.prewarn_berserk = false
 mod.vb.berserked = false
 
 function mod:OnCombatStart()
-	self.vb.berserk = false
+	mod.vb.prewarn_berserk = false
 	self.vb.berserked = false
 	timerBlastCD:Start("v22.1-28.3")
 	timerSweepCD:Start("v24.1-27.4")
