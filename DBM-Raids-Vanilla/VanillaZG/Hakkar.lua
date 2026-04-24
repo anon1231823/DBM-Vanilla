@@ -39,8 +39,6 @@ local warnAspectOfMarli			= mod:NewTargetNoFilterAnnounce(24686, 2)
 local warnAspectOfThekal		= mod:NewSpellAnnounce(24689, 3, nil, "Tank|RemoveEnrage|Healer", 4)
 local warnAspectOfArlokk		= mod:NewTargetNoFilterAnnounce(24690, 3)
 
-local specWarnBlood				= mod:NewSpecialWarningMoveAway(24328, nil, nil, nil, 1, 2)
-local yellBlood					= mod:NewYell(24328, nil, false, 2)
 local specWarnAspectOfThekal	= mod:NewSpecialWarningDispel(24689, "RemoveEnrage", nil, nil, 1, 6)
 
 local timerSiphon				= mod:NewNextTimer(90, 24324, nil, nil, nil, 2)
@@ -179,13 +177,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerInsanity:Start(args.destName)
 		timerInsanityCD:Start()
 	elseif args:IsSpell(24328) then
-		if args:IsPlayer() then
-			specWarnBlood:Show()
-			specWarnBlood:Play("runout")
-			yellBlood:Yell()
-		else
-			warnBlood:Show(args.destName)
-		end
+		warnBlood:Show(args.destName)
 	elseif args:IsSpell(24686) then
 		warnAspectOfMarli:Show(args.destName)
 		timerAspectOfMarli:Start(args.destName)

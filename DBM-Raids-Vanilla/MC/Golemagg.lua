@@ -33,7 +33,7 @@ if DBM:IsSeasonal("SeasonOfDiscovery") then
 	specWarnFallingRocks	= mod:NewSpecialWarningDodge(461463, nil, nil, nil, 2, 2)
 	yellFallingRocks		= mod:NewIconRepeatYell(461463)
 end
-local warnQuake				= mod:NewSpellAnnounce(19798)
+local warnQuake				= mod:NewSpellAnnounce(19798, 2, nil, "Melee")
 
 --[=[
 Falling Rocks looks like it has the target on CAST_SUCCESS, but only exactly at that moment, it switches immediately after that event

@@ -32,7 +32,7 @@ mod:RegisterEventsInCombat(
 
 --(ability.id = 23339 or ability.id = 22539) and type = "begincast"
 local warnWingBuffet	= mod:NewCastAnnounce(23339, 2, nil, nil, "Tank")
-local warnShadowFlame	= mod:NewCastAnnounce(22539, 2)
+local warnShadowFlame	= mod:NewCastAnnounce(22539, 2, nil, nil, "Tank|Healer")
 local warnShadow		= mod:NewTargetNoFilterAnnounce(23340, 4, nil, "Tank|Healer")
 
 local specWarnShadowYou	= mod:NewSpecialWarningYou(23340, "Tank", nil, nil, 1, 2)

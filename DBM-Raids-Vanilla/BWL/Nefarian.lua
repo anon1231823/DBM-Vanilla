@@ -46,7 +46,7 @@ local warnClassCall			= mod:NewAnnounce("WarnClassCall", 3, "136116")
 local warnPhase 			= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 local warnPhase2Soon		= mod:NewPrePhaseAnnounce(2)
 local warnPhase3Soon		= mod:NewPrePhaseAnnounce(3)
-local warnShadowFlame		= mod:NewCastAnnounce(22539, 2)
+local warnShadowFlame		= mod:NewCastAnnounce(22539, 2, nil, nil, "Tank|Healer")
 local warnFear				= mod:NewCastAnnounce(22686, 2)
 
 local specwarnShadowCommand	= mod:NewSpecialWarningTarget(22667, nil, nil, 2, 1, 2)

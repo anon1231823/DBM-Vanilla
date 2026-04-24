@@ -36,7 +36,7 @@ mod:RegisterEventsInCombat(
 
 --(ability.id = 18670 or ability.id = 23331 or ability.id = 24573) and type = "cast"
 local warnBlastWave		= mod:NewSpellAnnounce(23331, 2)
-local warnKnockAway		= mod:NewSpellAnnounce(18670, 3)
+local warnKnockAway		= mod:NewSpellAnnounce(18670, 3, nil, "Melee")
 local warnMortal		= mod:NewTargetNoFilterAnnounce(24573, 2, nil, "Tank|Healer", 3)
 
 local warnPhase2Soon, yellCharge, warnCharge, specWarnCharge

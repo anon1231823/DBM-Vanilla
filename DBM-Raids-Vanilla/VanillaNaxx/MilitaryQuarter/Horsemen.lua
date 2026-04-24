@@ -45,10 +45,10 @@ local specWarnMarkOnPlayer		= mod:NewSpecialWarning("SpecialWarningMarkOnPlayer"
 local specWarnVoidZone			= mod:NewSpecialWarningYou(28863, nil, nil, nil, 1, 2)
 local yellVoidZone				= mod:NewYell(28863)
 
-local timerMarkCD				= mod:NewTimer(DBM:IsSeasonal("SeasonOfDiscovery") and 13 or 12.9, "timerMark", 28835, nil, nil, 2)-- 12.9
-local timerMeteorCD				= mod:NewVarTimer("v11.3-16.2", 28884, nil, nil, nil, 3)
+local timerMarkCD				= mod:NewTimer(DBM:IsSeasonal("SeasonOfDiscovery") and 13 or 12.9, "timerMark", 28835, nil, nil, 2)
+local timerMeteorCD				= mod:NewVarTimer("v11.3-16.2", 28884, nil, false, nil, 3)
 local timerVoidZoneCD			= mod:NewVarTimer("v11.3-16.2", 28863, nil, nil, nil, 3)
-local timerHolyWrathCD			= mod:NewVarTimer("v11.3-16.2", 28883, nil, nil, nil, 3)
+local timerHolyWrathCD			= mod:NewVarTimer("v11.3-16.2", 28883, nil, false, nil, 3)
 local timerBoneBarrier			= mod:NewBuffActiveTimer(20, 29061, nil, "Dps", nil, 5, nil, DBM_COMMON_L.DAMAGE_ICON)
 
 local horsemenGuidCheck = {}
