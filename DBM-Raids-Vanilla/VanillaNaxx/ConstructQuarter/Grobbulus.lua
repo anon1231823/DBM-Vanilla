@@ -30,7 +30,7 @@ local specWarnInjection	= mod:NewSpecialWarningYou(28169, nil, nil, nil, 1, 2)
 local yellInjection		= mod:NewYell(28169, nil, false)
 
 local timerInjection	= mod:NewTargetTimer(10, 28169, nil, nil, nil, 3)
-local timerCloud		= mod:NewVarTimer("v14.5-16.3", 28240, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
+local timerCloud		= mod:NewVarTimer("v14.5-16.6", 28240, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local enrageTimer		= mod:NewBerserkTimer(720)
 
 mod:AddSetIconOption("SetIconOnInjectionTarget", 28169, false, 0, {1, 2, 3, 4})

@@ -150,24 +150,14 @@ end
 
 function mod:CHAT_MSG_MONSTER_EMOTE(msg)
 	if self:GetStage(1) and (msg == L.Emote or msg:find(L.Emote)) then
-		self:SendSync("EmoteTrigger")
-	end
-end
-
-function mod:OnSync(msg)
-	if msg == "EmoteTrigger" then
 		down = down + 1
 		if down >= 2 then
-			self:SendSync("Phase15")
-		end
-	elseif msg == "Phase15" then
-		self:SetStage(1.5)
-		self:UnscheduleMethod("TankThrow")
-		warnPhase2Soon:Show()
-		warnThrowSoon:Cancel()
-		timerThrow:Stop()
-		timerIntermission:Start()
-		if self.Options.InfoFrame then
+			self:SetStage(1.5)
+			self:UnscheduleMethod("TankThrow")
+			warnPhase2Soon:Show()
+			warnThrowSoon:Cancel()
+			timerThrow:Stop()
+			timerIntermission:Start()
 			DBM.InfoFrame:Hide()
 		end
 	end

@@ -28,8 +28,7 @@ mod:RegisterEventsInCombat(
 ability.id = 28524 and type = "begincast"
  or (ability.id = 28542 or ability.id = 28560) and type = "cast"
 --]]
---TODO, air phase and landing better detection from transcriptor, timer adjustments
-local airPhaseTimer = 64.3
+local airPhaseTimer = "v62.7-64.3"
 
 local warnDrainLifeNow	= mod:NewSpellAnnounce(28542, 2)
 local warnDrainLifeSoon	= mod:NewSoonAnnounce(28542, 1, nil, "RemoveCurse")
@@ -69,6 +68,7 @@ local noTargetTime = 0
 mod.vb.isFlying = false
 mod.vb.iceBlocks = 0
 local UnitAffectingCombat = UnitAffectingCombat
+local isMythic = select(5, DBM:GetCurrentInstanceDifficulty()) == 4
 
 local function resetIsFlying(self)
 	self.vb.isFlying = false
@@ -76,7 +76,11 @@ end
 
 local function Landing()
 	mod.vb.iceBlocks = 0
+	if isMythic or DBM:IsSeasonal("SeasonOfDiscovery") then
 	warnAirPhaseSoon:Schedule(airPhaseTimer - 10)
+	else
+	warnAirPhaseSoon:Schedule(50)
+	end
 	warnLanded:Show()
 	timerAirPhase:Start(airPhaseTimer)
 	if DBM:IsSeasonal("SeasonOfDiscovery") then
@@ -89,9 +93,12 @@ function mod:OnCombatStart()
 	self.vb.isFlying = false
 	self.vb.iceBlocks = 0
 	-- TODO: confirm this, it seems to have changed with the Mythic hot fixes for both mythic and normal?
-	local isMythic = select(5, DBM:GetCurrentInstanceDifficulty()) == 4
-	local initialAirPhaseTimer = isMythic and 39.66 or DBM:IsSeasonal("SeasonOfDiscovery") and 31 or 39.1
+	local initialAirPhaseTimer = isMythic and 39.66 or DBM:IsSeasonal("SeasonOfDiscovery") and 31 or "v39.1-45.9" -- Air phase timer is variable on Era
+	if isMythic or DBM:IsSeasonal("SeasonOfDiscovery") then
 	warnAirPhaseSoon:Schedule(initialAirPhaseTimer - 10)
+	else
+	warnAirPhaseSoon:Schedule(30)
+	end
 	timerAirPhase:Start(initialAirPhaseTimer)
 	berserkTimer:Start(900)
 	if DBM:IsSeasonal("SeasonOfDiscovery") then -- FIXME: should filter for mythic, but I don't trust the current detection logic

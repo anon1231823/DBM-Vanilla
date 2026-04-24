@@ -11,7 +11,8 @@ mod:RegisterEvents(
 	"SPELL_SUMMON 28294"
 )
 
-local warnFear					= mod:NewSpellAnnounce(19134, 2)
+local warnIntimidatingShout		= mod:NewSpellAnnounce(19134, 2)
+local warnFear					= mod:NewSpellAnnounce(27990, 2)
 local specWarnLightningTotem	= mod:NewSpecialWarningSwitch(28294, "Dps", nil, nil, 1, 2)
 local warnPoisonCharge			= mod:NewSpellAnnounce(28431, 2, nil, "RemovePoison")
 local warnVeilofShadow			= mod:NewSpellAnnounce(28440, 2, nil, "RemoveCurse|Healer")
@@ -25,10 +26,12 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpell(19134) and self:AntiSpam(3) then
+		warnIntimidatingShout:Show()
+	elseif args:IsSpell(27990) and self:AntiSpam(5) then
 		warnFear:Show()
 	elseif args:IsSpell(28431) and self:AntiSpam(3, 1) then
 		warnPoisonCharge:Show()
-	elseif args:IsSpell(28440) and self:AntiSpam(3, 2) then
+	elseif args:IsSpell(28440) and self:AntiSpam(5, 2) then
 		warnVeilofShadow:Show()
 	end
 end

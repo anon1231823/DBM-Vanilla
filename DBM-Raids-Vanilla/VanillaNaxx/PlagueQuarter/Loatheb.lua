@@ -43,8 +43,8 @@ mod:RegisterEventsInCombat(
 	"UNIT_DIED"
 )
 
-local warnSporeNow			= mod:NewCountAnnounce(29234, 2, "134530")
-local warnSporeSoon			= mod:NewSoonAnnounce(29234, 1, "134530")
+local warnSporeNow			= mod:NewCountAnnounce(29234, 2, "134530", "RangedDps")
+local warnSporeSoon			= mod:NewSoonAnnounce(29234, 1, "134530", "RangedDps")
 local warnDoomNow			= mod:NewCountAnnounce(29204, 3)
 local warnRemoveCurse		= mod:NewSpellAnnounce(30281, 3)
 -- SoD
@@ -60,7 +60,7 @@ else
 	warnHealNow				= mod:NewAnnounce("WarningHealNow", 1, 29184, false)
 end
 
-local timerSpore			= mod:NewNextCountTimer(12.9, 29234, nil, nil, nil, 5, "134530", DBM_COMMON_L.DAMAGE_ICON)
+local timerSpore			= mod:NewNextCountTimer(12.9, 29234, nil, "RangedDps", nil, 5, "134530", DBM_COMMON_L.DAMAGE_ICON)
 local timerDoom				= mod:NewNextTimer("v29.1-32.4", 29204, nil, nil, nil, 2)
 local timerRemoveCurseCD	= mod:NewNextTimer(30.7, 30281, nil, nil, nil, 5)
 
