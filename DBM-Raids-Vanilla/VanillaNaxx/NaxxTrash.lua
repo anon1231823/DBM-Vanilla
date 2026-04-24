@@ -31,7 +31,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnFear:Show()
 	elseif args:IsSpell(28431) and self:AntiSpam(3, 1) then
 		warnPoisonCharge:Show()
-	elseif args:IsSpell(28440) and self:AntiSpam(5, 2) then
+	elseif args:IsSpell(28440) and self:AntiSpam(6, 2) then
 		warnVeilofShadow:Show()
 	end
 end
