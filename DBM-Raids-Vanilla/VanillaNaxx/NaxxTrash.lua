@@ -7,7 +7,7 @@ mod.isTrashMod = true
 mod:SetZone(533)
 
 mod:RegisterEvents(
-	"SPELL_CAST_SUCCESS 19134 28431 28440",
+	"SPELL_CAST_SUCCESS 19134 27990 28431 28440",
 	"SPELL_SUMMON 28294"
 )
 
