@@ -1122,7 +1122,7 @@ L:SetOptionLocalization({
 })
 
 L:SetWarningLocalization({
-	WarningAirPhaseSoon		= "비행 단계 10초 전",
+	WarningAirPhaseSoon		= "비행 단계 곧 시작",
 	WarningAirPhaseNow		= "비행 단계",
 	WarningLanded			= "사피론 내려옴",
 	WarningFrostBreath		= "냉기 숨결"

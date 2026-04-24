@@ -1100,7 +1100,7 @@ L:SetOptionLocalization({
 })
 
 L:SetWarningLocalization({
-	WarningAirPhaseSoon	= "Fase aérea em 10 segundos",
+	WarningAirPhaseSoon	= "Fase aérea em breve",
 	WarningAirPhaseNow	= "Fase aérea",
 	WarningLanded		= "Fase em terra",
 	WarningFrostBreath	= "Sopro Gélido"

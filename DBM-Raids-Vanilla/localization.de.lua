@@ -1065,7 +1065,7 @@ L:SetOptionLocalization({
 })
 
 L:SetWarningLocalization({
-	WarningAirPhaseSoon	= "Luftphase in 10 Sek",
+	WarningAirPhaseSoon	= "Luftphase bald",
 	WarningAirPhaseNow	= "Luftphase",
 	WarningLanded		= "Bodenphase",
 	WarningFrostBreath	= "Frostatem"

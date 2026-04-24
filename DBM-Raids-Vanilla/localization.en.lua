@@ -1123,7 +1123,7 @@ L:SetOptionLocalization({
 })
 
 L:SetWarningLocalization({
-	WarningAirPhaseSoon	= "Air phase in 10 seconds",
+	WarningAirPhaseSoon	= "Air phase soon",
 	WarningAirPhaseNow	= "Air phase",
 	WarningLanded		= "Sapphiron landed",
 	WarningFrostBreath	= "Frost Breath"

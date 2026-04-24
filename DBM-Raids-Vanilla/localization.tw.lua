@@ -1024,7 +1024,7 @@ L:SetOptionLocalization({
 })
 
 L:SetWarningLocalization({
-	WarningAirPhaseSoon	= "10秒後空中階段",
+	WarningAirPhaseSoon	= "空中階段即將到來",
 	WarningAirPhaseNow	= "空中階段",
 	WarningLanded		= "薩菲隆降落了",
 	WarningFrostBreath	= "冰息術"

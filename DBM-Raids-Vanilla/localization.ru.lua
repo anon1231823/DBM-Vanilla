@@ -1128,7 +1128,7 @@ L:SetOptionLocalization({
 })
 
 L:SetWarningLocalization({
-	WarningAirPhaseSoon	= "Воздушная фаза через 10 сек.",
+	WarningAirPhaseSoon	= "Воздушная фаза скоро начнётся",
 	WarningAirPhaseNow	= "Воздушная фаза",
 	WarningLanded		= "Сапфирон приземляется",
 	WarningFrostBreath	= "Ледяное дыхание"
