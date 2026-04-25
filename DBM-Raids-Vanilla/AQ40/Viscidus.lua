@@ -130,10 +130,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(25989) and args:IsPlayer() and self:AntiSpam(3, 2) then
 		specWarnGTFO:Show(args.spellName)
 		specWarnGTFO:Play("watchfeet")
-	elseif args:IsSpell(20005) and self:GetCIDFromGUID(args.destGUID) == 15299 then
-		frostHits = frostHits + 1
-		DBM:Debug("frostHits=" .. frostHits)
-		frostHitTimes[#frostHitTimes + 1] = GetTime()
 	end
 end
 
