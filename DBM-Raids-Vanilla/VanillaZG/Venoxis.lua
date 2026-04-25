@@ -23,7 +23,6 @@ mod:SetZone(309)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 23860",
 	"SPELL_CAST_SUCCESS 23861",
 	"SPELL_AURA_APPLIED 23895 23860 23865",
 	"SPELL_AURA_REMOVED 23895 23860",
@@ -37,7 +36,6 @@ local warnFire			= mod:NewTargetNoFilterAnnounce(23860, 2, nil, "RemoveMagic|Hea
 local warnPhase2Soon	= mod:NewPrePhaseAnnounce(2)
 local warnPhase 		= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 
-local specWarnHolyFire	= mod:NewSpecialWarningInterrupt(23860, "HasInterrupt", nil, nil, 1, 2)
 local specWarnRenew		= mod:NewSpecialWarningDispel(23895, "MagicDispeller", nil, nil, 1, 2)
 
 local timerCloud		= mod:NewBuffActiveTimer(10, 23861, nil, nil, nil, 3)
@@ -56,15 +54,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpell(23861) then
 		warnCloud:Show()
 		timerCloud:Start()
-	end
-end
-
-function mod:SPELL_CAST_START(args)
-	if args:IsSpell(23860) and args:IsSrcTypeHostile() then
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnHolyFire:Show(args.sourceName)
-			specWarnHolyFire:Play("kickcast")
-		end
 	end
 end
 
