@@ -107,7 +107,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if args:IsPlayer() then
 			specWarnBomb:Show()
-			specWarnBomb:Play("runout")
+			specWarnBomb:Play("bombyou")
 			if self:IsEvent() or not self:IsTrivial() then
 				yellBomb:Yell()
 				yellBombFades:Countdown(8)
