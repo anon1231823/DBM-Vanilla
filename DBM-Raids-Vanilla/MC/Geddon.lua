@@ -91,7 +91,7 @@ end
 function mod:OnCombatEnd()
 	if DBM:UnitDebuff("player", 20475) then
 		specWarnBomb:Show()
-		specWarnBomb:Play("runout")
+		specWarnBomb:Play("bombyou")
 		yellBomb:Yell()
 	end
 end
