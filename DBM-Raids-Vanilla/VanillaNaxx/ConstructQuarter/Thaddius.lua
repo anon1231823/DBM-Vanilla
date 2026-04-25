@@ -33,8 +33,8 @@ local warnThrowSoon			= mod:NewSoonAnnounce(28338, 1)
 local warnPhase 			= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 local warnPhase2Soon		= mod:NewPrePhaseAnnounce(2)
 
-local warnChargeChanged		= mod:NewSpecialWarning("WarningChargeChanged")
-local warnChargeNotChanged	= mod:NewSpecialWarning("WarningChargeNotChanged", false)
+local warnChargeChanged		= mod:NewSpecialWarning("WarningChargeChanged", nil, nil, nil, 3, 2, nil, nil, 28089)
+local warnChargeNotChanged	= mod:NewSpecialWarning("WarningChargeNotChanged", false, nil, nil, 1, 12, nil, nil, 28089)
 local yellShift				= mod:NewShortPosYell(28089, DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION)
 
 local timerEnrage			= mod:NewBerserkTimer(300)
@@ -128,6 +128,7 @@ function mod:UNIT_AURA()
 		--Did not Change
 		if charge == currentCharge then
 			warnChargeNotChanged:Show()
+			warnChargeNotChanged:Play("dontmove")
 			if self.Options.AirowsEnabled == "ArrowsInverse" then
 				self:ShowLeftArrow()
 			elseif self.Options.AirowsEnabled == "ArrowsRightLeft" then
@@ -136,6 +137,7 @@ function mod:UNIT_AURA()
 		--Changed
 		else
 			warnChargeChanged:Show(charge)
+			warnChargeChanged:Play("stilldanger")
 			if self.Options.AirowsEnabled == "ArrowsInverse" then
 				self:ShowRightArrow()
 			elseif self.Options.AirowsEnabled == "ArrowsRightLeft" then
