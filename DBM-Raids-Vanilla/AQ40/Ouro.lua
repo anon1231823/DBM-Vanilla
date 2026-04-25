@@ -104,17 +104,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if UnitHealth(uId) / UnitHealthMax(uId) <= 0.23 and self:GetUnitCreatureId(uId) == 15517 and not self.vb.prewarn_berserk then
-		self.vb.prewarn_berserk = true
-		warnBerserkSoon:Show()
-		self:SendSync("Berserk")
+	if self:GetUnitCreatureId(uId) == 15517 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.25 then
+		self:SendSync("BerserkSoon")
 		self:UnregisterShortTermEvents()
 	end
 end
 
 function mod:OnSync(msg)
 	if not self:IsInCombat() then return end
-	if msg == "Berserk" and not self.vb.prewarn_berserk then
+	if msg == "BerserkSoon" and not self.vb.prewarn_berserk then
 		self.vb.prewarn_berserk = true
 		warnBerserkSoon:Show()
 	end

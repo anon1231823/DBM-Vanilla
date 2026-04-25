@@ -33,7 +33,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 23128",
 	"SPELL_AURA_APPLIED 23155 23169 23153 23154 23170 23128 23537 22277 22278 22279 22280 22281",
 	"SPELL_AURA_REMOVED 23155 23169 23153 23154 23170 23128",
-	"UNIT_HEALTH",
 	"CHAT_MSG_MONSTER_EMOTE"
 )
 
@@ -175,6 +174,9 @@ function mod:OnCombatStart()
 	self.vb.breathCount = 0
 	self.vb.warnEnrageSoon = false
 	rolloverWarnShown = false
+	self:RegisterShortTermEvents(
+		"UNIT_HEALTH"
+	)
 	nextBreath = GetTime() + 30
 	nextVolley = GetTime() + 40
 	volleyCount = 0
@@ -344,16 +346,12 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if self:GetUnitCreatureId(uId) ~= 14020 then
-		return
-	end
-	local health = UnitHealth(uId) / UnitHealthMax(uId)
-	if not self.vb.warnEnrageSoon and health <= 0.25 then
-		self.vb.warnEnrageSoon = true
-		warnEnrageSoon:Show()
-	elseif warnRollOverSoon and health <= 0.65 and health >= 0.6 and self:IsBwlBlackEssenceEnabled() and not rolloverWarnShown then
+	if self:GetUnitCreatureId(uId) == 14020 and warnRollOverSoon and UnitHealth(uId) / UnitHealthMax(uId) <= 0.65 and UnitHealth(uId) / UnitHealthMax(uId) >= 0.6 and self:IsBwlBlackEssenceEnabled() and not rolloverWarnShown then
 		warnRollOverSoon:Show()
 		rolloverWarnShown = true
+	elseif self:GetUnitCreatureId(uId) == 14020 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.25
+		self:SendSync("EnrageSoon")
+		self:UnregisterShortTermEvents()
 	end
 end
 
@@ -370,5 +368,8 @@ function mod:OnSync(msg)
 			timerVuln:Start()
 			checkTargetVulnerabilities(self)
 		end
+	elseif msg == "EnrageSoon" and not self.vb.warnEnrageSoon then
+		self.vb.warnEnrageSoon = true
+		warnEnrageSoon:Show()
 	end
 end

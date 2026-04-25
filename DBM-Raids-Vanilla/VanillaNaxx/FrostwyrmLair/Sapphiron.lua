@@ -192,17 +192,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if timerAirPhase:IsStarted() and self:GetUnitCreatureId(uId) == 15989 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then
-		warnAirPhaseSoon:Cancel()
-		timerAirPhase:Stop()
-		self:SendSync("CancelAirPhase")
+	if self:GetUnitCreatureId(uId) == 15989 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then
+		self:SendSync("CancelAirPhaseTimer")
 		self:UnregisterShortTermEvents()
 	end
 end
 
 function mod:OnSync(msg)
 	if not self:IsInCombat() then return end
-	if msg == "CancelAirPhase" and timerAirPhase:IsStarted() then
+	if msg == "CancelAirPhaseTimer" and timerAirPhase:IsStarted() then
 		warnAirPhaseSoon:Cancel()
 		timerAirPhase:Stop()
 	end

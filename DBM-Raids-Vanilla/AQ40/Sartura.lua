@@ -65,17 +65,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 and self:GetUnitCreatureId(uId) == 15516 and not self.vb.prewarn_enrage then
-		self.vb.prewarn_enrage = true
-		warnEnrageSoon:Show()
-		self:SendSync("Enrage")
+	if self:GetUnitCreatureId(uId) == 15516 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 then
+		self:SendSync("EnrageSoon")
 		self:UnregisterShortTermEvents()
 	end
 end
 
 function mod:OnSync(msg)
 	if not self:IsInCombat() then return end
-	if msg == "Enrage" and not self.vb.prewarn_enrage then
+	if msg == "EnrageSoon" and not self.vb.prewarn_enrage then
 		self.vb.prewarn_enrage = true
 		warnEnrageSoon:Show()
 	end

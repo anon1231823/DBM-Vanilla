@@ -39,17 +39,15 @@ function mod:OnCombatStart()
 end
 
 function mod:UNIT_HEALTH(uId)
-	if not self.vb.warnEnrageSoon and self:GetUnitCreatureId(uId) == 16028 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then
-		self.vb.warnEnrageSoon = true
-		warnEnrageSoon:Show()
-		self:SendSync("Enrage")
+	if self:GetUnitCreatureId(uId) == 16028 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.10 then
+		self:SendSync("EnrageSoon")
 		self:UnregisterShortTermEvents()
 	end
 end
 
 function mod:OnSync(msg)
 	if not self:IsInCombat() then return end
-	if msg == "Enrage" and not self.vb.warnEnrageSoon then
+	if msg == "EnrageSoon" and not self.vb.warnEnrageSoon then
 		self.vb.warnEnrageSoon = true
 		warnEnrageSoon:Show()
 	end

@@ -132,17 +132,15 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 and self:GetUnitCreatureId(uId) == 15509 and not self.vb.prewarn_berserk then
-		self.vb.prewarn_berserk = true
-		warnBerserkSoon:Show()
-		self:SendSync("Berserk")
+	if self:GetUnitCreatureId(uId) == 15509 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 then
+		self:SendSync("BerserkSoon")
 		self:UnregisterShortTermEvents()
 	end
 end
 
 function mod:OnSync(msg)
 	if not self:IsInCombat() then return end
-	if msg == "Berserk" and not self.vb.prewarn_berserk then
+	if msg == "BerserkSoon" and not self.vb.prewarn_berserk then
 		self.vb.prewarn_berserk = true
 		warnBerserkSoon:Show()
 	end

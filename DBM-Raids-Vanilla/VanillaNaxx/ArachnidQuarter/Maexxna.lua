@@ -39,8 +39,10 @@ local timerWebSpray		= mod:NewNextTimer(40.5, 29484, nil, nil, nil, 2)
 local timerWebWrap		= mod:NewVarTimer("v39.6-40.9", 28622, nil, "RangedDps|Healer", nil, 3)
 local timerSpider		= mod:NewTimer(30, "TimerSpider", 17332, nil, nil, 1)
 
+self.vb.warnEnrageSoon = false
+
 function mod:OnCombatStart()
-	self.vb.enrageWarning = false
+	self.vb.warnEnrageSoon = false
 	warnWebSpraySoon:Schedule(35.5)
 	timerWebSpray:Start()
 	timerWebWrap:Start(20.1)
@@ -81,18 +83,16 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:UNIT_HEALTH(uId)
-	if not self.vb.enrageWarning and self:GetUnitCreatureId(uId) == 15952 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 then
-		self.vb.enrageWarning = true
-		warnEnrageSoon:Show()
-		self:SendSync("Enrage")
+	if self:GetUnitCreatureId(uId) == 15952 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.35 then
+		self:SendSync("EnrageSoon")
 		self:UnregisterShortTermEvents()
 	end
 end
 
 function mod:OnSync(msg)
 	if not self:IsInCombat() then return end
-	if msg == "Enrage" and not self.vb.enrageWarning then
-		self.vb.enrageWarning = true
+	if msg == "EnrageSoon" and not self.vb.warnEnrageSoon then
+		self.vb.warnEnrageSoon = true
 		warnEnrageSoon:Show()
 	end
 end
