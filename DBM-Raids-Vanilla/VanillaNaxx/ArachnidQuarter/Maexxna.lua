@@ -22,8 +22,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 29484"
 )
 
-mod.vb.enrageWarning = false
-
 local warnWebWrap		= mod:NewTargetAnnounce(28622, 2, nil, "RangedDps|Healer")
 local warnWebSprayNow	= mod:NewSpellAnnounce(29484, 3)
 local warnWebSpraySoon	= mod:NewSoonAnnounce(29484, 1)
