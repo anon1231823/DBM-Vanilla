@@ -349,7 +349,7 @@ function mod:UNIT_HEALTH(uId)
 	if self:GetUnitCreatureId(uId) == 14020 and warnRollOverSoon and UnitHealth(uId) / UnitHealthMax(uId) <= 0.65 and UnitHealth(uId) / UnitHealthMax(uId) >= 0.6 and self:IsBwlBlackEssenceEnabled() and not rolloverWarnShown then
 		warnRollOverSoon:Show()
 		rolloverWarnShown = true
-	elseif self:GetUnitCreatureId(uId) == 14020 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.25
+	elseif self:GetUnitCreatureId(uId) == 14020 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.25 then
 		self:SendSync("EnrageSoon")
 		self:UnregisterShortTermEvents()
 	end
