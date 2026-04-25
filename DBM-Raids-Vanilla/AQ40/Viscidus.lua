@@ -23,8 +23,9 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 25991 25896",
-	"SPELL_AURA_APPLIED 20005 25989",
+	"SPELL_AURA_APPLIED 25989",
 	"CHAT_MSG_MONSTER_EMOTE",
+	"RANGE_DAMAGE",
 	"SPELL_DAMAGE",
 	"SPELL_PERIODIC_DAMAGE",
 	"SWING_DAMAGE",
@@ -168,6 +169,16 @@ function mod:SPELL_DAMAGE(_, _, _, _, destGuid, _, _, _, _, _, _, _, _, school)
 	end
 end
 mod.SPELL_PERIODIC_DAMAGE = mod.SPELL_DAMAGE
+
+--4/25/2026 07:35:54.511-7  RANGE_DAMAGE,Player-5149-01027E34,"Entropocity-Ashkandi-US",0x10548,0x80000000,Player-5149-04564413,"Dalun-Mankrik-US",0x511,0x80000000,5019,"Disparar",0x1,Player-5149-04564413,0000000000000000,87,100,0,0,0,0,0,-1,0,0,0,1345.05,-4380.76,1411,2.7405,81,14,60,-1,16,45,0,0,nil,nil,nil,ST
+function mod:RANGE_DAMAGE(_, _, _, _, destGuid, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, weaponSchool)
+	weaponSchool = weaponSchool or 0
+	DBM:GetCIDFromGUID(destGuid) == 15299 and weaponSchool == 16 then
+		frostHits = frostHits + 1
+		DBM:Debug("frostHits=" .. frostHits)
+		DBM:Debug("wand damage counter")
+		frostHitTimes[#frostHitTimes + 1] = GetTime()
+end
 
 function mod:Unfreeze()
 	if GetTime() - lastFreeze > 5 then
