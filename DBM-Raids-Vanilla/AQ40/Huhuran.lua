@@ -30,7 +30,7 @@ local warnSting			= mod:NewTargetAnnounce(26180, 2)
 local warnAcid			= mod:NewStackAnnounce(26050, 3, nil, "Tank", 2)
 local warnPoison		= mod:NewSpellAnnounce(26053, 3)
 local warnFrenzy		= mod:NewSpellAnnounce(26051, 3, nil, "Tank|RemoveEnrage|Healer")
-local warnBerserk		= mod:NewSpellAnnounce(26068, 2)
+local warnBerserk		= mod:NewSpellAnnounce(26068, 3)
 local warnBerserkSoon	= mod:NewSoonAnnounce(26068, 2)
 
 local specWarnAcid		= mod:NewSpecialWarningStack(26050, "Tank", 10, nil, nil, 1, 6)
