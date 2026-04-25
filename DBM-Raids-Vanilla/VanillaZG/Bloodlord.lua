@@ -27,7 +27,7 @@ mod:RegisterEventsInCombat(
 )
 
 --TODO, actual timer for abilities. Tank swap for mortal?
-local warnFrenzy	= mod:NewSpellAnnounce(24318, 3, nil, "Tank|Healer", 2)
+local warnEnrage	= mod:NewSpellAnnounce(24318, 3, nil, "Tank|Healer", 2)
 local warnGaze		= mod:NewTargetNoFilterAnnounce(24314, 4)
 local warnMortal	= mod:NewTargetNoFilterAnnounce(16856, 2, nil, "Tank|Healer", 2)
 
@@ -40,7 +40,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(24314) then
 		timerGaze:Start(args.destName)
 	elseif args:IsSpell(24318) and args:IsDestTypeHostile() then
-		warnFrenzy:Show()
+		warnEnrage:Show()
 	elseif args:IsSpell(16856) and args:IsDestTypePlayer() then
 		warnMortal:Show(args.destName)
 		timerMortal:Start(args.destName)
