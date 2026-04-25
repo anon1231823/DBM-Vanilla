@@ -97,7 +97,7 @@ end
 
 function mod:OnCombatStart()
 	self.vb.volleyCount = 0
-	timerPoisonBoltVolleyCD:Start(nil, 1)
+	timerPoisonBoltVolleyCD:Start("v11.3-12.9", 1)
 	self.vb.freezeState = 0
 	resetHitCounts()
 	if self.Options.InfoFrame then
