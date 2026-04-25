@@ -42,8 +42,8 @@ local timerSting		= mod:NewBuffFadesTimer(12, 26180, nil, nil, nil, 3, nil, DBM_
 local timerStingCD		= mod:NewVarTimer("v25.9-59.2", 26180, nil, nil, nil, 3, nil, DBM_COMMON_L.POISON_ICON..DBM_COMMON_L.DEADLY_ICON)
 local timerPoisonCD		= mod:NewVarTimer("v11.3-37.6", 26053, nil, nil, nil, 3)
 local timerPoison		= mod:NewBuffFadesTimer(8, 26053)
-local timerEnrageCD		= mod:NewVarTimer("v11.3-25.9", 26051, nil, "RemoveEnrage", 3, 5, nil, DBM_COMMON_L.ENRAGE_ICON)
-local timerEnrage		= mod:NewBuffActiveTimer(8, 26051, nil, "Tank|RemoveEnrage|Healer", 3, 5, nil, DBM_COMMON_L.ENRAGE_ICON)
+local timerFrenzyCD		= mod:NewVarTimer("v11.3-25.9", 26051, nil, "RemoveEnrage", 3, 5, nil, DBM_COMMON_L.ENRAGE_ICON)
+local timerFrenzy		= mod:NewBuffActiveTimer(8, 26051, nil, "Tank|RemoveEnrage|Healer", 3, 5, nil, DBM_COMMON_L.ENRAGE_ICON)
 local timerAcid			= mod:NewTargetTimer(30, 26050, nil, "Tank", 2, 5, nil, DBM_COMMON_L.TANK_ICON)
 
 
@@ -55,7 +55,7 @@ function mod:OnCombatStart()
 	table.wipe(StingTargets)
 	timerStingCD:Start("v6.8-43.7")
 	timerPoisonCD:Start("v11.3-38.8")
-	timerEnrageCD:Start("v6.5-25.9")
+	timerFrenzyCD:Start("v6.5-25.9")
 	self:RegisterShortTermEvents(
 		"UNIT_HEALTH"
 	)
@@ -69,7 +69,7 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpell(26051) then
-		timerEnrageCD:Start()
+		timerFrenzyCD:Start()
 	elseif args:IsSpell(26053, 1215752) then
 		warnPoison:Show()
 		timerPoisonCD:Start()
@@ -87,7 +87,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpell(26053, 1215752) and args:IsPlayer() then
 		timerPoison:Start()
 	elseif args:IsSpell(26051, 1215755) then
-		timerEnrage:Start()
+		timerFrenzy:Start()
 		if self.Options.SpecWarn26051dispel then
 			specWarnFrenzy:Show(args.destName)
 			specWarnFrenzy:Play("trannow")
@@ -97,7 +97,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpell(26068, 1215885) then
 		warnBerserk:Show()
 		timerStingCD:Stop()
-		timerEnrageCD:Stop()
+		timerFrenzyCD:Stop()
 		timerPoisonCD:Stop()
 	elseif args:IsSpell(26050, 1215757) and not self:IsTrivial() then
 		local amount = args.amount or 1
@@ -127,7 +127,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif args:IsSpell(26050, 1215757) then
 		timerAcid:Stop(args.destName)
 	elseif args:IsSpell(26051, 1215755) then
-		timerEnrage:Stop()
+		timerFrenzy:Stop()
 	end
 end
 
