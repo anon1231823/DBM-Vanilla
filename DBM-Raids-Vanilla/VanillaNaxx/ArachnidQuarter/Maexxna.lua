@@ -39,7 +39,7 @@ local timerWebSpray		= mod:NewNextTimer(40.5, 29484, nil, nil, nil, 2)
 local timerWebWrap		= mod:NewVarTimer("v39.6-40.9", 28622, nil, "RangedDps|Healer", nil, 3)
 local timerSpider		= mod:NewTimer(30, "TimerSpider", 17332, nil, nil, 1)
 
-self.vb.warnEnrageSoon = false
+mod.vb.warnEnrageSoon = false
 
 function mod:OnCombatStart()
 	self.vb.warnEnrageSoon = false
