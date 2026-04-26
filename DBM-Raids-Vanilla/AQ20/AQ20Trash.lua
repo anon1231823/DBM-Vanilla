@@ -44,16 +44,14 @@ local specWarnGTFO = mod:NewSpecialWarningGTFO(1215421, nil, nil, nil, 1, 8)
 
 local warnPlague                    = mod:NewTargetAnnounce(22997, 2)
 local warnCauseInsanity             = mod:NewTargetNoFilterAnnounce(26079, 2)
-local warnExplosion					= mod:NewAnnounce("WarnExplosion", 3, nil, false)
 local warnAdd1						= mod:NewSpellAnnounce(17430, 1, 802, "Dps")
 local warnAdd2						= mod:NewSpellAnnounce(17431, 1, 802, "Dps")
 
 local specWarnPlague                = mod:NewSpecialWarningMoveAway(22997, nil, nil, nil, 1, 2)
-local specWarnBurst					= mod:NewSpecialWarningDodge(1215202, nil, nil, nil, 2, 2)
 local yellPlague                    = mod:NewYell(22997)
 local specWarnExplode               = mod:NewSpecialWarningRun(25698, "Melee", nil, 3, 4, 2)
-local specWarnShadowFrostReflect    = mod:NewSpecialWarningReflect(19595, nil, nil, nil, 1, 2)
-local specWarnFireArcaneReflect     = mod:NewSpecialWarningReflect(13022, nil, nil, nil, 1, 2)
+local specWarnShadowFrostReflect    = mod:NewSpecialWarningReflect(19595, "SpellCaster", nil, nil, 1, 2)
+local specWarnFireArcaneReflect     = mod:NewSpecialWarningReflect(13022, "SpellCaster", nil, nil, 1, 2)
 
 local timerSpecWarnExplode			= mod:NewCastTimer(6, 25698) -- Duration is 7s but it expires after 6s
 
