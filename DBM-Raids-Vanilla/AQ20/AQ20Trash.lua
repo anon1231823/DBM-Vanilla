@@ -51,16 +51,21 @@ local warnAdd2						= mod:NewSpellAnnounce(17431, 1, 802, "Dps")
 local specWarnPlague                = mod:NewSpecialWarningMoveAway(22997, nil, nil, nil, 1, 2)
 local specWarnBurst					= mod:NewSpecialWarningDodge(1215202, nil, nil, nil, 2, 2)
 local yellPlague                    = mod:NewYell(22997)
-local yellBurst						= mod:NewIconTargetYell(1215202)
 local specWarnExplode               = mod:NewSpecialWarningRun(25698, "Melee", nil, 3, 4, 2)
 local specWarnShadowFrostReflect    = mod:NewSpecialWarningReflect(19595, nil, nil, nil, 1, 2)
 local specWarnFireArcaneReflect     = mod:NewSpecialWarningReflect(13022, nil, nil, nil, 1, 2)
-local specWarnExplosion				= mod:NewSpecialWarning("SpecWarnExplosion", nil, nil, nil, 1, 8)
 
-local timerExplosion				= mod:NewTimer(30, "TimerExplosion")
-local timerBurst					= mod:NewNextTimer(30, 1215202)
 local timerSpecWarnExplode			= mod:NewCastTimer(6, 25698) -- Duration is 7s but it expires after 6s
 
+local warnExplosion, yellBurst, specWarnBurst, specWarnExplosion, timerExplosion, timerBurst
+if DBM:IsSeasonal("SeasonOfDiscovery") then
+warnExplosion				= mod:NewAnnounce("WarnExplosion", 3, nil, false)
+yellBurst					= mod:NewIconTargetYell(1215202)
+specWarnBurst				= mod:NewSpecialWarningDodge(1215202, nil, nil, nil, 2, 2)
+specWarnExplosion			= mod:NewSpecialWarning("SpecWarnExplosion", nil, nil, nil, 1, 8)
+timerExplosion				= mod:NewTimer(30, "TimerExplosion") -- Default icon looks good cause they cast Arcane Explosion
+timerBurst					= mod:NewNextTimer(30, 1215202)
+end
 
 local aq40Trash = DBM:GetModByName("AQ40Trash")
 
