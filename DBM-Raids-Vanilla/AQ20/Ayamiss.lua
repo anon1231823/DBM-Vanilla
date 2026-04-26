@@ -57,7 +57,7 @@ end
 function mod:UNIT_HEALTH(uId)
 	if self:GetStage(1) and self:GetUnitCreatureId(uId) == 15369 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.75 then
 		self:SendSync("Phase", 1.5)
-	if self:GetStage(1.5) and self:GetUnitCreatureId(uId) == 15369 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.70 then
+	elseif self:GetStage(1.5) and self:GetUnitCreatureId(uId) == 15369 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.70 then
 		self:SendSync("Phase", 2)
 		self:UnregisterShortTermEvents()
 	end
