@@ -125,11 +125,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	end
 end
 
---function mod:CHAT_MSG_MONSTER_EMOTE(msg)
-	--if (msg == L.Phase2Emote or msg:find(L.Phase2Emote)) and self:GetStage(1) then
-		--self:SendSync("Phase", 2)
-	--end
---end
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
    if self:GetStage(1) and spellId == 23040 then
 		self:SendSync("Phase", 2)

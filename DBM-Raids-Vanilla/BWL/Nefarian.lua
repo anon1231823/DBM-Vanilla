@@ -53,7 +53,7 @@ local specwarnShadowCommand	= mod:NewSpecialWarningTarget(22667, nil, nil, 2, 1,
 local specwarnVeilShadow	= mod:NewSpecialWarningDispel(22687, "RemoveCurse", nil, nil, 1, 2)
 local specwarnClassCall		= mod:NewSpecialWarning("specwarnClassCall", nil, nil, nil, 1, 2)
 
-local timerIntermission		= mod:NewIntermissionTimer("v15.7-17.3", nil, CL.INTERMISSION, true, nil, nil, "136106") -- 12.9-14.9 when using IsEncounterInProgress()
+local timerIntermission		= mod:NewIntermissionTimer("v12.9-14.9", nil, CL.INTERMISSION, true, nil, nil, "136106")
 local timerClassCall 		= mod:NewTimer(30, "TimerClassCall", nil, nil, nil, 5)
 local timerFearCD			= mod:NewVarTimer("v27-90.1", 22686, nil, nil, nil, 2)
 local timerShadowFlameCD	= mod:NewVarTimer("v8.1-37.2", 22539, nil, false)
@@ -76,8 +76,10 @@ function mod:OnCombatStart()
 		self.vb.triggerEncounterStart = true
 		self:SetStage(1)
 		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(1))
-	--elseif not IsEncounterInProgress() and self:GetStage(1) then
-        --self:SendSync("Phase", 1.5)
+	elseif not IsEncounterInProgress() and self:GetStage(1) then
+		self:SetStage(1.5)
+        warnPhase2Soon:Show()
+		timerIntermission:Start()
 	elseif IsEncounterInProgress() and self:GetStage(1.5) then
 		self:SetStage(2)
 		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
@@ -190,8 +192,8 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		self:SendSync("ClassCall", "MONK")
 --	elseif msg == L.YellEvoker or msg:find(L.YellEvoker) then
 --		self:SendSync("ClassCall", "EVOKER")
-	elseif msg == L.YellP2 or msg:find(L.YellP2) then
-		self:SendSync("Phase", 1.5)
+--	elseif msg == L.YellP2 or msg:find(L.YellP2) then
+--		self:SendSync("Phase", 1.5)
 	elseif msg == L.YellP3 or msg:find(L.YellP3) then
 		self:SendSync("Phase", 3)
 	end
@@ -230,10 +232,7 @@ do
 				if phase % 1 == 0 then
 					warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(phase))
 				end
-				if phase == 1.5 then
-					warnPhase2Soon:Show()
-					timerIntermission:Start()
-				elseif phase == 2.5 then
+				if phase == 2.5 then
 					warnPhase3Soon:Show()
 				elseif phase == 3 then
 					warnPhase:Play("pthree")
