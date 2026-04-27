@@ -50,9 +50,9 @@ function mod:OnCombatStart()
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpell(20553, 19798) then -- not sure if both are needed, at least SoD only has 19798
+	if args:IsSpell(19798) then
 		warnQuake:Show()
-	elseif args:IsSpell(461463) and DBM:IsSeasonal("SeasonOfDiscovery") then
+	elseif args:IsSpell(461463) then
 		specWarnFallingRocks:Show()
 		specWarnFallingRocks:Play("watchstep")
 		timerFallingRocks:Start()
