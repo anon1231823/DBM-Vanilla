@@ -417,7 +417,6 @@ L:SetOptionLocalization{
 	TimerAddsSpawn	= "Exibir cronômetro quando os primeiros lacaios aparecerem"
 }
 L:SetMiscLocalization{
-	Phase2Emote	= "fogem à medida que o poder do orbe é drenado.",
 	Pull	= "Invasores violaram a incubadora! Soem o alarme! Protejam os ovos a todo custo!"
 }
 -------------------

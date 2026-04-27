@@ -418,7 +418,6 @@ L:SetOptionLocalization{
 	TimerAddsSpawn	= "Afficher un chronomètre pour les premiers serviteurs"
 }
 L:SetMiscLocalization{
-	Phase2Emote	= "s'enfuit car le contrôle de l'orbe s'affaiblit.",
 	Pull = "La chambre des œufs est envahie ! Sonnez l'alarme ! Protégez les œufs à tout prix !"
 }
 

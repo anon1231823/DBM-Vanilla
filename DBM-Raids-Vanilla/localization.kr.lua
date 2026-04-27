@@ -309,7 +309,6 @@ L:SetOptionLocalization{
 	TimerAddsSpawn	= "첫번째 쫄 등장 타이머 바 보기"
 }
 L:SetMiscLocalization{
-	Phase2Emote	= "수정 구슬에서 통제력이 빠져나가자",
 	Pull 	= "침입자들이 들어왔다! 어떤 희생이 있더라도 알을 반드시 수호하라!"
 }
 
