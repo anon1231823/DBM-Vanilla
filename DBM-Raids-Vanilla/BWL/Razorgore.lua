@@ -99,7 +99,7 @@ function mod:SPELL_CAST_START(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpell(23040) and self:GetStage(2, 1) then
+	if args:IsSpell(23040) and self:GetStage(1) then
 		self:SetStage(2)
 		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
 	elseif args:IsSpell(19873) then
@@ -124,12 +124,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	end
 end
 
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-   if self:GetStage(1) and spellId == 23040 then
-		self:SendSync("Phase", 2)
-   end
-end
-
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 12435 then--Only trigger kill for unit_died if he dies in phase 2 with everyone alive, otherwise it's an auto wipe.
@@ -140,22 +134,3 @@ function mod:UNIT_DIED(args)
 		end
 	end
 end
-
-function mod:OnSync(msg, arg)
-	if msg == "Phase" then
-		local phase = tonumber(arg)
-		if not phase then return end
-		if self:GetStage(phase, 3) then  -- only if stage changed
-			self:SetStage(phase)
-			if phase % 1 == 0 then
-				warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(phase))
-			end
-			if phase == 2 then
-				warnPhase:Play("ptwo")
-			end
-		end
-	end
-end
-
---Possible auto gossip for Vael using ID 29549, 30850
---Possible auto gossip for engaging nef (retial only) 28595, 28897, 29020
