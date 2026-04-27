@@ -100,7 +100,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			warnMassiveTremor:Show()
 		end
 		timerMassiveTremorCD:Start(nil, args.sourceGUID)
-	elseif spellID == 19365 then
+	elseif spellId == 19365 then
 		if self:AntiSpam(3, 7) then
 			warnAncientDread:Show()
 		end
