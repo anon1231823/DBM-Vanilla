@@ -13,6 +13,7 @@ local mod	= DBM:NewMod("Arlokk", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision("@file-date-integer@")
+mod:SetMinSyncRevision(20260419000000) -- 2026, April 19th
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(14515)
 mod:SetEncounterID(791)
@@ -22,15 +23,19 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 24210 24212",
-	"SPELL_AURA_REMOVED 24212"
+	"SPELL_AURA_REMOVED 24212",
+	"SWING_DAMAGE",
+	"UNIT_SPELLCAST_SUCCEEDED"
 )
 
 local warnMark		= mod:NewTargetNoFilterAnnounce(24210, 3)
 local warnPain		= mod:NewTargetNoFilterAnnounce(24212, 2, nil, "RemoveMagic")
+local warnVanish	= mod:NewSpellAnnounce(24223,2)
 
 local specWarnMark	= mod:NewSpecialWarningYou(24210, nil, nil, nil, 1, 2)
 
 local timerPain		= mod:NewTargetTimer(18, 24212, nil, "RemoveMagic", nil, 3, nil, DBM_COMMON_L.MAGIC_ICON)
+local timerVanish	= mod:NewBuffActiveTimer("v43.7-61.5", 24223, nil, nil, nil, 6)
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(24210) then
@@ -49,5 +54,30 @@ end
 function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpell(24212) and args:IsDestTypePlayer() then
 		timerPain:Stop(args.destName)
+	end
+end
+
+function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
+	if spellId == 24223 or spellId == 24235 then
+		local guid = UnitGUID(uId)
+		if guid then
+			local cid = self:GetCIDFromGUID(guid)
+			if cid == 14515 then
+				self:SendSync("Vanish")
+			end
+		end
+	end
+end
+
+function mod:OnSync(event)
+    if event == "Vanish" then
+		warnVanish:Show()
+        timerVanish:Start()
+    end
+end
+
+function mod:SWING_DAMAGE(srcGuid, _, _, _, destGuid)
+	if timerVanish:IsStarted() and (DBM:GetCIDFromGUID(srcGuid) == 14515 or DBM:GetCIDFromGUID(destGuid) == 14515) then
+		timerVanish:Stop()
 	end
 end
