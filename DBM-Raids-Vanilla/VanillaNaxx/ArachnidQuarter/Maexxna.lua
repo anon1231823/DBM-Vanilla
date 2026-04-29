@@ -52,6 +52,10 @@ function mod:OnCombatStart()
 	)
 end
 
+function mod:OnCombatEnd()
+	self:UnregisterShortTermEvents()
+end
+
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(28622) then
 		warnWebWrap:CombinedShow(0.5, args.destName)

@@ -50,6 +50,10 @@ function mod:OnCombatStart()
 	)
 end
 
+function mod:OnCombatEnd()
+	self:UnregisterShortTermEvents()
+end
+
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpell(23861) then
 		warnCloud:Show()

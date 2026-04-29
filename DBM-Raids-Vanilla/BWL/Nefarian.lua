@@ -94,6 +94,7 @@ end
 
 function mod:OnCombatEnd(wipe)
 	self:UnregisterOnUpdateHandler()
+	self:UnregisterShortTermEvents()
 	if not wipe then
 		local sodTrialMod = DBM:GetModByName("SoDBWLTrials")
 		if sodTrialMod then

@@ -76,7 +76,9 @@ function mod:OnCombatStart()
 	end
 end
 
-
+function mod:OnCombatEnd()
+	self:UnregisterShortTermEvents()
+end
 --[[
 --70, 60,
 function mod:Whelps()--Not right, need to fix

@@ -61,6 +61,10 @@ function mod:OnCombatStart()
 	)
 end
 
+function mod:OnCombatEnd()
+	self:UnregisterShortTermEvents()
+end
+
 local function warnStingTargets()
 	warnSting:Show(table.concat(StingTargets, "<, >"))
 	timerStingCD:Start()

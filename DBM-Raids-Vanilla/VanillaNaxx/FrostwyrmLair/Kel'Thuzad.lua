@@ -140,6 +140,7 @@ end
 
 function mod:OnCombatEnd()
 	self:UnregisterOnUpdateHandler()
+	self:UnregisterShortTermEvents()
 end
 
 function mod:SPELL_CAST_SUCCESS(args)

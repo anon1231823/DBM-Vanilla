@@ -138,6 +138,10 @@ function mod:OnCombatStart()
 	end, 0.2)
 end
 
+function mod:OnCombatEnd()
+	self:UnregisterOnUpdateHandler()
+	self:UnregisterShortTermEvents()
+end
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(28522) and args:IsDestTypePlayer() then
