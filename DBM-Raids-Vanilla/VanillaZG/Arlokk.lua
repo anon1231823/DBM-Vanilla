@@ -36,6 +36,11 @@ local specWarnMark	= mod:NewSpecialWarningYou(24210, nil, nil, nil, 1, 2)
 
 local timerPain		= mod:NewTargetTimer(18, 24212, nil, "RemoveMagic", nil, 3, nil, DBM_COMMON_L.MAGIC_ICON)
 local timerVanish	= mod:NewBuffActiveTimer("v43.7-61.5", 24223, nil, nil, nil, 6)
+local timerVanishCD	= mod:NewVarTimer("v65-70", 24223, nil, nil, nil, 6) -- need more logs to verify, rare for Arlokk to vanish more than once
+
+function mod:OnCombatStart()
+	timerVanishCD:Start("v30-36")
+end
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(24210) then
@@ -73,5 +78,6 @@ end
 function mod:SWING_DAMAGE(srcGuid, _, _, _, destGuid)
 	if timerVanish:IsStarted() and (DBM:GetCIDFromGUID(srcGuid) == 14515 or DBM:GetCIDFromGUID(destGuid) == 14515) then
 		timerVanish:Stop()
+		timerVanishCD:Start()
 	end
 end
