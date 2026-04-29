@@ -71,6 +71,7 @@ end
 function mod:OnSync(event)
     if event == "Vanish" then
 		warnVanish:Show()
+		timerVanishCD:Stop()
         timerVanish:Start()
     end
 end
