@@ -38,7 +38,10 @@ local timerPain		= mod:NewTargetTimer(18, 24212, nil, "RemoveMagic", nil, 3, nil
 local timerVanish	= mod:NewBuffActiveTimer("v43.7-61.5", 24223, nil, nil, nil, 6)
 local timerVanishCD	= mod:NewVarTimer("v65-70", 24223, nil, nil, nil, 6) -- need more logs to verify, rare for Arlokk to vanish more than once
 
+mod.vb.vanished = false
+
 function mod:OnCombatStart()
+	self.vb.vanished = false
 	timerVanishCD:Start("v30-36")
 end
 
@@ -63,13 +66,14 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if spellId == 24223 or spellId == 24235 then
+	if not self.vb.vanished and spellId == 24223 then
 		self:SendSync("Vanish")
 	end
 end
 
 function mod:OnSync(event)
     if event == "Vanish" then
+		self.vb.vanished = true
 		warnVanish:Show()
 		timerVanishCD:Stop()
         timerVanish:Start()
@@ -77,7 +81,8 @@ function mod:OnSync(event)
 end
 
 function mod:SWING_DAMAGE(srcGuid, _, _, _, destGuid)
-	if timerVanish:IsStarted() and (DBM:GetCIDFromGUID(srcGuid) == 14515 or DBM:GetCIDFromGUID(destGuid) == 14515) then
+	if self.vb.vanished and DBM:GetCIDFromGUID(srcGuid) == 14515 then
+		self.vb.vanished = false
 		timerVanish:Stop()
 		timerVanishCD:Start()
 	end

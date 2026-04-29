@@ -49,7 +49,7 @@ mod.vb.prewarn_berserk = false
 mod.vb.berserked = false
 
 function mod:OnCombatStart()
-	mod.vb.prewarn_berserk = false
+	self.vb.prewarn_berserk = false
 	self.vb.berserked = false
 	timerBlastCD:Start("v22.1-28.3")
 	timerSweepCD:Start("v24.1-27.4")
