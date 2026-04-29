@@ -59,13 +59,7 @@ end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 	if spellId == 24223 or spellId == 24235 then
-		local guid = UnitGUID(uId)
-		if guid then
-			local cid = self:GetCIDFromGUID(guid)
-			if cid == 14515 then
-				self:SendSync("Vanish")
-			end
-		end
+		self:SendSync("Vanish")
 	end
 end
 
