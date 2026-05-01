@@ -34,14 +34,14 @@ ability.id = 461343 and type = "begincast"
 or (ability.id = 19713 or ability.id = 19715 or ability.id = 23138 or ability.id = 19714) and type = "cast"
 --]]
 local warnCurse					= mod:NewSpellAnnounce(19713, 4)
-local warnDeadenMagic			= mod:NewTargetNoFilterAnnounce(19714, 2, nil, false, 2)
+local warnDeadenMagic			= mod:NewTargetNoFilterAnnounce(19714, 2, nil, "CasterDps", 2)
 local warnCounterSpell			= mod:NewSpellAnnounce(19715, 3, nil, "SpellCaster", 2)
 
-local specWarnDeadenMagic		= mod:NewSpecialWarningDispel(19714, false, nil, 2, 1, 2)
+local specWarnDeadenMagic		= mod:NewSpecialWarningDispel(19714, "MagicDispeller", nil, 2, 1, 2)
 local specWarnGate				= mod:NewSpecialWarningTaunt(23138, "Tank", nil, nil, 1, 2)--aggro wipe, needs fresh taunt
 
 local timerCurseCD           	= mod:NewVarTimer("v21-26.4", 19713, nil, "RemoveCurse", nil, 3, nil, DBM_COMMON_L.CURSE_ICON)
-local timerDeadenMagic       	= mod:NewBuffActiveTimer(30, 19714, nil, false, 3, 5, nil, DBM_COMMON_L.MAGIC_ICON)
+local timerDeadenMagic       	= mod:NewBuffActiveTimer(30, 19714, nil, "MagicDispeller", 3, 5, nil, DBM_COMMON_L.MAGIC_ICON)
 local timerCounterSpellCD    	= mod:NewVarTimer(DBM:IsSeasonal("SeasonOfDiscovery") and 9.6 or "v15.7-21.1", 19715, nil, "SpellCaster", nil, 3)
 local timerGateCD            	= mod:NewVarTimer(DBM:IsSeasonal("SeasonOfDiscovery") and 25.8 or "v42.1-48.6", 23138, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 
