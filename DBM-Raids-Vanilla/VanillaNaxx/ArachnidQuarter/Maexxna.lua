@@ -43,7 +43,7 @@ function mod:OnCombatStart()
 	self.vb.warnEnrageSoon = false
 	warnWebSpraySoon:Schedule(35.5)
 	timerWebSpray:Start()
-	timerWebWrap:Start(20.1)
+	timerWebWrap:Start("v18.2-20.1")
 	warnSpidersSoon:Schedule(25)
 	warnSpidersNow:Schedule(30)
 	timerSpider:Start()

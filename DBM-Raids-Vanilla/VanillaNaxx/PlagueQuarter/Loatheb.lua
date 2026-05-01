@@ -210,8 +210,6 @@ end
 function mod:UNIT_DIED(args)
 	if self:GetCIDFromGUID(args.destGUID) == 16011 then
 		warnSporeSoon:Cancel()
-		--warnHealSoon:Cancel()
-		--warnHealNow:Cancel()
 	elseif hadCorrupted[args.destName] then
 		hadCorrupted[args.destName] = nil
 	end

@@ -28,7 +28,7 @@ mod:RegisterEventsInCombat(
 ability.id = 28524 and type = "begincast"
  or (ability.id = 28542 or ability.id = 28560) and type = "cast"
 --]]
-local airPhaseTimer = "v62.7-64.3"
+local airPhaseTimer = "v62.7-69.1"
 
 local warnDrainLifeNow	= mod:NewSpellAnnounce(28542, 2)
 local warnDrainLifeSoon	= mod:NewSoonAnnounce(28542, 1, nil, "RemoveCurse")
@@ -96,7 +96,7 @@ function mod:OnCombatStart()
 		"UNIT_HEALTH"
 	)
 	-- TODO: confirm this, it seems to have changed with the Mythic hot fixes for both mythic and normal?
-	local initialAirPhaseTimer = isMythic and 39.66 or DBM:IsSeasonal("SeasonOfDiscovery") and 31 or "v39.1-45.9" -- Air phase timer is variable on Era
+	local initialAirPhaseTimer = isMythic and 39.66 or DBM:IsSeasonal("SeasonOfDiscovery") and 31 or "v32.9-45.9" -- Air phase timer is variable on Era
 	if isMythic or DBM:IsSeasonal("SeasonOfDiscovery") then
 	warnAirPhaseSoon:Schedule(initialAirPhaseTimer - 10)
 	else

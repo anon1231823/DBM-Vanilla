@@ -74,8 +74,6 @@ end
 
 function mod:UNIT_DIED(args)
 	if self:GetCIDFromGUID(args.destGUID) == 15953 then
-		--warnEnrageSoon:Cancel()
 		warnEmbraceExpire:Cancel()
-		warnEmbraceExpired:Cancel()
 	end
 end
