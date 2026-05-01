@@ -144,7 +144,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpell(19393) then
+	if args:IsSpell(19393) and self:AntiSpam(3, 13) then
 		warnSoulBurn:Show(args.destName)
 	end
 end
