@@ -21,7 +21,8 @@ mod:SetZone(409)
 mod:RegisterZoneCombat(409)
 
 mod:RegisterEvents(
-	"SPELL_CAST_SUCCESS 19392 19196 19272 18945 20276 19129 19365 19393 19641 19636 19635 18944 19630",
+	"SPELL_CAST_SUCCESS 19392 19196 19272 18945 20276 19129 19365 19641 19636 19635 18944 19630",
+	"SPELL_AURA_APPLIED 19393",
 	"UNIT_DIED"
 )
 
@@ -31,11 +32,11 @@ local warnMassiveTremor				= mod:NewSpellAnnounce(19129, 3, nil, false, 2)
 local warnSurge						= mod:NewSpellAnnounce(19196, 2, nil, "Tank|Healer", 2)
 local warnLavaBreath				= mod:NewSpellAnnounce(19272, 2, nil, false, 2)
 local warnSummonLavaSpawn			= mod:NewSpellAnnounce(19392, 3)
+local warnSoulBurn					= mod:NewTargetNoFilterAnnounce(19393, 3, nil, "RemoveMagic")
+local warnAncientDread				= mod:NewSpellAnnounce(19365, 2, nil, "RemoveMagic")
 local warnConeofFire				= mod:NewSpellAnnounce(19630, 3, nil, "Healer", 2)
 local warnInciteFlames				= mod:NewSpellAnnounce(19635, 2, nil, "RemoveMagic")
 local warnFireBlossom				= mod:NewSpellAnnounce(19636, 2)
-local warnAncientDread				= mod:NewSpellAnnounce(19365, 2, nil, "RemoveMagic")
-local warnSoulBurn					= mod:NewTargetNoFilterAnnounce(19393, 3, nil, "RemoveMagic")
 local warnPyroclastBarrage			= mod:NewSpellAnnounce(19641, 2)
 local warnKnockDown					= mod:NewSpellAnnounce(20276, 2, nil, "Tank")
 
@@ -105,27 +106,23 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self:AntiSpam(3, 7) then
 			warnAncientDread:Show()
 		end
-	elseif spellId == 19393 then
-		if self:AntiSpam(3, 8) then
-			warnSoulBurn:Show(args.destName)
-		end
 	elseif spellId == 19641 then
 		--"Pyroclast Barrage-19641-npc:12076-00013C078B = pull:28.9, 9.8, 10.8, 12.3, 18.3, 12.1",
 		--"Pyroclast Barrage-19641-npc:12076-0001BC078B = pull:33.7, 18.3, 11.0, 20.7, 10.9",
-		if self:AntiSpam(3, 9) then
+		if self:AntiSpam(3, 8) then
 			warnPyroclastBarrage:Show()
 		end
 		timerPyroclastBarrageCD:Start(nil, args.sourceGUID)
 	elseif spellId == 19636 then
 		--"Fire Blossom-19636-npc:11666-00003C078B = pull:145.8, 19.5",
 		--"Fire Blossom-19636-npc:11666-00013C078B = pull:37.5, 19.6, 13.2, 13.4",
-		if self:AntiSpam(3, 10) then
+		if self:AntiSpam(3, 9) then
 			warnFireBlossom:Show()
 		end
 		timerFireBlossomCD:Start(nil, args.sourceGUID)
 	elseif spellId == 19635 then
 		--"Incite Flames-19635-npc:11666-00013C078B = pull:32.5, 18.2, 17.1, 17.0",
-		if self:AntiSpam(3, 11) then
+		if self:AntiSpam(3, 10) then
 			warnInciteFlames:Show()
 		end
 		timerInciteFlamesCD:Start(nil, args.sourceGUID)
@@ -133,16 +130,22 @@ function mod:SPELL_CAST_SUCCESS(args)
 		--"Smash-18944-npc:11658-0003BC078A = pull:113.3, 9.9, 7.2",
 		--"Smash-18944-npc:11658-0006BC078A = pull:67.0, 9.6, 8.7, 9.7, 7.4",
 		--"Smash-18944-npc:11658-00073C078A = pull:68.1, 7.5, 9.7, 8.4, 8.7",
-		if self:AntiSpam(3, 12) then
+		if self:AntiSpam(3, 11) then
 			warnSmash:Show()
 		end
 		timerSmashCD:Start(nil, args.sourceGUID)
 	elseif spellId == 19630 then
 		--"Cone of Fire-19630-npc:11667-00013C078B = pull:32.5, 15.9, 13.5, 15.8",
-		if self:AntiSpam(3, 13) then
+		if self:AntiSpam(3, 12) then
 			warnConeofFire:Show()
 		end
 		timerConeofFireCD:Start(nil, args.sourceGUID)
+	end
+end
+
+function mod:SPELL_AURA_APPLIED(args)
+	if args:IsSpell(19393) then
+		warnSoulBurn:CombinedShow(0.1, args.destName)
 	end
 end
 
