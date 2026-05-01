@@ -35,7 +35,7 @@ local warnConeofFire				= mod:NewSpellAnnounce(19630, 3, nil, "Healer", 2)
 local warnInciteFlames				= mod:NewSpellAnnounce(19635, 2, nil, "RemoveMagic")
 local warnFireBlossom				= mod:NewSpellAnnounce(19636, 2)
 local warnAncientDread				= mod:NewSpellAnnounce(19365, 2, nil, "RemoveMagic")
-local warnSoulBurn					= mod:NewSpellAnnounce(19393, 3, nil, "RemoveMagic")
+local warnSoulBurn					= mod:NewTargetNoFilterAnnounce(19393, 3, nil, "RemoveMagic")
 local warnPyroclastBarrage			= mod:NewSpellAnnounce(19641, 2)
 local warnKnockDown					= mod:NewSpellAnnounce(20276, 2, nil, "Tank")
 
