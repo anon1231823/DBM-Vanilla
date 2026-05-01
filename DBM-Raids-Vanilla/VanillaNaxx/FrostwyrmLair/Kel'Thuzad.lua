@@ -64,10 +64,10 @@ local warnFissure			= mod:NewTargetAnnounce(27810, 4, nil, nil, nil, nil, nil, 2
 local warnMana				= mod:NewTargetAnnounce(27819, 2)
 local warnChainsTargets		= mod:NewTargetNoFilterAnnounce(28410, 4)
 
-local specWarnManaBomb		= mod:NewSpecialWarningMoveAway(27819, nil, nil, nil, 1, 2)
+local specWarnManaBomb		= mod:NewSpecialWarningMoveAway(27819, "ManaUser", nil, nil, 1, 2)
 local specWarnBlast			= mod:NewSpecialWarningTarget(27808, "Healer", nil, nil, 1, 2)
 local specWarnFissureYou	= mod:NewSpecialWarningYou(27810, nil, nil, nil, 3, 2)
-local yellManaBomb			= mod:NewShortYell(27819)
+local yellManaBomb			= mod:NewShortYell(27819, nil, "ManaUser")
 local yellFissure			= mod:NewYell(27810)
 
 local timerFissureCD		= mod:NewVarTimer("v10.9-42.1", 27810, nil, false, nil, 2)
