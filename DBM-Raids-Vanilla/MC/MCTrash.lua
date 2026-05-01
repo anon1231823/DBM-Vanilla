@@ -145,7 +145,7 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(19393) then
-		warnSoulBurn:CombinedShow(0.1, args.destName)
+		warnSoulBurn:Show(args.destName)
 	end
 end
 
