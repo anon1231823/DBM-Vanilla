@@ -107,7 +107,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif spellId == 19393 then
 		if self:AntiSpam(3, 8) then
-			warnSoulBurn:Show()
+			warnSoulBurn:Show(args.destName)
 		end
 	elseif spellId == 19641 then
 		--"Pyroclast Barrage-19641-npc:12076-00013C078B = pull:28.9, 9.8, 10.8, 12.3, 18.3, 12.1",
