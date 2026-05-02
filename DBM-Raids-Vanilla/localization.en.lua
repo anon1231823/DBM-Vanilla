@@ -110,7 +110,7 @@ L:SetWarningLocalization{
 	WarnClawTentacle2		= "Claw Tentacle",
 	WarnGiantEyeTentacle	= "Giant Eye Tentacle",
 	WarnGiantClawTentacle	= "Giant Claw Tentacle",
-	SpecWarnWeakened		= "C'Thun Weakened!"
+	SpecWarnWeakened		= "C'Thun is weakened!"
 }
 L:SetTimerLocalization{
 	TimerEyeTentacle		= "Eye Tentacle",
