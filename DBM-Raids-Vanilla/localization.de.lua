@@ -251,7 +251,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization("AQ20Trash")
 
 L:SetGeneralLocalization{
-	name = "AQ20 Trash"
+	name = "Trash"
 }
 
 -----------------
@@ -600,6 +600,15 @@ L:SetOptionLocalization{
 
 L:SetWarningLocalization{
 	WarnBossPower		= "Energie bei %d%%"
+}
+
+-----------------
+--  MC: Trash  --
+-----------------
+L = DBM:GetModLocalization("MCTrash")
+
+L:SetGeneralLocalization{
+	name = "Trash"
 }
 
 -------------------
