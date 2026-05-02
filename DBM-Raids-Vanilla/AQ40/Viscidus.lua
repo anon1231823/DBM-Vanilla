@@ -140,7 +140,7 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg)
 		self:SendSync("Freeze", 2)
 	elseif msg == L.Frozen or msg:find(L.Frozen) then
 		self:SendSync("Freeze", 3)
-	if msg == L.Phase4 or msg:find(L.Phase4) then
+	elseif msg == L.Phase4 or msg:find(L.Phase4) then
 		self:SendSync("Shatter", 1)
 	elseif msg == L.Phase5 or msg:find(L.Phase5) then
 		self:SendSync("Shatter", 2)
