@@ -64,7 +64,7 @@ L:SetGeneralLocalization{
 }
 L:SetWarningLocalization{
 	WarnFreeze	= "빙결: %d/3",
-	WarnShatter	= "분해: %d/3"
+	WarnShatter	= "분해: %d/2"
 }
 L:SetOptionLocalization{
 	WarnFreeze	= "빙결 상태 알림",
@@ -76,7 +76,6 @@ L:SetMiscLocalization{
 	Frozen		= "단단하게 얼었습니다!",
 	Phase4 		= "분해되기 시작합니다!",
 	Phase5 		= "부서질 것 같습니다!",
-	Phase6 		= "폭발",
 	FrostHits	= "냉기 적중",
 	FrostHitsPerSecond	= "초당 냉기 적중",
 	MeleeHitsPerSecond	= "초당 근접 적중"

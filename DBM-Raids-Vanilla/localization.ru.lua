@@ -65,7 +65,7 @@ L:SetGeneralLocalization{
 }
 L:SetWarningLocalization{
 	WarnFreeze	= "Заморозка: %d/3",
-	WarnShatter	= "Разрушение: %d/3"
+	WarnShatter	= "Разрушение: %d/2"
 }
 L:SetOptionLocalization{
 	WarnFreeze	= "Показывать предупреждение о состоянии заморозки",
@@ -77,7 +77,6 @@ L:SetMiscLocalization{
 	Frozen	= "застывает",
 	Phase4 	= "начинает раскалываться",
 	Phase5 	= "едва держится",
-	Phase6 	= "Взрывается.",
 	FrostHits	= "Удары льда",
 	FrostHitsPerSecond	= "Удары льда в секунду",
 	MeleeHitsPerSecond	= "Ближние удары в секунду"

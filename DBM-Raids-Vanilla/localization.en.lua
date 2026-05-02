@@ -62,7 +62,7 @@ L:SetGeneralLocalization{
 }
 L:SetWarningLocalization{
 	WarnFreeze	= "Freeze: %d/3",
-	WarnShatter	= "Shatter: %d/3"
+	WarnShatter	= "Shatter: %d/2"
 }
 L:SetOptionLocalization{
 	WarnFreeze	= "Announce Freeze status",
@@ -74,7 +74,6 @@ L:SetMiscLocalization{
 	Frozen	= "is frozen solid",
 	Phase4 	= "begins to crack",
 	Phase5 	= "looks ready to shatter",
-	Phase6 	= "Explodes.",
 	FrostHits = "Frost hits",
 	FrostHitsPerSecond = "Frost hits per second",
 	MeleeHitsPerSecond = "Melee hits per second"

@@ -64,7 +64,7 @@ L:SetGeneralLocalization{
 }
 L:SetWarningLocalization{
 	WarnFreeze	= "冰冻：%d/3",
-	WarnShatter	= "打碎：%d/3"
+	WarnShatter	= "打碎：%d/2"
 }
 L:SetOptionLocalization{
 	WarnFreeze	= "提示冰冻状态",
@@ -76,7 +76,6 @@ L:SetMiscLocalization{
 	Frozen		= "变成了坚硬的固体！",
 	Phase4 		= "开始出现裂缝！",
 	Phase5 		= "看起来就要碎裂了！",
-	Phase6 		= "爆炸。",
 	FrostHits	= "冰霜命中",
 	FrostHitsPerSecond = "冰霜每秒命中次数",
 	MeleeHitsPerSecond = "近战每秒命中次数"

@@ -168,7 +168,7 @@ L:SetGeneralLocalization{
 }
 L:SetWarningLocalization{
 	WarnFreeze	= "Congelamento: %d/3",
-	WarnShatter	= "Estilhaçamento: %d/3"
+	WarnShatter	= "Estilhaçamento: %d/2"
 }
 L:SetOptionLocalization{
 	WarnFreeze	= "Exibir anúncio para congelamento",
@@ -180,7 +180,6 @@ L:SetMiscLocalization{
 	Frozen		= "está totalmente congelado",
 	Phase4 		= "começa a rachar",
 	Phase5 		= "parece estar a ponto de se estilhaçar",
-	--Phase6 		= "explode",
 	FrostHits 	= "Golpes de gelo",
 	FrostHitsPerSecond = "Golpes de gelo por segundo",
 	MeleeHitsPerSecond = "Golpes corpo a corpo por segundo"

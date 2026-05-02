@@ -64,7 +64,7 @@ L:SetGeneralLocalization{
 }
 L:SetWarningLocalization{
 	WarnFreeze	= "Einfrieren: %d/3",
-	WarnShatter	= "Zerspringen: %d/3"
+	WarnShatter	= "Zerspringen: %d/2"
 }
 L:SetOptionLocalization{
 	WarnFreeze	= "Verkünde Einfrieren Status",
@@ -76,7 +76,6 @@ L:SetMiscLocalization{
 	Frozen	= "ist tiefgefroren",
 	Phase4 	= "beginnt zu splittern",
 	Phase5 	= "ist kurz davor, zu zerspringen",
-	--Phase6 	= "Explodes.",
 	FrostHits = "Frosttreffer",
 	FrostHitsPerSecond   = "Frosttreffer pro Sekunde",
 	MeleeHitsPerSecond   = "Nahkampftreffer pro Sekunde"

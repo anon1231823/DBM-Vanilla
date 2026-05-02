@@ -168,7 +168,7 @@ L:SetGeneralLocalization{
 }
 L:SetWarningLocalization{
 	WarnFreeze	= "Gel : %d/3",
-	WarnShatter	= "Bris : %d/3"
+	WarnShatter	= "Bris : %d/2"
 }
 L:SetOptionLocalization{
 	WarnFreeze	= "Afficher une annonce pour le Gel",
@@ -180,7 +180,6 @@ L:SetMiscLocalization{
 	Frozen	= "est congelé",
 	Phase4 	= "commence à se briser",
 	Phase5 	= "semble prêt à se briser",
-	Phase6 	= "explose",
 	FrostHits	= "Coups de givre",
 	FrostHitsPerSecond	= "Coups de givre par seconde",
 	MeleeHitsPerSecond	= "Coups en mêlée par seconde"
