@@ -156,25 +156,16 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 	end
 end
 
-function mod:SPELL_DAMAGE(_, _, _, _, destGuid, _, _, _, _, _, _, _, _, spellSchool)
-	spellSchool = spellSchool or 0
-	if DBM:GetCIDFromGUID(destGuid) == 15299 and bit.band(spellSchool, 0x10) ~= 0 then
+function mod:SPELL_DAMAGE(_, _, _, _, destGuid, _, _, _, _, _, _, _, _, school)
+	school = school or 0
+	if DBM:GetCIDFromGUID(destGuid) == 15299 and bit.band(school, 16) ~= 0 then
 		frostHits = frostHits + 1
 		DBM:Debug("frostHits=" .. frostHits)
 		frostHitTimes[#frostHitTimes + 1] = GetTime()
 	end
 end
 mod.SPELL_PERIODIC_DAMAGE = mod.SPELL_DAMAGE
-
-function mod:RANGE_DAMAGE(_, _, _, _, destGuid, _, _, _, _, _, _, _, _, _, _, _, school)
-	school = school or 0
-	if DBM:GetCIDFromGUID(destGuid) == 15299 and bit.band(school, 16) ~= 0 then
-		frostHits = frostHits + 1
-		DBM:Debug("frostHits=" .. frostHits)
-		DBM:Debug("wand damage counter")
-		frostHitTimes[#frostHitTimes + 1] = GetTime()
-	end
-end
+mod.RANGE_DAMAGE = mod.SPELL_DAMAGE
 
 function mod:Unfreeze()
 	if GetTime() - lastFreeze > 5 then
