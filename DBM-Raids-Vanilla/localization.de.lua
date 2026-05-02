@@ -74,7 +74,7 @@ L:SetMiscLocalization{
 	Slow	= "wird langsamer",
 	Freezing= "friert ein",
 	Frozen	= "ist tiefgefroren",
-	Phase4 	= "geht die Puste aus",
+	Phase4 	= "beginnt zu splittern",
 	Phase5 	= "ist kurz davor, zu zerspringen",
 	--Phase6 	= "Explodes.",
 	FrostHits = "Frosttreffer",
