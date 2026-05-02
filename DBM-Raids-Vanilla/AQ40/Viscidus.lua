@@ -134,19 +134,18 @@ function mod:SPELL_AURA_APPLIED(args)
 end
 
 function mod:CHAT_MSG_MONSTER_EMOTE(msg)
-	if msg == L.Phase4 or msg:find(L.Phase4) then
-		self:SendSync("Shatter", 1)
-	elseif msg == L.Phase5 or msg:find(L.Phase5) then
-		self:SendSync("Shatter", 2)
-		timerRejoin:Start()
-	elseif msg == L.Phase6 or msg:find(L.Phase6) then
-		self:SendSync("Shatter", 3)
-	elseif msg == L.Slow or msg:find(L.Slow) then
+	if msg == L.Slow or msg:find(L.Slow) then
 		self:SendSync("Freeze", 1)
 	elseif msg == L.Freezing or msg:find(L.Freezing) then
 		self:SendSync("Freeze", 2)
 	elseif msg == L.Frozen or msg:find(L.Frozen) then
 		self:SendSync("Freeze", 3)
+	if msg == L.Phase4 or msg:find(L.Phase4) then
+		self:SendSync("Shatter", 1)
+	elseif msg == L.Phase5 or msg:find(L.Phase5) then
+		self:SendSync("Shatter", 2)
+	--elseif msg == L.Phase6 or msg:find(L.Phase6) then -- Phase 6 doesn't exist in classic, and no evidence that it exists in retail either from watching videos spanning Cataclysm in 2010 until TWW in 2023
+		--self:SendSync("Shatter", 3)
 	end
 end
 
@@ -194,10 +193,7 @@ function mod:SWING_MISSED(srcGuid)
 end
 
 function mod:OnSync(msg, count, sender)
-	if msg == "Shatter" and sender then
-		count = tonumber(count)
-		warnShatter:Show(count)
-	elseif msg == "Freeze" and sender then
+	if msg == "Freeze" and sender then
 		count = tonumber(count)
 		warnFreeze:Show(count)
 		if count == 3 then
@@ -206,6 +202,13 @@ function mod:OnSync(msg, count, sender)
 			resetHitCounts()
 			lastFreeze = GetTime()
 			self.vb.freezeState = 1
+		end
+	elseif msg == "Shatter" and sender then
+		count = tonumber(count)
+		warnShatter:Show(count)
+		if count == 2 then
+			timerRejoin:Start()
+			DBM:Debug("Viscidus shattered, meleeHits=" .. tostring(meleeHits) .. ", frostHits=" .. tostring(frostHits))
 		end
 	elseif msg == "FrostWeakness" and self:AntiSpam(3, "FrostWeaknessSync") then
 		-- Just to gather logs because there are two different Frost Weakness spells he uses, maybe they differ in required hits/time or something
