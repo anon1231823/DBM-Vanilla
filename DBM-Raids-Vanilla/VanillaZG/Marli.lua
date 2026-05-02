@@ -21,9 +21,9 @@ mod:SetZone(309)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED 24099 24111 24300 24109",
+	"SPELL_AURA_APPLIED 24111 24300 24109",
 	"SPELL_AURA_REMOVED 24111 24300",
-	"SPELL_CAST_SUCCESS 24083"
+	"SPELL_CAST_SUCCESS 24083 24099"
 )
 
 --TODO, enlarge dispel warning valid?
@@ -39,9 +39,7 @@ local timerDrain		= mod:NewTargetTimer(7, 24300, nil, "RemoveMagic|Healer", nil,
 local timerCorrosive	= mod:NewTargetTimer(30, 24111, nil, "RemovePoison", nil, 5, nil, DBM_COMMON_L.POISON_ICON)
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpell(24099) and self:AntiSpam(3) then
-		warnPoisonVolley:Show()
-	elseif args:IsSpell(24111) then
+	if args:IsSpell(24111) then
 		warnCorrosive:Show(args.destName)
 		timerCorrosive:Start(args.destName)
 	elseif args:IsSpell(24300) and args:IsDestTypePlayer() then
@@ -68,5 +66,7 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpell(24083) then
 		warnSpiders:Show()
+	elseif args:IsSpell(24099) then
+		warnPoisonVolley:Show()
 	end
 end
