@@ -39,7 +39,7 @@ local timerDrain		= mod:NewTargetTimer(7, 24300, nil, "RemoveMagic|Healer", nil,
 local timerCorrosive	= mod:NewTargetTimer(30, 24111, nil, "RemovePoison", nil, 5, nil, DBM_COMMON_L.POISON_ICON)
 
 function mod:SPELL_AURA_APPLIED(args)
-	if ars:IsSpell(24099) and self:AntiSpam(3) then
+	if args:IsSpell(24099) and self:AntiSpam(3) then
 		warnPoisonVolley:Show()
 	elseif args:IsSpell(24111) then
 		warnCorrosive:Show(args.destName)
