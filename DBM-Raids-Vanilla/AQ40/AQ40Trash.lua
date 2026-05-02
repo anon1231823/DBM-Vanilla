@@ -21,7 +21,7 @@ mod.isTrashModBossFightAllowed = true
 
 mod:RegisterEvents(
 	"ENCOUNTER_END",
-	"SPELL_AURA_APPLIED 26556 25698 26079 1215202 1215421 24573 2855",
+	"SPELL_AURA_APPLIED 19134 26556 25698 26079 1215202 1215421 24573 2855",
 	"SPELL_AURA_REMOVED 26556 26079",
 	"SPELL_CAST_SUCCESS 26586 26073",
 	"SPELL_CAST_START 26069 26070 26071 26072",
@@ -45,7 +45,7 @@ local specWarnGTFO = mod:NewSpecialWarningGTFO(1215421, nil, nil, nil, 1, 8)
 -- Anubisath Plague/Explode - keep in sync - AQ40/AQ40Trash.lua AQ20/AQ20Trash.lua
 local warnPlague                    = mod:NewTargetNoFilterAnnounce(26556, 2)
 local warnCauseInsanity             = mod:NewTargetNoFilterAnnounce(26079, 2)
-
+local warnIntimidatingShout			= mod:NewSpellAnnounce(19134, 2)
 -- Not sure if both can happen in AQ40
 local warnAdd1						= mod:NewSpellAnnounce(17430, 1, 802, "Dps")
 local warnAdd2						= mod:NewSpellAnnounce(17431, 1, 802, "Dps")
@@ -147,6 +147,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		self:ExplodingGhost(warnExplosion, specWarnExplosion, timerExplosion)
 	elseif args:IsSpell(26073) then
 		self:TrackTrashAbility(args.sourceGUID, "FireNova", args.sourceRaidFlags, args.sourceName)
+	elseif args:IsSpell(19134) and self:AntiSpam(3) then
+		warnIntimidatingShout:Show()
 	end
 end
 
