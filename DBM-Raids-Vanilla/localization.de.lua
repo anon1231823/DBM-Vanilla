@@ -293,7 +293,7 @@ L:SetGeneralLocalization{
 }
 
 L:SetMiscLocalization{
-	Pull	= "Euresgleichen sollte nicht hier sein! Ich werde Euch vernichten!"
+	Pull	= "Eures Gleichen sollte nicht hier sein! Ich werde Euch vernichten!"
 }
 
 ---------------
