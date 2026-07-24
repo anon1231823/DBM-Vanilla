@@ -189,7 +189,6 @@ end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE
 
 function mod:OnSync(msg)
-	if not self:IsInCombat() then return end
 	if msg == "SummonRag" and self:AntiSpam(5, 2) then
 		timerCombatStart:Start()
 	elseif msg == "Submerge" and self:IsInCombat() then
