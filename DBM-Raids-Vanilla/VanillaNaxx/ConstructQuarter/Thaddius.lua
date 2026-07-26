@@ -36,7 +36,7 @@ local warnPhase2Soon		= mod:NewPrePhaseAnnounce(2)
 
 local warnChargeChanged		= mod:NewSpecialWarning("WarningChargeChanged", nil, nil, nil, 3, 12, nil, nil, 28089, nil, "movesoon")
 local warnChargeNotChanged	= mod:NewSpecialWarning("WarningChargeNotChanged", false, nil, nil, 1, 12, nil, nil, 28089, nil, "dontmove")
-local yellShift				= mod:NewYell(28089, DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION)
+local yellShift				= mod:NewShortPosYell(28089, DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION)
 
 local timerEnrage			= mod:NewBerserkTimer(300)
 local timerNextShift		= mod:NewVarTimer("v25.9-35.7", 28089, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
