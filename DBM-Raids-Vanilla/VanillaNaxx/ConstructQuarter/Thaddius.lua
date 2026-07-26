@@ -23,6 +23,7 @@ mod:RegisterEventsInCombat(
     "SPELL_CAST_START 28089",
 	"SPELL_CAST_SUCCESS 28338 28339",
     "SPELL_AURA_APPLIED 28059 28084",
+	"SPELL_AURA_REFRESHED 28059 28084",
     "CHAT_MSG_MONSTER_EMOTE",
 	"CHAT_MSG_MONSTER_YELL"
 )
@@ -159,6 +160,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		currentCharge = charge
 	end
 end
+mod.SPELL_AURA_REFRESH = mod.SPELL_AURA_APPLIED
 
 function mod:CHAT_MSG_MONSTER_EMOTE(msg, sender)
     if msg == L.EmoteDies or msg:find(L.EmoteDies) then
