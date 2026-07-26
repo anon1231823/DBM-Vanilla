@@ -36,7 +36,7 @@ local warnPhase2Soon		= mod:NewPrePhaseAnnounce(2)
 
 local warnChargeChanged		= mod:NewSpecialWarning("WarningChargeChanged", nil, nil, nil, 3, 12, nil, nil, 28089, nil, "movesoon")
 local warnChargeNotChanged	= mod:NewSpecialWarning("WarningChargeNotChanged", false, nil, nil, 1, 12, nil, nil, 28089, nil, "dontmove")
-local yellShift				= mod:NewShortPosYell(28089, DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION)
+local yellShift				= mod:NewYell(28089, DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION)
 
 local timerEnrage			= mod:NewBerserkTimer(300)
 local timerNextShift		= mod:NewVarTimer("v25.9-35.7", 28089, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
@@ -122,23 +122,15 @@ end
 
 function mod:UNIT_AURA()
 	if self:GetStage(2, 3) or (GetTime() - lastShift) > 5 or (GetTime() - lastShift) < 3 then return end
-	local charge
-	local chargeIcon
-	local i = 1
-	while UnitDebuff("player", i) do
-		local _, icon, count, _, _, _, _, _, _, _, _, _, _, _, _, count2 = UnitDebuff("player", i)
-		if icon == 135768 then
-			if (count2 or count) > 1 then return end
-			charge = CL.NEGATIVE
-			chargeIcon = tostring(icon)
-			yellShift:Yell(7, "- -")
-		elseif icon == 135769 then
-			if (count2 or count) > 1 then return end
-			charge = CL.POSITIVE
-			chargeIcon = tostring(icon)
-			yellShift:Yell(6, "+ +")
-		end
-		i = i + 1
+	local charge, chargeIcon
+	if DBM:UnitDebuff("player", 28084) then
+		charge = CL.NEGATIVE
+		chargeIcon = "135768"
+		yellShift:Yell(7, "- -")
+	elseif DBM:UnitDebuff("player", 28059) then
+		charge = CL.POSITIVE
+		chargeIcon = "135769"
+		yellShift:Yell(6, "+ +")
 	end
 	if charge then
 		lastShift = 0
