@@ -131,36 +131,41 @@ function mod:SPELL_AURA_APPLIED(args)
 		chargeIcon = "135768"
 		yellShift:Yell(7, "- -")
 	end
-	if charge then
-		--Did not Change
-		if charge == currentCharge then
-			warnChargeNotChanged:UpdateIcon(chargeIcon)
-			warnChargeNotChanged:Show()
-			warnChargeNotChanged:Play("dontmove")
-			if self.Options.AirowsEnabled == "ArrowsInverse" then
-				self:ShowLeftArrow()
-			elseif self.Options.AirowsEnabled == "ArrowsRightLeft" then
-				self:ShowRightArrow()
-			end
-		--Changed (only play voice on actual polarity flip, not first application)
-		else
-			warnChargeChanged:UpdateIcon(chargeIcon)
-			warnChargeChanged:Show(charge)
-			if currentCharge then
-				warnChargeChanged:Play("movesoon")
-				if self.Options.AirowsEnabled == "ArrowsInverse" then
-					self:ShowRightArrow()
-				elseif self.Options.AirowsEnabled == "ArrowsRightLeft" then
-					self:ShowLeftArrow()
-				elseif self.Options.AirowsEnabled == "TwoCamp" then
-					self:ShowUpArrow()
-				end
-			end
+	warnChargeChanged:UpdateIcon(chargeIcon)
+	warnChargeChanged:Show(charge)
+	--Only play voice on actual polarity flip, not first application
+	if currentCharge then
+		warnChargeChanged:Play("movesoon")
+		if self.Options.AirowsEnabled == "ArrowsInverse" then
+			self:ShowRightArrow()
+		elseif self.Options.AirowsEnabled == "ArrowsRightLeft" then
+			self:ShowLeftArrow()
+		elseif self.Options.AirowsEnabled == "TwoCamp" then
+			self:ShowUpArrow()
 		end
-		currentCharge = charge
+	end
+	currentCharge = charge
+end
+
+function mod:SPELL_AURA_REFRESH(args)
+	if not args:IsPlayer() then return end
+	local chargeIcon
+	if args:IsSpell(28059) then
+		chargeIcon = "135769"
+		yellShift:Yell(6, "+ +")
+	elseif args:IsSpell(28084) then
+		chargeIcon = "135768"
+		yellShift:Yell(7, "- -")
+	end
+	warnChargeNotChanged:UpdateIcon(chargeIcon)
+	warnChargeNotChanged:Show()
+	warnChargeNotChanged:Play("dontmove")
+	if self.Options.AirowsEnabled == "ArrowsInverse" then
+		self:ShowLeftArrow()
+	elseif self.Options.AirowsEnabled == "ArrowsRightLeft" then
+		self:ShowRightArrow()
 	end
 end
-mod.SPELL_AURA_REFRESH = mod.SPELL_AURA_APPLIED
 
 function mod:CHAT_MSG_MONSTER_EMOTE(msg, sender)
     if msg == L.EmoteDies or msg:find(L.EmoteDies) then
