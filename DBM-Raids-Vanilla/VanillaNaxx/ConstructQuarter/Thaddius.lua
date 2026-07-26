@@ -121,14 +121,14 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if not args:IsPlayer() then return end
 	local charge, chargeIcon
-	if args:IsSpell(28084) then
-		charge = CL.NEGATIVE
-		chargeIcon = "135768"
-		yellShift:Yell(7, "- -")
-	elseif args:IsSpell(28059) then
+	if args:IsSpell(28059) then
 		charge = CL.POSITIVE
 		chargeIcon = "135769"
 		yellShift:Yell(6, "+ +")
+	elseif args:IsSpell(28084) then
+		charge = CL.NEGATIVE
+		chargeIcon = "135768"
+		yellShift:Yell(7, "- -")
 	end
 	if charge then
 		--Did not Change
