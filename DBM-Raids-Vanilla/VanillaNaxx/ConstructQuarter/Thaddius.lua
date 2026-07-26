@@ -22,7 +22,7 @@ mod:RegisterCombat("combat_yell", L.Yell1P1, L.Yell2P1)
 mod:RegisterEventsInCombat(
     "SPELL_CAST_START 28089",
 	"SPELL_CAST_SUCCESS 28338 28339",
-    "UNIT_AURA player",
+    "SPELL_AURA_APPLIED 28059 28084",
     "CHAT_MSG_MONSTER_EMOTE",
 	"CHAT_MSG_MONSTER_YELL"
 )
@@ -49,7 +49,6 @@ mod:AddInfoFrameOption()
 mod:AddDropdownOption("AirowsEnabled", {"Never", "TwoCamp", "ArrowsRightLeft", "ArrowsInverse"}, "Never", "misc", nil, 28089)
 
 local currentCharge
-local lastShift = 0
 local deadBosses = {}
 
 local updateInfoFrame
@@ -108,7 +107,6 @@ function mod:SPELL_CAST_START(args)
 		timerShiftCast:Start()
 		warnShiftCasting:Show()
 		warnShiftSoon:Schedule(20)
-		lastShift = GetTime()
 	end
 end
 
@@ -120,20 +118,19 @@ function mod:SPELL_CAST_SUCCESS(args)
 	end
 end
 
-function mod:UNIT_AURA()
-	if self:GetStage(2, 3) or (GetTime() - lastShift) > 5 or (GetTime() - lastShift) < 3 then return end
+function mod:SPELL_AURA_APPLIED(args)
+	if not args:IsPlayer() then return end
 	local charge, chargeIcon
-	if DBM:UnitDebuff("player", 28084) then
+	if args:IsSpell(28084) then
 		charge = CL.NEGATIVE
 		chargeIcon = "135768"
 		yellShift:Yell(7, "- -")
-	elseif DBM:UnitDebuff("player", 28059) then
+	elseif args:IsSpell(28059) then
 		charge = CL.POSITIVE
 		chargeIcon = "135769"
 		yellShift:Yell(6, "+ +")
 	end
 	if charge then
-		lastShift = 0
 		--Did not Change
 		if charge == currentCharge then
 			warnChargeNotChanged:UpdateIcon(chargeIcon)
