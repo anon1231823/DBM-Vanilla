@@ -52,7 +52,7 @@ local specwarnShadowCommand	= mod:NewSpecialWarningTarget(22667, nil, nil, 2, 1,
 local specwarnVeilShadow	= mod:NewSpecialWarningDispel(22687, "RemoveCurse", nil, nil, 1, 2, nil, nil, "dispelnow")
 local specwarnClassCall		= mod:NewSpecialWarning("specwarnClassCall", nil, nil, nil, 1, 2, nil, nil, nil, nil, "targetyou")
 
-local timerPhase2			= mod:NewStageCountTimer("v12.9-14.9", 2)
+local timerPhase2			= mod:NewStageCountTimer("v12.9-14.9")
 local timerClassCall 		= mod:NewTimer(30, "TimerClassCall", nil, nil, nil, 5)
 local timerFearCD			= mod:NewVarTimer("v27-90.1", 22686, nil, nil, nil, 2)
 local timerShadowFlameCD	= mod:NewVarTimer("v8.1-37.2", 22539, nil, false)
@@ -78,7 +78,7 @@ function mod:OnCombatStart()
 	elseif not IsEncounterInProgress() and self:GetStage(1) then
 		self:SetStage(1.5)
         warnPhase2Soon:Show()
-		timerPhase2:Start()
+		timerPhase2:Start(nil, 2)
 	elseif IsEncounterInProgress() and self:GetStage(1.5) then
 		self:SetStage(2)
 		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
