@@ -12,7 +12,6 @@ end
 -- luacheck: globals DBM
 local mod	= DBM:NewMod("Nefarian-Classic","DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
-local CL	= DBM_COMMON_L
 
 if DBM:IsSeasonal("SeasonOfDiscovery") then
 	mod.statTypes = "normal,heroic,mythic"
