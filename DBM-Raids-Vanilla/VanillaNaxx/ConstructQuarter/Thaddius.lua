@@ -25,7 +25,7 @@ mod:RegisterEventsInCombat(
     "SPELL_AURA_APPLIED 28059 28084",
 	"SPELL_AURA_REFRESH 28059 28084",
     "CHAT_MSG_MONSTER_EMOTE",
-	"CHAT_MSG_MONSTER_YELL"
+	"NAME_PLATE_UNIT_ADDED"
 )
 
 local warnShiftSoon			= mod:NewSoonAnnounce(28089, 3)
@@ -183,10 +183,11 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg, sender)
     end
 end
 
-function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.Yell1P2 or msg:find(L.Yell1P2) or msg == L.Yell2P2 or msg:find(L.Yell2P2) or msg == L.Yell3P2 or msg:find(L.Yell3P2) then
-		self:SendSync("Phase2")
-	end
+function mod:NAME_PLATE_UNIT_ADDED(unitId)
+	local guid = UnitGUID(unitId)
+	if not guid or self:GetCIDFromGUID(guid) ~= 15928 then return end
+	if self:GetStage(2) then return end
+	self:SendSync("Phase2")
 end
 
 function mod:OnSync(msg, arg)
@@ -209,7 +210,7 @@ function mod:OnSync(msg, arg)
 		if cid then
 			deadBosses[cid] = nil
 		end
-	elseif msg == "Phase2" then
+	elseif msg == "Phase2" and self:GetStage(2, 1) then
 		self:SetStage(2)
 		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
         timerEnrage:Start()

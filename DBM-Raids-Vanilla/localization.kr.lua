@@ -973,9 +973,6 @@ L:SetMiscLocalization({
 	Feugen 		= "퓨진",
 	Yell1P1		= "너 주인님께 바칠 거야!",
 	Yell2P1		= "스탈라그, 박살낸다!",
-	Yell1P2 	= "잡아... 먹어주마...",
-	Yell2P2 	= "박살을 내주겠다!",
-	Yell3P2 	= "죽여주마...",
 	EmoteDies 	= "%s|1이;가; 죽습니다.",
 	EmoteRevive = "%s|1이;가; 다시 살아납니다!"
 })

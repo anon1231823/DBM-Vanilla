@@ -963,9 +963,6 @@ L:SetMiscLocalization({
 	Feugen 		= "Feugen",
 	Yell1P1		= "¡Eres pasto del maestro!",
 	Yell2P1		= "¡Stalagg machacarte!",
-	Yell1P2 	= "Comer... tus... huesos...",
-	Yell2P2 	= "¡¡Despedazarte!!",
-	Yell3P2 	= "Matar...",
 	EmoteDies 	= "%s muere.",
 	--EmoteRevive = "%s is jolted back to life!"
 })
