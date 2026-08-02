@@ -1113,8 +1113,6 @@ L:SetWarningLocalization({
 	specwarnP2Soon  		= "Phase 2 dans 10 secondes"
 })
 
-L:SetTimerLocalization({
-})
 -----------------
 --  Naxx Trash --
 -----------------

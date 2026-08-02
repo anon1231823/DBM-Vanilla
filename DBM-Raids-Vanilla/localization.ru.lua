@@ -1137,9 +1137,6 @@ L:SetWarningLocalization({
 	specwarnP2Soon	= "Кел'Тузад вступает в бой через 10 сек."
 })
 
-L:SetTimerLocalization({
-})
-
 -----------------
 --  Naxx Trash --
 -----------------

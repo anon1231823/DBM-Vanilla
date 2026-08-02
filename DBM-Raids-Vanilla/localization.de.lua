@@ -1085,9 +1085,6 @@ L:SetWarningLocalization({
 	specwarnP2Soon	= "Kel'Thuzad greift in 10 Sekunden an"
 })
 
-L:SetTimerLocalization({
-})
-
 --------------------
 --  SoD Hardmode  --
 --------------------

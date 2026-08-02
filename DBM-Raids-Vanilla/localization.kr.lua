@@ -1130,9 +1130,6 @@ L:SetWarningLocalization({
 	specwarnP2Soon		= "10초 후 켈투자드 전투 개시"
 })
 
-L:SetTimerLocalization({
-})
-
 -----------------
 --  Naxx Trash --
 -----------------

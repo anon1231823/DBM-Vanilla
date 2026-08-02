@@ -1035,9 +1035,6 @@ L:SetWarningLocalization({
 	specwarnP2Soon	= "10秒後科爾蘇加德開始攻擊"
 })
 
-L:SetTimerLocalization({
-})
-
 -----------------
 --  Naxx Trash --
 -----------------
