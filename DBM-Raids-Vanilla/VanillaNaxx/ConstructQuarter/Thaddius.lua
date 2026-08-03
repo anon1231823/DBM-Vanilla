@@ -10,7 +10,7 @@ else
 end
 
 mod:SetRevision("@file-date-integer@")
-mod:SetMinSyncRevision(20260618000000) -- 2026, June 18th
+mod:SetMinSyncRevision(20260803000000) -- 2026, August 3rd
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15928)
 mod:SetEncounterID(1120)
