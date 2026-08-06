@@ -878,7 +878,7 @@ L:SetMiscLocalization({
 	Yell2P2 	= "打……烂……你！",
 	Yell3P2 	= "杀……",
 	EmoteDies 	= "%s死了。",
-	--EmoteRevive = "%s is jolted back to life!"
+	EmoteRevive = "%s被猛烈的电击复活了！"
 })
 
 L:SetOptionLocalization({
