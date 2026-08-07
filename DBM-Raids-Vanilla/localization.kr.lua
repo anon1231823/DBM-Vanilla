@@ -1018,7 +1018,7 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("GothikVanilla")
 
 L:SetGeneralLocalization({
-	name = "영혼 착취자 고딕"
+	name = "영혼의 착취자 고딕"
 })
 
 L:SetOptionLocalization({
