@@ -108,6 +108,8 @@ function mod:OnCombatStart()
 end
 
 function mod:OnCombatEnd(wipe, isSecondRun)
+	table.wipe(playersInStomach)
+	table.wipe(fleshTentacles)
 	table.wipe(diedTentacles)
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
