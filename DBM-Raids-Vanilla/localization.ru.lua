@@ -816,7 +816,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	Pull1				= "Бегите, бегите! Я люблю горячую кровь!",
+	Pull1				= "Да, беги! От этого ускоряется циркуляция крови!",
 	Pull2				= "Посмотрим, какие вы на вкус!",
 	Pull3				= "Выхода нет."
 })
@@ -905,7 +905,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	Pull1				= "Теперь вы принадлежите мне!",
-	Pull2				= "Я вижу вас…",
+	Pull2				= "Я вижу тебя…",
 	Pull3 				= "Пришло ваше время…"
 })
 
@@ -941,7 +941,7 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	Pull1			= "Лоскутик хочет поиграть!",
+	Pull1			= "Лоскутик хочет играть!",
 	Pull2			= "Кел'Тузад объявил Лоскутика воплощением войны!"
 })
 
@@ -977,9 +977,9 @@ L:SetMiscLocalization({
 	Feugen 		= "Фойген",
 	Yell1P1		= "На корм хозяину!",
 	Yell2P1		= "Сталагг тебя раздавит!",
-	Yell1P2 	= "Отведайте... своих... костей...",
+	Yell1P2 	= "Отведайте… своих… костей…",
 	Yell2P2 	= "Растерзаю!!!",
-	Yell3P2 	= "Убей...",
+	Yell3P2 	= "Убей…",
 	EmoteDies 	= "%s умирает.",
 	--EmoteRevive = "%s is jolted back to life!"
 })
@@ -1005,11 +1005,11 @@ L:SetWarningLocalization({
 L = DBM:GetModLocalization("RazuviousVanilla")
 
 L:SetGeneralLocalization({
-	name = "Инструктор Разувий"
+	name = "Инструктор Разувиус"
 })
 
 L:SetMiscLocalization({
-	Pull1 		= "Покажите мне, на что способны!",
+	Pull1 		= "Никого не щадить!",
 	Pull2 		= "Обучение окончено! Покажите мне, что вы усвоили!",
 	Pull3 		= "Вспомните, чему я вас учил!",
 	Pull4 		= "Выше ногу! Или у тебя с этим проблемы?",
