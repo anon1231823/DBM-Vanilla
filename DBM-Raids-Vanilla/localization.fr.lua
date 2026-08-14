@@ -1099,16 +1099,8 @@ L:SetGeneralLocalization({
 	name = "Kel'Thuzad"
 })
 
-L:SetOptionLocalization({
-	specwarnP2Soon 			= "Afficher une annonce spéciale 10 secondes avant le passage à la phase 2"
-})
-
 L:SetMiscLocalization({
 	YellP1 					= "Serviteurs, valets et soldats des ténèbres glaciales ! Répondez à l'appel de Kel'Thuzad !"
-})
-
-L:SetWarningLocalization({
-	specwarnP2Soon  		= "Phase 2 dans 10 secondes"
 })
 
 -----------------

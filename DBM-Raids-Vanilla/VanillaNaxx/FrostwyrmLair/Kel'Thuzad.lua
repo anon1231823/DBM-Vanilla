@@ -54,9 +54,6 @@ mod:RegisterEventsInCombat(
 -- "<1617.31 21:01:19> [CHAT_MSG_MONSTER_YELL] ¡Grita antes de tu último suspiro!#Kel'Thuzad###Activador de mundo##0#0##0#2867#nil#0#false#false#false#false",
 -- "<1632.86 21:01:34> [IsEncounterInProgress()] true",
 
-local phase1DurationSoD = 230.1
-local phase1DurationEra = "v229.2-245.8"
-
 --[[
 ability.id = 27810 or ability.id = 27819 or ability.id = 27808 and type = "cast"
  or (source.type = "NPC" and source.firstSeen = timestamp) or (target.type = "NPC" and target.firstSeen = timestamp)
@@ -83,11 +80,7 @@ local timerManaBombCD		= mod:NewVarTimer("v20.2-50.9", 27819, nil, "ManaUser", n
 local timerFrostBlastCD		= mod:NewVarTimer(DBM:IsSeasonal("SeasonOfDiscovery") and "v30.3-58.2" or "v33.5-75.3", 27808, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)
 local timerfrostBlast		= mod:NewBuffFadesTimer(5, 27808, nil, nil, nil, 5, nil, DBM_COMMON_L.HEALER_ICON)
 local timerMCCD				= mod:NewVarTimer("v63.1-145.4", 28410, nil, nil, nil, 3)
-local timerPhase2			= mod:NewStageCountTimer(DBM:IsSeasonal("SeasonOfDiscovery") and phase1DurationSoD or phase1DurationEra)
-local specwarnP2Soon
-if DBM:IsSeasonal("SeasonOfDiscovery") then
-specwarnP2Soon		= mod:NewSpecialWarning("specwarnP2Soon")
-end
+local timerPhase2			= mod:NewStageCountTimer("v229.2-231.2") -- Variance used to be 229.2-245.8, but patch on July 23, 2026 tightened up the variance
 
 mod:AddSetIconOption("SetIconOnMC2", 28410, false, 0, {1, 2, 3, 4, 5})
 mod:AddSetIconOption("SetIconOnManaBomb", 27819, false, 0, {8})
@@ -115,34 +108,10 @@ function mod:OnCombatStart()
 	self:RegisterShortTermEvents(
 		"UNIT_HEALTH"
 	)
-	--[[ self:RegisterOnUpdateHandler(function()
-    if IsEncounterInProgress() and self:GetStage(1) then
-		self:SetStage(2)
-		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
-        timerPhase2:Stop()
-		warnPhase:Play("ptwo")
-		timerFissureCD:Start("v10.4-38.4")
-		timerFrostboltCD:Start("v15.3-85.9")
-		timerManaBombCD:Start("v20.2-46.5")
-		timerFrostBlastCD:Start("v30.3-92.7")
-		timerMCCD:Start("v21.8-103.4")
-		if DBM:IsSeasonal("SeasonOfDiscovery") then
-			warnPhase:Cancel()
-			warnPhase:CancelVoice()
-		end
-        self:UnregisterOnUpdateHandler()
-    end
-end, 0.2) --]]
 	table.wipe(frostBlastTargets)
 	self.vb.MCIcon1 = 1
 	self.vb.MCIcon2 = 5
-	if DBM:IsSeasonal("SeasonOfDiscovery") then
-		specwarnP2Soon:Schedule(phase1DurationSoD - 10)
-		warnPhase:Schedule(phase1DurationSoD)
-		warnPhase:ScheduleVoice(phase1DurationSoD, "ptwo")
-	else
-		warnPhase2Soon:Schedule(220)
-	end
+	warnPhase2Soon:Schedule(220)
 end
 
 function mod:OnCombatEnd(wipe)
@@ -273,7 +242,7 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	local cid = self:GetUnitCreatureId(uId)
-	if self:GetStage(2) and cid == 15990 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.48 then
+	if self:GetStage(2) and cid == 15990 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.45 then
 		self:SendSync("Phase", 2.5)
 	elseif self:GetStage(2.5) and cid == 15990 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.40 and not DBM:IsSeasonal("SeasonOfDiscovery") then
 		self:SendSync("Phase", 3)
@@ -299,10 +268,6 @@ function mod:OnSync(msg, arg)
 				timerManaBombCD:Start("v20.2-46.5")
 				timerFrostBlastCD:Start("v30.3-92.7")
 				timerMCCD:Start("v21.8-103.4")
-				if DBM:IsSeasonal("SeasonOfDiscovery") then
-					warnPhase:Cancel()
-					warnPhase:CancelVoice()
-				end
 			elseif phase == 2.5 then
 				warnPhase3Soon:Show()
 			elseif phase == 3 then
