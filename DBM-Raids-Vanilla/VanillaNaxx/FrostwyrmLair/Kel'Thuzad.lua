@@ -115,7 +115,6 @@ function mod:OnCombatStart()
 end
 
 function mod:OnCombatEnd(wipe)
-	--self:UnregisterOnUpdateHandler()
 	self:UnregisterShortTermEvents()
 	if not wipe then
 		DBT:CancelBar(DBM_CORE_L.SPEED_CLEAR_TIMER_TEXT)
