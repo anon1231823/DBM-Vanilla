@@ -1129,7 +1129,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	YellP1			= "Соратники, слуги, солдаты холодной тьмы! Повинуйтесь зову Кел'Тузада!"
+	YellP1			= "Приспешники, слуги, воины холодного мрака! Повинуйтесь призыву Кел'Тузада!"
 })
 
 L:SetWarningLocalization({
