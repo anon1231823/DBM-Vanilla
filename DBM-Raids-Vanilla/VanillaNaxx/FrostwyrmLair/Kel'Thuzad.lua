@@ -97,6 +97,7 @@ end
 
 function mod:OnCombatEnd(wipe)
 	self:UnregisterShortTermEvents()
+	table.wipe(frostBlastTargets)
 	if not wipe then
 		DBT:CancelBar(DBM_CORE_L.SPEED_CLEAR_TIMER_TEXT)
 		if firstBossMod.vb.firstEngageTime then
