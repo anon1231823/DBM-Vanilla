@@ -135,7 +135,6 @@ L:SetOptionLocalization{
 L:SetMiscLocalization{
 	Stomach		= "Estómago",
 	FleshTent	= "Tentáculo de carne",
-	Weakened 	= "está débil!",
 	NotValid	= "AQ40 parcialmente limpiado. Quedan %s jefes opcionales."
 }
 
@@ -1109,16 +1108,8 @@ L:SetGeneralLocalization({
 	name = "Kel'Thuzad"
 })
 
-L:SetOptionLocalization({
-	specwarnP2Soon		= "Mostrar anuncio especial 10 segundos antes del cambio a fase 2"
-})
-
 L:SetMiscLocalization({
 	YellP1 			= "¡Esbirros, sirvientes, soldados de la fría oscuridad! ¡Obedeced la llamada de Kel'Thuzad!"
-})
-
-L:SetWarningLocalization({
-	specwarnP2Soon	= "Fase 2 en 10 segundos"
 })
 
 -----------------

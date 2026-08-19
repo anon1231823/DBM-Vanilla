@@ -133,7 +133,6 @@ L:SetOptionLocalization{
 L:SetMiscLocalization{
 	Stomach		= "Stomach",
 	FleshTent	= "Flesh Tentacle",--Localized so it shows on frame in users language, not senders
-	Weakened 	= "weaken",
 	NotValid	= "AQ40 partially cleared. %s optional bosses remain."
 }
 ----------------
@@ -1119,16 +1118,8 @@ L:SetGeneralLocalization({
 	name = "Kel'Thuzad"
 })
 
-L:SetOptionLocalization({
-	specwarnP2Soon		= "Show special warning 10 seconds before Kel'Thuzad engages"
-})
-
 L:SetMiscLocalization({
 	YellP1 			= "Minions, servants, soldiers of the cold dark! Obey the call of Kel'Thuzad!"
-})
-
-L:SetWarningLocalization({
-	specwarnP2Soon	= "Kel'Thuzad engages in 10 Seconds"
 })
 
 -----------------

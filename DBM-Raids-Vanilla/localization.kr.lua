@@ -137,7 +137,6 @@ L:SetOptionLocalization{
 L:SetMiscLocalization{
 	Stomach		= "뱃속",
 	FleshTent	= "식인 촉수", --Localized so it shows on frame in users language, not senders
-	Weakened 	= "약해집니다!",
 	NotValid	= "안퀴40 레이드를 일부만 클리어 했습니다. 더 잡을 수 있는 보스가 %s마리 남아있습니다."
 }
 
@@ -1117,16 +1116,8 @@ L:SetGeneralLocalization({
 	name = "켈투자드"
 })
 
-L:SetOptionLocalization({
-	specwarnP2Soon		= "켈투자드 전투 개시 10초 전에 특수 알림 보기"
-})
-
 L:SetMiscLocalization({
 	YellP1 = "어둠의 문지기와 하수인, 그리고 병사들이여, 나 켈투자드가 부르니 명을 받들라!"
-})
-
-L:SetWarningLocalization({
-	specwarnP2Soon		= "10초 후 켈투자드 전투 개시"
 })
 
 -----------------

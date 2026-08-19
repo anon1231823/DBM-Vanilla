@@ -35,28 +35,6 @@ mod:RegisterEventsInCombat(
 	"NAME_PLATE_UNIT_ADDED"
 )
 
--- SoD
--- "<127.94 22:09:41> [ENCOUNTER_START] 1114#Kel'Thuzad#186#40",
--- "<128.16 22:09:41> [CHAT_MSG_MONSTER_YELL] Minions, servants, soldiers of the cold dark! Obey the call of Kel'Thuzad!#Kel'Thuzad###Sephyx##0#0##0#5535#nil#0#false#false#false#false",
--- "<342.09 22:13:15> [CHAT_MSG_MONSTER_YELL] The end is upon you!#Kel'Thuzad###World Trigger##0#0##0#5661#nil#0#false#false#false#false",
--- "<358.05 22:13:31> [CLEU] SWING_DAMAGE#Creature-0-5252-533-11218-15990-000051CFAB#Kel'Thuzad#Player-5827-0271EB0C#Ironjoke#3824#-1#nil#nil#false#false#nil#nil",
--- "<358.05 22:13:31> [IsEncounterInProgress()] true",
-
--- Era (229.18 seconds)
--- "<194.30 19:50:31> [ENCOUNTER_START] 1114#Kel'Thuzad#9#40",
--- "<194.48 19:50:32> [CHAT_MSG_MONSTER_YELL] ¡Esbirros, sirvientes, soldados de la fría oscuridad! ¡Obedeced la llamada de Kel'Thuzad!#Kel'Thuzad###Gorbash##0#0##0#604#nil#0#false#false#false#false",
--- "<408.30 19:54:05> [CHAT_MSG_MONSTER_YELL] ¡Exhalad el último suspiro de vida!#Kel'Thuzad###Activador del mundo##0#0##0#640#nil#0#false#false#false#false",
--- "<423.48 19:54:21> [IsEncounterInProgress()] true",
-
--- Era (242.78 seconds)
--- "<1390.08 20:57:31> [ENCOUNTER_START] 1114#Kel'Thuzad#9#40",
--- "<1390.27 20:57:32> [CHAT_MSG_MONSTER_YELL] ¡Esbirros, sirvientes, soldados de la fría oscuridad! ¡Obedezcan la llamada de Kel'Thuzad!#Kel'Thuzad###Wari##0#0##0#2828#nil#0#false#false#false#false",
--- "<1617.31 21:01:19> [CHAT_MSG_MONSTER_YELL] ¡Grita antes de tu último suspiro!#Kel'Thuzad###Activador de mundo##0#0##0#2867#nil#0#false#false#false#false",
--- "<1632.86 21:01:34> [IsEncounterInProgress()] true",
-
-local phase1DurationSoD = 230.1
-local phase1DurationEra = "v229.2-245.8"
-
 --[[
 ability.id = 27810 or ability.id = 27819 or ability.id = 27808 and type = "cast"
  or (source.type = "NPC" and source.firstSeen = timestamp) or (target.type = "NPC" and target.firstSeen = timestamp)
@@ -80,14 +58,10 @@ local timerFissureCD		= mod:NewVarTimer("v10.9-42.1", 27810, nil, false, nil, 2)
 local timerFrostbolt		= mod:NewCastNPTimer(2, 28478, nil, "HasInterrupt", 2, 4, nil, DBM_COMMON_L.INTERRUPT_ICON)
 local timerFrostboltCD		= mod:NewVarTimer("v15.7-63.1", 28479, nil, false, nil, 2)
 local timerManaBombCD		= mod:NewVarTimer("v20.2-50.9", 27819, nil, "ManaUser", nil, 3)
-local timerFrostBlastCD		= mod:NewVarTimer(DBM:IsSeasonal("SeasonOfDiscovery") and "v30.3-58.2" or "v33.5-75.3", 27808, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)
-local timerfrostBlast		= mod:NewBuffFadesTimer(5, 27808, nil, nil, nil, 5, nil, DBM_COMMON_L.HEALER_ICON)
+local timerFrostBlastCD		= mod:NewVarTimer(DBM:IsSeasonal("SeasonOfDiscovery") and "v30.3-58.2" or "v30.3-82.4", 27808, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)
+local timerfrostBlast		= mod:NewBuffFadesTimer(4, 27808, nil, nil, nil, 5, nil, DBM_COMMON_L.HEALER_ICON)
 local timerMCCD				= mod:NewVarTimer("v63.1-145.4", 28410, nil, nil, nil, 3)
-local timerPhase2			= mod:NewStageCountTimer(DBM:IsSeasonal("SeasonOfDiscovery") and phase1DurationSoD or phase1DurationEra)
-local specwarnP2Soon
-if DBM:IsSeasonal("SeasonOfDiscovery") then
-specwarnP2Soon		= mod:NewSpecialWarning("specwarnP2Soon")
-end
+local timerPhase2			= mod:NewStageCountTimer(230) -- Variance used to be 229.2-245.8, but patch on July 21, 2026 tightened up the variance. Now it's a <2 second variance for a nearly 4 minute timer, so no point to show variance
 
 mod:AddSetIconOption("SetIconOnMC2", 28410, false, 0, {1, 2, 3, 4, 5})
 mod:AddSetIconOption("SetIconOnManaBomb", 27819, false, 0, {8})
@@ -115,39 +89,15 @@ function mod:OnCombatStart()
 	self:RegisterShortTermEvents(
 		"UNIT_HEALTH"
 	)
-	--[[ self:RegisterOnUpdateHandler(function()
-    if IsEncounterInProgress() and self:GetStage(1) then
-		self:SetStage(2)
-		warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(2))
-        timerPhase2:Stop()
-		warnPhase:Play("ptwo")
-		timerFissureCD:Start("v10.4-38.4")
-		timerFrostboltCD:Start("v15.3-85.9")
-		timerManaBombCD:Start("v20.2-46.5")
-		timerFrostBlastCD:Start("v30.3-92.7")
-		timerMCCD:Start("v21.8-103.4")
-		if DBM:IsSeasonal("SeasonOfDiscovery") then
-			warnPhase:Cancel()
-			warnPhase:CancelVoice()
-		end
-        self:UnregisterOnUpdateHandler()
-    end
-end, 0.2) --]]
 	table.wipe(frostBlastTargets)
 	self.vb.MCIcon1 = 1
 	self.vb.MCIcon2 = 5
-	if DBM:IsSeasonal("SeasonOfDiscovery") then
-		specwarnP2Soon:Schedule(phase1DurationSoD - 10)
-		warnPhase:Schedule(phase1DurationSoD)
-		warnPhase:ScheduleVoice(phase1DurationSoD, "ptwo")
-	else
-		warnPhase2Soon:Schedule(220)
-	end
+	warnPhase2Soon:Schedule(220)
 end
 
 function mod:OnCombatEnd(wipe)
-	--self:UnregisterOnUpdateHandler()
 	self:UnregisterShortTermEvents()
+	table.wipe(frostBlastTargets)
 	if not wipe then
 		DBT:CancelBar(DBM_CORE_L.SPEED_CLEAR_TIMER_TEXT)
 		if firstBossMod.vb.firstEngageTime then
@@ -273,7 +223,7 @@ end
 
 function mod:UNIT_HEALTH(uId)
 	local cid = self:GetUnitCreatureId(uId)
-	if self:GetStage(2) and cid == 15990 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.48 then
+	if self:GetStage(2) and cid == 15990 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.45 then
 		self:SendSync("Phase", 2.5)
 	elseif self:GetStage(2.5) and cid == 15990 and UnitHealth(uId) / UnitHealthMax(uId) <= 0.40 and not DBM:IsSeasonal("SeasonOfDiscovery") then
 		self:SendSync("Phase", 3)
@@ -299,10 +249,6 @@ function mod:OnSync(msg, arg)
 				timerManaBombCD:Start("v20.2-46.5")
 				timerFrostBlastCD:Start("v30.3-92.7")
 				timerMCCD:Start("v21.8-103.4")
-				if DBM:IsSeasonal("SeasonOfDiscovery") then
-					warnPhase:Cancel()
-					warnPhase:CancelVoice()
-				end
 			elseif phase == 2.5 then
 				warnPhase3Soon:Show()
 			elseif phase == 3 then

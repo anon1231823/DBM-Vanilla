@@ -136,7 +136,6 @@ L:SetOptionLocalization{
 L:SetMiscLocalization{
 	Stomach		= "Magen",
 	FleshTent	= "Fleischtentakel",
-	Weakened 	= "ist geschwächt!",
 	NotValid	= "AQ40 teilweise gelöscht. %s optionale Bosse bleiben erhalten."
 }
 
@@ -1072,16 +1071,8 @@ L:SetGeneralLocalization({
 	name = "Kel'Thuzad"
 })
 
-L:SetOptionLocalization({
-	specwarnP2Soon		= "Spezialwarnung 10 Sekunden bevor Kel'Thuzad angreift"
-})
-
 L:SetMiscLocalization({
 	YellP1 			= "Diener, Jünger, Soldaten der eisigen Finsternis! Folgt dem Ruf von Kel'Thuzad!"
-})
-
-L:SetWarningLocalization({
-	specwarnP2Soon	= "Kel'Thuzad greift in 10 Sekunden an"
 })
 
 --------------------
