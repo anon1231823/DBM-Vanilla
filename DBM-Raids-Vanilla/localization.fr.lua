@@ -238,7 +238,6 @@ L:SetOptionLocalization{
 L:SetMiscLocalization{
 	Stomach		= "Estomac",
 	FleshTent	= "Tentacule de chair",
-	Weakened 	= "est affaibli !",
 	NotValid	= "AQ40 partiellement effacé. %s bosses optionnels restent."
 }
 

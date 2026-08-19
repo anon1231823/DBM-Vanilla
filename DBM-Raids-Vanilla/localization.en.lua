@@ -133,7 +133,6 @@ L:SetOptionLocalization{
 L:SetMiscLocalization{
 	Stomach		= "Stomach",
 	FleshTent	= "Flesh Tentacle",--Localized so it shows on frame in users language, not senders
-	Weakened 	= "weaken",
 	NotValid	= "AQ40 partially cleared. %s optional bosses remain."
 }
 ----------------

@@ -14,7 +14,6 @@ mod:DisableHardcodedOptions()
 mod:SetCreatureID(15589, 15727)
 mod:SetEncounterID(717)
 mod:SetHotfixNoticeRev(20200823000000)--2020, 8, 23
-mod:SetMinSyncRevision(20200820000000)--2020, 8, 20
 mod:SetZone(531)
 
 mod:RegisterCombat("combat")
@@ -25,7 +24,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 26586",
 	"SPELL_AURA_APPLIED 26476",
 	"SPELL_AURA_REMOVED 26476",
-	"CHAT_MSG_MONSTER_EMOTE",
 	"UNIT_DIED"
 )
 
@@ -54,6 +52,7 @@ mod:AddInfoFrameOption(26476, true)
 local firstBossMod = DBM:GetModByName("AQ40Trash")
 local playersInStomach = {}
 local fleshTentacles, diedTentacles = {}, {}
+local fleshTentacleDeaths = 0
 
 local updateInfoFrame
 do
@@ -99,15 +98,18 @@ function mod:OnCombatStart()
 	table.wipe(playersInStomach)
 	table.wipe(fleshTentacles)
 	table.wipe(diedTentacles)
+	fleshTentacleDeaths = 0
 	self:SetStage(1)
 	warnPhase:Show(DBM_CORE_L.AUTO_ANNOUNCE_TEXTS.stage:format(1))
-	timerClawTentacle:Start(9) -- Combatlog told me, the first Claw Tentacle spawn in 00:00:09, but need more test.
-	timerEyeTentacle:Start(45)
+	timerClawTentacle:Start()
+	timerEyeTentacle:Start()
 	timerDarkGlareCD:Start(48)
 	self:ScheduleMethod(48, "DarkGlare")
 end
 
 function mod:OnCombatEnd(wipe, isSecondRun)
+	table.wipe(playersInStomach)
+	table.wipe(fleshTentacles)
 	table.wipe(diedTentacles)
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
@@ -200,17 +202,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	end
 end
 
-function mod:CHAT_MSG_MONSTER_EMOTE(msg)
-	if msg == L.Weakened or msg:find(L.Weakened) then
-		self:SendSync("Weakened")
-	end
-end
-
-local function removeDeadTentacle(guid)
-	fleshTentacles[guid] = nil
-	diedTentacles[guid] = true
-end
-
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 15589 then
@@ -224,28 +215,25 @@ function mod:UNIT_DIED(args)
 		timerGiantEyeTentacle:Start(41.3)
 		self:UnscheduleMethod("DarkGlare")
 	elseif cid == 15802 then -- Flesh Tentacle
-		-- Delayed removal to keep dead tentacles visible in the frame while the phase is still ongoing
-		-- Weaken will also clear the table clearing the frame
 		fleshTentacles[args.destGUID] = 0
-		self:Schedule(30, removeDeadTentacle, args.destGUID)
-	end
-end
-
-function mod:OnSync(msg)
-	if not self:IsInCombat() then return end
-	if msg == "Weakened" then
-		table.wipe(fleshTentacles)
-		specWarnWeakened:Show()
-		specWarnWeakened:Play("targetchange")
-		timerEyeTentacle:Stop()
-		timerGiantClawTentacle:Stop()
-		timerGiantEyeTentacle:Stop()
-		timerWeakened:Start()
-		timerEyeTentacle:Start(83) -- 53+30
-		timerGiantClawTentacle:Start(53) -- Renew Giant Claw Tentacle Spawn Timer, After C'Thun be Weakened
-		timerGiantEyeTentacle:Start(83.7) -- Renew Giant Eye Tentacle Spawn Timer, After C'Thun be Weakened, A litter later than Eye Tentacles Spawn.(0.7s)
-		if self.Options.InfoFrame then
-			DBM.InfoFrame:Hide()
+		diedTentacles[args.destGUID] = true
+		-- C'Thun is weakened once both flesh tentacles are dead
+		fleshTentacleDeaths = fleshTentacleDeaths + 1
+		if fleshTentacleDeaths >= 2 then
+			fleshTentacleDeaths = 0
+			table.wipe(fleshTentacles)
+			specWarnWeakened:Show()
+			specWarnWeakened:Play("targetchange")
+			timerEyeTentacle:Stop()
+			timerGiantClawTentacle:Stop()
+			timerGiantEyeTentacle:Stop()
+			timerWeakened:Start()
+			timerEyeTentacle:Start(83) -- 53+30
+			timerGiantClawTentacle:Start(53) -- Renew Giant Claw Tentacle Spawn Timer, After C'Thun is Weakened
+			timerGiantEyeTentacle:Start(83.7) -- Renew Giant Eye Tentacle Spawn Timer, After C'Thun is Weakened, A litter later than Eye Tentacles Spawn.(0.7s)
+			if self.Options.InfoFrame then
+				DBM.InfoFrame:Hide()
+			end
 		end
 	end
 end

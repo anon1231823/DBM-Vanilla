@@ -136,7 +136,6 @@ L:SetOptionLocalization{
 L:SetMiscLocalization{
 	Stomach		= "克苏恩的胃",
 	FleshTent	= "血肉触须", --Localized so it shows on frame in users language, not senders
-	Weakened 	= "削弱了",
     NotValid	= "AQ40 击杀信息：%s首领未击杀。"
 }
 

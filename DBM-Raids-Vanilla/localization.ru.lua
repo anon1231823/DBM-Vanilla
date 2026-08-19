@@ -135,7 +135,6 @@ L:SetOptionLocalization{
 L:SetMiscLocalization{
 	Stomach		= "Желудок",
 	FleshTent	= "Мясистое щупальце",
-	Weakened 	= "ослаблен",
 	NotValid	= "AQ40 частично очищен. Осталось %s дополнительных боссов."
 }
 

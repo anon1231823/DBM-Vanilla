@@ -240,7 +240,6 @@ L:SetOptionLocalization{
 L:SetMiscLocalization{
 	Stomach		= "Estômago",
 	FleshTent	= "Tentáculo de Carne",
-	Weakened 	= "enfraquece!",
 	NotValid	= "AQ40 parcialmente limpo. %s chefes opcionais permanecem."
 }
 
