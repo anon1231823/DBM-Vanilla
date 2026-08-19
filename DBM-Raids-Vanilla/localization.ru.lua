@@ -1123,16 +1123,8 @@ L:SetGeneralLocalization({
 	name = "Кел'Тузад"
 })
 
-L:SetOptionLocalization({
-	specwarnP2Soon		= "Показывать спецпредупреждение за 10 сек. до вступления Кел'Тузада в бой"
-})
-
 L:SetMiscLocalization({
 	YellP1			= "Приспешники, слуги, воины холодного мрака! Повинуйтесь призыву Кел'Тузада!"
-})
-
-L:SetWarningLocalization({
-	specwarnP2Soon	= "Кел'Тузад вступает в бой через 10 сек."
 })
 
 -----------------

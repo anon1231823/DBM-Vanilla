@@ -1021,16 +1021,8 @@ L:SetGeneralLocalization({
 	name = "科爾蘇加德"
 })
 
-L:SetOptionLocalization({
-	specwarnP2Soon		= "為科爾蘇加德攻擊前10秒顯示特別警告"
-})
-
 L:SetMiscLocalization({
 	YellP1			= "僕從們，侍衛們，隸屬於黑暗與寒冷的戰士們！聽從科爾蘇加德的召喚！"
-})
-
-L:SetWarningLocalization({
-	specwarnP2Soon	= "10秒後科爾蘇加德開始攻擊"
 })
 
 -----------------
