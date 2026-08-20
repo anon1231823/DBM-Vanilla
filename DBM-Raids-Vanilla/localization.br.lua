@@ -223,7 +223,7 @@ L:SetTimerLocalization{
 	TimerClawTentacle		= "Tentáculo de Garra",
 	TimerGiantEyeTentacle	= "Tentóculo Gigante",
 	TimerGiantClawTentacle	= "Tentáculo de Garra Gigante",
-	TimerWeakened			= "Enfraquece acaba"
+	TimerWeakened			= "Enfraquecimento acaba"
 }
 L:SetOptionLocalization{
 	WarnEyeTentacle			= "Exibir anúncio para Tentóculo",
