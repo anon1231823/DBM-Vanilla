@@ -249,9 +249,12 @@ do
 			if arg == "SHAMAN" then
 				specwarnClassCall:Play("attacktotem")
 			end
-			if playerClass == className and arg ~= "SHAMAN" then
+			if playerClass == className then
+				specwarnClassCall:UpdateIcon(classIcons[arg])
 				specwarnClassCall:Show()
-				specwarnClassCall:Play("targetyou")
+				if arg ~= "SHAMAN" then
+					specwarnClassCall:Play("targetyou")
+				end
 			else
 				warnClassCall:UpdateIcon(classIcons[arg])
 				warnClassCall:Show(classNameColored)
