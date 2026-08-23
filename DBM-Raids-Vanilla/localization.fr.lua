@@ -258,10 +258,10 @@ L:SetTimerLocalization{
 	TimerEmerge			= "Émersion"
 }
 L:SetOptionLocalization{
-	WarnSubmerge		= "Afficher une annonce pour la submersion d'Ouro",
-	TimerSubmerge		= "Afficher un chronomètre pour la submersion d'Ouro",
-	WarnEmerge			= "Afficher une annonce pour l'émersion d'Ouro",
-	TimerEmerge			= "Afficher un chronomètre pour l'émersion d'Ouro",
+	WarnSubmerge		= "Afficher une annonce pour submergé",
+	TimerSubmerge		= "Afficher un chronomètre pour submergé",
+	WarnEmerge			= "Afficher une annonce pour émergé",
+	TimerEmerge			= "Afficher un chronomètre pour émergé",
 	SpecWarnEye			= "Afficher une annonce pour l'œil géant"
 }
 
