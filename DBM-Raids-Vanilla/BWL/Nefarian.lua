@@ -29,7 +29,7 @@ end
 mod:RegisterCombat("combat_yell", L.YellP1)
 mod:SetWipeTime(50)--guesswork
 mod:SetHotfixNoticeRev(20200310000000)--2020, Mar, 10th
-mod:SetMinSyncRevision(20260522000000) -- 2026, May 22nd
+mod:SetMinSyncRevision(20260824000000) -- 2026, August 24th
 mod:SetZone(469)
 
 mod:RegisterEventsInCombat(
