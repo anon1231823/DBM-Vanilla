@@ -26,7 +26,7 @@ mod:RegisterEventsInCombat(
 )
 
 local warnDance			= mod:NewSpellAnnounce(29350, 3)
-local warnFever			= mod:NewSpellAnnounce(29998, 2, nil, "RemoveDisease")
+local warnFever			= mod:NewSpellAnnounce(29998, 2)
 local warnTeleport		= mod:NewSpellAnnounce(30211, 3, "135736")
 local warnTeleportSoon	= mod:NewSoonAnnounce(30211, 2, "135736")
 
