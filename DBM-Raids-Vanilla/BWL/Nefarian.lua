@@ -75,6 +75,7 @@ end
 
 function mod:OnCombatEnd(wipe)
 	self:UnregisterShortTermEvents()
+	table.wipe(addsGuidCheck)
 	if not wipe then
 		local sodTrialMod = DBM:GetModByName("SoDBWLTrials")
 		if sodTrialMod then
