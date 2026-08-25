@@ -18,19 +18,91 @@ mod:SetZone(533)
 mod:RegisterCombat("combat_yell", L.Pull1, L.Pull2, L.Pull3)
 
 mod:RegisterEventsInCombat(
+	"SPELL_CAST_SUCCESS 29998",
+	"SPELL_AURA_APPLIED 29998",
+	"SPELL_AURA_REMOVED 29998",
 	"UNIT_SPELLCAST_SUCCEEDED",
 	"UNIT_SPELLCAST_CHANNEL_STOP"
 )
 
+local warnDance			= mod:NewSpellAnnounce(29350, 3)
+local warnFever			= mod:NewSpellAnnounce(29998, 2, nil, "RemoveDisease")
 local warnTeleport		= mod:NewSpellAnnounce(30211, 3, "135736")
 local warnTeleportSoon	= mod:NewSoonAnnounce(30211, 2, "135736")
 
+local timerEruption		= mod:NewNextTimer(3, 29371, nil, nil, nil, 2)
+local timerFever		= mod:NewVarTimer("v21-34", 29998, nil, "RemoveDisease", nil, 3, nil, DBM_COMMON_L.DISEASE_ICON)
 local timerTeleport		= mod:NewNextTimer(90.7, 30211, nil, nil, nil, 6, "135736")
 local timerDance		= mod:NewBuffActiveTimer(45, 29350, nil, nil, nil, 6)
 
+mod:AddInfoFrameOption(29998, "RemoveDisease")
+
+local twipe = table.wipe
+local lines, sortedLines = {}, {}
+local feverTargets = {}
+local function updateInfoFrame()
+	twipe(lines)
+	twipe(sortedLines)
+
+	for name in pairs(feverTargets) do
+		sortedLines[#sortedLines + 1] = name
+		lines[name] = ""
+	end
+
+	return lines, sortedLines
+end
+
 function mod:OnCombatStart()
-	timerTeleport:Start()
+	table.wipe(feverTargets)
 	warnTeleportSoon:Schedule(80)
+	timerTeleport:Start()
+	timerEruption:Start(15)
+	timerFever:Start("v11.3-25.9")
+	self:ScheduleMethod(15, "EruptionTick", 10)
+end
+
+function mod:OnCombatEnd()
+	table.wipe(feverTargets)
+end
+
+function mod:EruptionTick(interval)
+	timerEruption:Start(interval)
+	self:ScheduleMethod(interval, "EruptionTick", interval)
+end
+
+local function UpdateFeverFrame()
+	if not mod.Options.InfoFrame then return end
+	if next(feverTargets) then
+		if not DBM.InfoFrame:IsShown() then
+			DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(29998))
+			DBM.InfoFrame:Show(20, "function", updateInfoFrame)
+		else
+			DBM.InfoFrame:UpdateTable(updateInfoFrame)
+		end
+	else
+		DBM.InfoFrame:Hide()
+	end
+end
+
+function mod:SPELL_AURA_APPLIED(args)
+	if args:IsSpell(29998) then
+		feverTargets[args.destName] = true
+		UpdateFeverFrame()
+	end
+end
+
+function mod:SPELL_AURA_REMOVED(args)
+	if args:IsSpell(29998) then
+		feverTargets[args.destName] = nil
+		UpdateFeverFrame()
+	end
+end
+
+function mod:SPELL_CAST_SUCCESS(args)
+	if args:IsSpell(29998) then
+		warnFever:Show()
+		timerFever:Start()
+	end
 end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, spellId)
@@ -53,11 +125,18 @@ function mod:OnSync(event)
 		warnTeleport:Show()
 		warnTeleportSoon:Cancel()
 		timerTeleport:Stop()
+		timerFever:Stop()
 	elseif event == "DancePhase" then
+		warnDance:Show()
 		timerDance:Start()
+		self:UnscheduleMethod("EruptionTick")
+		self:EruptionTick(3)
 	elseif event == "DancePhaseFinish" then
 		warnTeleportSoon:Schedule(80)
 		timerTeleport:Start()
+		timerFever:Start()
 		timerDance:Stop()
+		self:UnscheduleMethod("EruptionTick")
+		self:EruptionTick(10)
 	end
 end
