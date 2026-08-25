@@ -126,6 +126,8 @@ function mod:OnSync(event)
 		warnTeleportSoon:Cancel()
 		timerTeleport:Stop()
 		timerFever:Stop()
+		timerEruption:Stop()
+		self:UnscheduleMethod("EruptionTick")
 	elseif event == "DancePhase" then
 		warnDance:Show()
 		timerDance:Start()
