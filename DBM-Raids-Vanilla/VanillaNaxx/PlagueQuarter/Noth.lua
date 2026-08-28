@@ -8,6 +8,7 @@ else
 end
 
 mod:SetRevision("@file-date-integer@")
+mod:SetMinSyncRevision(20260828000000) -- 2026, August 28th
 mod:DisableHardcodedOptions()
 mod:SetCreatureID(15954)
 mod:SetEncounterID(1117)
@@ -79,27 +80,7 @@ function mod:OnCombatEnd()
 end
 
 function mod:UNIT_TARGETABLE_CHANGED()
-	self.vb.teleCount = self.vb.teleCount + 1
-	self.vb.addsCount = 0
-	timerCurseCD:Stop()
-	timerAddsCD:Stop()
-	local timer
-	if self.vb.teleCount == 1 then
-		timer = 72.9
-		timerAddsCD:Start(3)
-	elseif self.vb.teleCount == 2 then
-		timer = 97--Unknown in Classic
-		timerAddsCD:Start(3)
-	elseif self.vb.teleCount == 3 then
-		timer = 126--Unknown in Classic
-		timerAddsCD:Start(3)
-	else
-		timer = 55--Unknown in Classic
-	end
-	timerTeleportBack:Start(timer)
-	warnTeleportSoon:Schedule(timer - 20)
-	warnTeleportNow:Show()
-	self:ScheduleMethod(timer, "BackInRoom")
+	self:SendSync("TeleportBalcony")
 end
 
 function mod:BackInRoom()
@@ -186,7 +167,29 @@ end
 
 function mod:OnSync(msg)
 	if not self:IsInCombat() then return end
-	if msg == "Adds" then
+	if msg == "TeleportBalcony" then
+		self.vb.teleCount = self.vb.teleCount + 1
+		self.vb.addsCount = 0
+		timerCurseCD:Stop()
+		timerAddsCD:Stop()
+		local timer
+		if self.vb.teleCount == 1 then
+			timer = 72.9
+			timerAddsCD:Start(3)
+		elseif self.vb.teleCount == 2 then
+			timer = 97--Unknown in Classic
+			timerAddsCD:Start(3)
+		elseif self.vb.teleCount == 3 then
+			timer = 126--Unknown in Classic
+			timerAddsCD:Start(3)
+		else
+			timer = 55--Unknown in Classic
+		end
+		timerTeleportBack:Start(timer)
+		warnTeleportSoon:Schedule(timer - 20)
+		warnTeleportNow:Show()
+		self:ScheduleMethod(timer, "BackInRoom")
+	elseif msg == "Adds" then
 		self.vb.addsCount = self.vb.addsCount + 1
 		specWarnAdds:Show()
 		specWarnAdds:Play("killmob")
