@@ -30,7 +30,7 @@ source.id = 15954 and (type = "begincast" or type = "cast")
  or (source.type = "NPC" and source.firstSeen = timestamp) or (target.type = "NPC" and target.firstSeen = timestamp)
 --]]
 local warnTeleportNow	= mod:NewAnnounce("WarningTeleportNow", 3, "135736")
-local warnTeleportSoon	= mod:NewAnnounce("WarningTeleportSoon", 1, "135736")
+local warnTeleportSoon	= mod:NewAnnounce("WarningTeleportSoon", 2, "135736")
 local warnCurse			= mod:NewSpellAnnounce(29213, 2)
 local warnBlink			= mod:NewSpellAnnounce(29208, 3)
 
@@ -71,9 +71,9 @@ function mod:OnCombatStart()
 	self.vb.curseCount = 0
 	timerAddsCD:Start("v6.5-22.7")
 	timerCurseCD:Start("v6.5-25.9")
-	timerTeleport:Start(90.8)
-	warnTeleportSoon:Schedule(70.8)
-	self:ScheduleMethod(90.8, "Balcony")
+	timerTeleport:Start(90.6)
+	warnTeleportSoon:Schedule(70.6)
+	self:ScheduleMethod(90.6, "Balcony")
 end
 
 function mod:OnCombatEnd()
