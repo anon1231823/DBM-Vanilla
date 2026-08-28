@@ -30,10 +30,12 @@ local warnFever			= mod:NewSpellAnnounce(29998, 2)
 local warnTeleport		= mod:NewSpellAnnounce(30211, 3, "135736")
 local warnTeleportSoon	= mod:NewSoonAnnounce(30211, 2, "135736")
 
-local timerEruption		= mod:NewNextTimer(3, 29371, nil, nil, nil, 2)
+local timerEruption		= mod:NewNextCountTimer(3, 29371, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
 local timerFever		= mod:NewVarTimer("v21-34", 29998, nil, "RemoveDisease", nil, 3, nil, DBM_COMMON_L.DISEASE_ICON)
-local timerTeleport		= mod:NewNextTimer(90.7, 30211, nil, nil, nil, 6, "135736")
+local timerTeleport		= mod:NewNextTimer(90.6, 30211, nil, nil, nil, 6, "135736")
 local timerDance		= mod:NewBuffActiveTimer(45, 29350, nil, nil, nil, 6)
+
+mod.vb.eruptionCount = 0
 
 mod:AddInfoFrameOption(29998, "RemoveDisease")
 
@@ -53,12 +55,13 @@ local function updateInfoFrame()
 end
 
 function mod:OnCombatStart()
+	self.vb.eruptionCount = 1
 	table.wipe(feverTargets)
-	warnTeleportSoon:Schedule(80)
+	warnTeleportSoon:Schedule(80.6)
 	timerTeleport:Start()
-	timerEruption:Start(15)
+	timerEruption:Start(16.6, self.vb.eruptionCount)
 	timerFever:Start("v11.3-25.9")
-	self:ScheduleMethod(15, "EruptionTick", 10)
+	self:ScheduleMethod(16.6, "EruptionTick", 10)
 end
 
 function mod:OnCombatEnd()
@@ -66,7 +69,8 @@ function mod:OnCombatEnd()
 end
 
 function mod:EruptionTick(interval)
-	timerEruption:Start(interval)
+	self.vb.eruptionCount = self.vb.eruptionCount + 1
+	timerEruption:Start(interval, self.vb.eruptionCount)
 	self:ScheduleMethod(interval, "EruptionTick", interval)
 end
 
@@ -122,18 +126,20 @@ end
 function mod:OnSync(event)
 	if not self:IsInCombat() then return end
     if event == "Teleport" then
+		self.vb.eruptionCount = 1
 		warnTeleport:Show()
 		warnTeleportSoon:Cancel()
 		timerTeleport:Stop()
 		timerFever:Stop()
 		timerEruption:Stop()
 		self:UnscheduleMethod("EruptionTick")
-		timerEruption:Start(4.6)
+		timerEruption:Start(4.6, self.vb.eruptionCount)
 		self:ScheduleMethod(4.6, "EruptionTick", 3)
 	elseif event == "DancePhase" then
 		warnDance:Show()
 		timerDance:Start()
 	elseif event == "DancePhaseFinish" then
+		self.vb.eruptionCount = 0
 		warnTeleportSoon:Schedule(80)
 		timerTeleport:Start()
 		timerFever:Start()
