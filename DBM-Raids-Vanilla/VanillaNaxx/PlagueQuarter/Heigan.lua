@@ -114,6 +114,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, spellId)
 		self:SendSync("Teleport")
 	elseif spellId == 29350 then
 		self:SendSync("DancePhase")
+	elseif spellId == 29429 then -- Creature Cooldown (10 sec): eruption cadence restarts
+		self:SendSync("EruptionStart")
 	end
 end
 
@@ -139,12 +141,14 @@ function mod:OnSync(event)
 		warnDance:Show()
 		timerDance:Start()
 	elseif event == "DancePhaseFinish" then
-		self.vb.eruptionCount = 0
 		warnTeleportSoon:Schedule(80)
 		timerTeleport:Start()
-		timerFever:Start()
+		timerFever:Start("v1.6-3.4")
 		timerDance:Stop()
 		self:UnscheduleMethod("EruptionTick")
-		self:EruptionTick(10)
+	elseif event == "EruptionStart" then
+		self.vb.eruptionCount = 1
+		timerEruption:Start(10, self.vb.eruptionCount)
+		self:ScheduleMethod(10, "EruptionTick", 10)
 	end
 end
