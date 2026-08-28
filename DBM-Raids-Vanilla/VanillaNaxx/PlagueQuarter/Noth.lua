@@ -191,10 +191,12 @@ function mod:OnSync(msg)
 		specWarnAdds:Show()
 		specWarnAdds:Play("killmob")
 		if self.vb.teleCount < 4 then
-			if self.vb.teleCount == 0 and self.vb.addsCount < 3 then
-				timerAddsCD:Start("v25.9-42")
-			elseif self.vb.teleCount == 0 and self.vb.addsCount == 3 then
-				timerAddsCD:Stop()
+			if self.vb.teleCount == 0 then
+				if self.vb.addsCount < 3 then
+					timerAddsCD:Start("v25.9-42")
+				else
+					timerAddsCD:Stop()
+				end
 			elseif self.vb.teleCount == 1 then
 				if self.vb.addsCount == 1 then
 					timerAddsCD:Start(33.9)
