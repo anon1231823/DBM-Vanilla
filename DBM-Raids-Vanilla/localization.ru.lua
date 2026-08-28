@@ -914,7 +914,7 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("LoathebVanilla")
 
 L:SetGeneralLocalization({
-	name = "Лотхиб"
+	name = "Мерзот"
 })
 
 L:SetWarningLocalization({
