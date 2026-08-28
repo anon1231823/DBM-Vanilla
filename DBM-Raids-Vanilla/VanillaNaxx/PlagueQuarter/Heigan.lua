@@ -133,6 +133,16 @@ function mod:UNIT_SPELLCAST_CHANNEL_STOP(_, _, spellId)
 	end
 end
 
+do
+	local Eruption = DBM:GetSpellName(29371)
+	function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId, spellName)
+		if (spellId == 29371 or spellName == Eruption) and destGUID == UnitGUID("player") and self:AntiSpam() then
+			specWarnGTFO:Show(spellName)
+			specWarnGTFO:Play("watchfeet")
+		end
+	end
+end
+
 function mod:OnSync(event)
 	if not self:IsInCombat() then return end
     if event == "Teleport" then
@@ -159,15 +169,5 @@ function mod:OnSync(event)
 		self.vb.eruptionCount = 1
 		timerEruption:Start(10, self.vb.eruptionCount)
 		self:ScheduleMethod(10, "EruptionTick", 10)
-	end
-end
-
-do
-	local Eruption = DBM:GetSpellName(29371)
-	function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId, spellName)
-		if (spellId == 29371 or spellName == Eruption) and destGUID == UnitGUID("player") and self:AntiSpam() then
-			specWarnGTFO:Show(spellName)
-			specWarnGTFO:Play("watchfeet")
-		end
 	end
 end
