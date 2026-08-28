@@ -30,6 +30,8 @@ local warnFever			= mod:NewSpellAnnounce(29998, 2)
 local warnTeleport		= mod:NewSpellAnnounce(30211, 3, "135736")
 local warnTeleportSoon	= mod:NewSoonAnnounce(30211, 2, "135736")
 
+local specWarnGTFO		= mod:NewSpecialWarningGTFO(29371, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
+
 local timerEruption		= mod:NewNextCountTimer(3, 29371, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
 local timerFever		= mod:NewVarTimer("v21-34", 29998, nil, "RemoveDisease", nil, 3, nil, DBM_COMMON_L.DISEASE_ICON)
 local timerTeleport		= mod:NewNextTimer(90.6, 30211, nil, nil, nil, 6, "135736")
@@ -62,10 +64,18 @@ function mod:OnCombatStart()
 	timerEruption:Start(16.6, self.vb.eruptionCount)
 	timerFever:Start("v11.3-25.9")
 	self:ScheduleMethod(16.6, "EruptionTick", 10)
+	if self:IsEvent() or not self:IsTrivial() then
+		self:RegisterShortTermEvents(
+			"SPELL_DAMAGE 29371",
+			"SPELL_PERIODIC_DAMAGE 29371",
+			"SPELL_PERIODIC_MISSED 29371"
+		)
+	end
 end
 
 function mod:OnCombatEnd()
 	table.wipe(feverTargets)
+	self:UnregisterShortTermEvents()
 end
 
 function mod:EruptionTick(interval)
@@ -152,4 +162,16 @@ function mod:OnSync(event)
 		timerEruption:Start(10, self.vb.eruptionCount)
 		self:ScheduleMethod(10, "EruptionTick", 10)
 	end
+end
+
+do
+	local Eruption = DBM:GetSpellName(29371)
+	function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId, spellName)
+		if (spellId == 29371 or spellName == Eruption) and destGUID == UnitGUID("player") and self:AntiSpam() then
+			specWarnGTFO:Show(spellName)
+			specWarnGTFO:Play("watchfeet")
+		end
+	end
+	mod.SPELL_PERIODIC_DAMAGE = mod.SPELL_DAMAGE
+	mod.SPELL_PERIODIC_MISSED = mod.SPELL_DAMAGE
 end
