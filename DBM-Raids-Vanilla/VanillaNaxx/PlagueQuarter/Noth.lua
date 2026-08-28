@@ -30,14 +30,14 @@ source.id = 15954 and (type = "begincast" or type = "cast")
  or (source.type = "NPC" and source.firstSeen = timestamp) or (target.type = "NPC" and target.firstSeen = timestamp)
 --]]
 local warnTeleportNow	= mod:NewAnnounce("WarningTeleportNow", 3, "135736")
-local warnTeleportSoon	= mod:NewAnnounce("WarningTeleportSoon", 1, "135736")
+local warnTeleportSoon	= mod:NewAnnounce("WarningTeleportSoon", 2, "135736")
 local warnCurse			= mod:NewSpellAnnounce(29213, 2)
 local warnBlink			= mod:NewSpellAnnounce(29208, 3)
 
 local specWarnAdds		= mod:NewSpecialWarningAdds(29252, "-Healer", nil, nil, 1, 2, nil, "136187", "killmob")
 local specWarnCurse 	= mod:NewSpecialWarningDispel(29213, "RemoveCurse", nil, nil, 1, 2, nil, nil, "dispelnow")
 
-local timerTeleport		= mod:NewTimer(90, "TimerTeleport", "135736", nil, nil, 6)
+local timerTeleport		= mod:NewTimer(90.6, "TimerTeleport", "135736", nil, nil, 6)
 local timerTeleportBack	= mod:NewTimer(70, "TimerTeleportBack", "135736", nil, nil, 6)
 local timerCurse       	= mod:NewBuffFadesTimer(10, 29213, nil, "RemoveCurse", nil, 3, nil, DBM_COMMON_L.CURSE_ICON)
 local timerCurseCD		= mod:NewVarTimer("v51.8-66.8", 29213, nil, "RemoveCurse", nil, 3, nil, DBM_COMMON_L.CURSE_ICON)
@@ -64,14 +64,30 @@ mod.vb.teleCount = 0
 mod.vb.addsCount = 0
 mod.vb.curseCount = 0
 
-function mod:Balcony()
+function mod:OnCombatStart()
+	table.wipe(curseTargets)
+	self.vb.teleCount = 0
+	self.vb.addsCount = 0
+	self.vb.curseCount = 0
+	timerAddsCD:Start("v6.5-22.7")
+	timerCurseCD:Start("v6.5-25.9")
+	timerTeleport:Start()
+	warnTeleportSoon:Schedule(70.6)
+	self:ScheduleMethod(90.6, "Balcony")
+end
+
+function mod:OnCombatEnd()
+	table.wipe(curseTargets)
+end
+
+function mod:UNIT_TARGETABLE_CHANGED()
 	self.vb.teleCount = self.vb.teleCount + 1
 	self.vb.addsCount = 0
 	timerCurseCD:Stop()
 	timerAddsCD:Stop()
 	local timer
 	if self.vb.teleCount == 1 then
-		timer = 75--70-75 in classic, can't confirm because numpty was looking in bumfuck in vdieo, it's 70 in wrath
+		timer = 72.9
 		timerAddsCD:Start(5)--Always 5
 	elseif self.vb.teleCount == 2 then
 		timer = 97--Unknown in Classic
@@ -113,23 +129,6 @@ function mod:BackInRoom()
 		timerCurseCD:Start(10)--11 in wrath, 9 or 10 in classic, well based off numpty POV
 	end
 	self:ScheduleMethod(timer, "Balcony")
-end
-
-function mod:OnCombatStart()
-	table.wipe(curseTargets)
-	self.vb.teleCount = 0
-	self.vb.addsCount = 0
-	self.vb.curseCount = 0
-	timerAddsCD:Start("v6.5-22.7")
-	timerCurseCD:Start("v6.5-25.9")
-	timerTeleport:Start(90.8)
-	warnTeleportSoon:Schedule(70.8)
-	self:ScheduleMethod(90.8, "Balcony")
-end
-
-function mod:OnCombatEnd()
-	DBM.InfoFrame:Hide()
-	table.wipe(curseTargets)
 end
 
 local function UpdateCurseFrame()
