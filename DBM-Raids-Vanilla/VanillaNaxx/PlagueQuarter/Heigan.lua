@@ -66,9 +66,7 @@ function mod:OnCombatStart()
 	self:ScheduleMethod(16.6, "EruptionTick", 10)
 	if self:IsEvent() or not self:IsTrivial() then
 		self:RegisterShortTermEvents(
-			"SPELL_DAMAGE 29371",
-			"SPELL_PERIODIC_DAMAGE 29371",
-			"SPELL_PERIODIC_MISSED 29371"
+			"SPELL_DAMAGE 29371"
 		)
 	end
 end
@@ -172,6 +170,4 @@ do
 			specWarnGTFO:Play("watchfeet")
 		end
 	end
-	mod.SPELL_PERIODIC_DAMAGE = mod.SPELL_DAMAGE
-	mod.SPELL_PERIODIC_MISSED = mod.SPELL_DAMAGE
 end
