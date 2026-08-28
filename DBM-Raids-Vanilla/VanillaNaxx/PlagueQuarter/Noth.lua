@@ -20,7 +20,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 29213 29212 29208",
 	"SPELL_AURA_APPLIED 29213",
 	"SPELL_AURA_REMOVED 29213",
-	"UNIT_TARGETABLE_CHANGED",
 	"CHAT_MSG_MONSTER_YELL"
 )
 
@@ -31,14 +30,14 @@ source.id = 15954 and (type = "begincast" or type = "cast")
  or (source.type = "NPC" and source.firstSeen = timestamp) or (target.type = "NPC" and target.firstSeen = timestamp)
 --]]
 local warnTeleportNow	= mod:NewAnnounce("WarningTeleportNow", 3, "135736")
-local warnTeleportSoon	= mod:NewAnnounce("WarningTeleportSoon", 2, "135736")
+local warnTeleportSoon	= mod:NewAnnounce("WarningTeleportSoon", 1, "135736")
 local warnCurse			= mod:NewSpellAnnounce(29213, 2)
 local warnBlink			= mod:NewSpellAnnounce(29208, 3)
 
 local specWarnAdds		= mod:NewSpecialWarningAdds(29252, "-Healer", nil, nil, 1, 2, nil, "136187", "killmob")
 local specWarnCurse 	= mod:NewSpecialWarningDispel(29213, "RemoveCurse", nil, nil, 1, 2, nil, nil, "dispelnow")
 
-local timerTeleport		= mod:NewTimer(90.6, "TimerTeleport", "135736", nil, nil, 6)
+local timerTeleport		= mod:NewTimer(90, "TimerTeleport", "135736", nil, nil, 6)
 local timerTeleportBack	= mod:NewTimer(70, "TimerTeleportBack", "135736", nil, nil, 6)
 local timerCurse       	= mod:NewBuffFadesTimer(10, 29213, nil, "RemoveCurse", nil, 3, nil, DBM_COMMON_L.CURSE_ICON)
 local timerCurseCD		= mod:NewVarTimer("v51.8-66.8", 29213, nil, "RemoveCurse", nil, 3, nil, DBM_COMMON_L.CURSE_ICON)
@@ -72,16 +71,16 @@ function mod:OnCombatStart()
 	self.vb.curseCount = 0
 	timerAddsCD:Start("v6.5-22.7")
 	timerCurseCD:Start("v6.5-25.9")
-	timerTeleport:Start()
-	warnTeleportSoon:Schedule(70.6)
-	self:ScheduleMethod(90.6, "Balcony")
+	timerTeleport:Start(90.8)
+	warnTeleportSoon:Schedule(70.8)
+	self:ScheduleMethod(90.8, "Balcony")
 end
 
 function mod:OnCombatEnd()
 	table.wipe(curseTargets)
 end
 
-function mod:UNIT_TARGETABLE_CHANGED()
+function mod:Balcony()
 	self.vb.teleCount = self.vb.teleCount + 1
 	self.vb.addsCount = 0
 	timerCurseCD:Stop()
@@ -177,9 +176,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 		elseif self.vb.curseCount < 2 then
 			timerCurseCD:Start()
 		end
-	--elseif args:IsSpell(29212 then--Cripple that's always cast when he teleports away
-		--self:UnscheduleMethod("Balcony")
-		--self:Balcony()
 	elseif args:IsSpell(29208) and args:IsSrcTypeHostile() then
 		warnBlink:Show()
 	end
