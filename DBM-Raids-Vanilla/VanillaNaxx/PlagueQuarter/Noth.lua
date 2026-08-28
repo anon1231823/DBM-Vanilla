@@ -190,25 +190,23 @@ function mod:OnSync(msg)
 		self.vb.addsCount = self.vb.addsCount + 1
 		specWarnAdds:Show()
 		specWarnAdds:Play("killmob")
-		if self.vb.teleCount < 4 then
-			if self.vb.teleCount == 0 then
-				if self.vb.addsCount < 3 then
-					timerAddsCD:Start("v25.9-42")
-				else
-					timerAddsCD:Stop()
-				end
-			elseif self.vb.teleCount == 1 then
-				if self.vb.addsCount == 1 then
-					timerAddsCD:Start(33.9)
-				elseif self.vb.addsCount == 2 then
-					timerAddsCD:Start(30)
-				end
-			elseif self.vb.teleCount == 2 then--30, 32, 32, 30
-				if self.vb.addsCount == 1 or self.vb.addsCount == 4 then
-					timerAddsCD:Start(30)
-				elseif self.vb.addsCount == 2 or self.vb.addsCount == 3 then
-					timerAddsCD:Start(32)
-				end
+		if self.vb.teleCount == 0 then
+			if self.vb.addsCount < 3 then
+				timerAddsCD:Start("v25.9-42")
+			else
+				timerAddsCD:Stop()
+			end
+		elseif self.vb.teleCount == 1 then
+			if self.vb.addsCount == 1 then
+				timerAddsCD:Start(33.9)
+			elseif self.vb.addsCount == 2 then
+				timerAddsCD:Start(30)
+			end
+		elseif self.vb.teleCount == 2 then--30, 32, 32, 30
+			if self.vb.addsCount == 1 or self.vb.addsCount == 4 then
+				timerAddsCD:Start(30)
+			elseif self.vb.addsCount == 2 or self.vb.addsCount == 3 then
+				timerAddsCD:Start(32)
 			end
 		end
 	end
