@@ -141,7 +141,7 @@ function mod:OnSync(event)
 		warnDance:Show()
 		timerDance:Start()
 	elseif event == "DancePhaseFinish" then
-		warnTeleportSoon:Schedule(80)
+		warnTeleportSoon:Schedule(80.6)
 		timerTeleport:Start()
 		timerFever:Start("v3.4-10")
 		timerDance:Stop()
