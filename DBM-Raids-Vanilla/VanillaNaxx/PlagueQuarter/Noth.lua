@@ -20,11 +20,10 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 29213 29212 29208",
 	"SPELL_AURA_APPLIED 29213",
 	"SPELL_AURA_REMOVED 29213",
+	"UNIT_TARGETABLE_CHANGED",
 	"CHAT_MSG_MONSTER_YELL"
 )
 
---TODO, determine if old way is required or if new way is still functional
---TODO, add adds warning/timer scheduling for phase 2, since emote triggers are gone. It's a lot of annoying effort though so I'll wait to assess the need
 --[[
 source.id = 15954 and (type = "begincast" or type = "cast")
  or (source.type = "NPC" and source.firstSeen = timestamp) or (target.type = "NPC" and target.firstSeen = timestamp)
@@ -69,18 +68,17 @@ function mod:OnCombatStart()
 	self.vb.teleCount = 0
 	self.vb.addsCount = 0
 	self.vb.curseCount = 0
+	warnTeleportSoon:Schedule(70.6)
 	timerAddsCD:Start("v6.5-22.7")
 	timerCurseCD:Start("v6.5-25.9")
 	timerTeleport:Start(90.6)
-	warnTeleportSoon:Schedule(70.6)
-	self:ScheduleMethod(90.6, "Balcony")
 end
 
 function mod:OnCombatEnd()
 	table.wipe(curseTargets)
 end
 
-function mod:Balcony()
+function mod:UNIT_TARGETABLE_CHANGED()
 	self.vb.teleCount = self.vb.teleCount + 1
 	self.vb.addsCount = 0
 	timerCurseCD:Stop()
@@ -88,13 +86,13 @@ function mod:Balcony()
 	local timer
 	if self.vb.teleCount == 1 then
 		timer = 72.9
-		timerAddsCD:Start(5)--Always 5
+		timerAddsCD:Start(3)
 	elseif self.vb.teleCount == 2 then
 		timer = 97--Unknown in Classic
-		timerAddsCD:Start(5)--Always 5
+		timerAddsCD:Start(3)
 	elseif self.vb.teleCount == 3 then
 		timer = 126--Unknown in Classic
-		timerAddsCD:Start(5)--Always 5
+		timerAddsCD:Start(3)
 	else
 		timer = 55--Unknown in Classic
 	end
@@ -111,7 +109,7 @@ function mod:BackInRoom()
 	local timer
 	if self.vb.teleCount == 1 then
 		timer = 109--Unknown in Classic
-		timerAddsCD:Start(3)--Unknown until I can get a less numpty POV
+		timerAddsCD:Start(3)
 	elseif self.vb.teleCount == 2 then
 		timer = 173--Unknown in Classic
 		timerAddsCD:Start(17)
@@ -128,7 +126,6 @@ function mod:BackInRoom()
 	else
 		timerCurseCD:Start(10)--11 in wrath, 9 or 10 in classic, well based off numpty POV
 	end
-	self:ScheduleMethod(timer, "Balcony")
 end
 
 local function UpdateCurseFrame()
@@ -189,18 +186,20 @@ end
 
 function mod:OnSync(msg)
 	if not self:IsInCombat() then return end
-	if msg == "Adds" then--Boss Grounded
+	if msg == "Adds" then
 		self.vb.addsCount = self.vb.addsCount + 1
 		specWarnAdds:Show()
 		specWarnAdds:Play("killmob")
 		if self.vb.teleCount < 4 then
-			if self.vb.teleCount == 0 and self.vb.addsCount < 3 then--3 waves, 12, 34, 34
-				timerAddsCD:Start("v25.9-38.9")
-			elseif self.vb.teleCount == 1 then--3 waves, 3, 34, 30 (3 iffy)
+			if self.vb.teleCount == 0 and self.vb.addsCount < 3 then
+				timerAddsCD:Start("v25.9-42")
+			elseif self.vb.teleCount == 0 and self.vb.addsCount == 3 then
+				timerAddsCD:Stop()
+			elseif self.vb.teleCount == 1 then
 				if self.vb.addsCount == 1 then
 					timerAddsCD:Start(33.9)
 				elseif self.vb.addsCount == 2 then
-					timerAddsCD:Start(30)--47.3 in wrath
+					timerAddsCD:Start(30)
 				end
 			elseif self.vb.teleCount == 2 then--30, 32, 32, 30
 				if self.vb.addsCount == 1 or self.vb.addsCount == 4 then
