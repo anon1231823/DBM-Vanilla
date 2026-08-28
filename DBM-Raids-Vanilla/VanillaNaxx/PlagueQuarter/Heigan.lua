@@ -145,6 +145,7 @@ function mod:OnSync(event)
 		timerTeleport:Start()
 		timerFever:Start("v3.4-10")
 		timerDance:Stop()
+		timerEruption:Stop()
 		self:UnscheduleMethod("EruptionTick")
 	elseif event == "EruptionStart" then
 		self.vb.eruptionCount = 1
