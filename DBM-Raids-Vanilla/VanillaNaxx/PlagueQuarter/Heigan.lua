@@ -37,7 +37,7 @@ local timerFever		= mod:NewVarTimer("v21-34", 29998, nil, "RemoveDisease", nil, 
 local timerTeleport		= mod:NewNextTimer(90.6, 30211, nil, nil, nil, 6, "135736")
 local timerDance		= mod:NewBuffActiveTimer(45, 29350, nil, nil, nil, 6)
 
-mod.vb.eruptionCount = 0
+mod.vb.eruptionCount = 1
 
 mod:AddInfoFrameOption(29998, "RemoveDisease")
 
