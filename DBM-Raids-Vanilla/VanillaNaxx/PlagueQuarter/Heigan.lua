@@ -143,7 +143,7 @@ function mod:OnSync(event)
 	elseif event == "DancePhaseFinish" then
 		warnTeleportSoon:Schedule(80)
 		timerTeleport:Start()
-		timerFever:Start("v1.6-3.4")
+		timerFever:Start("v3.4-10")
 		timerDance:Stop()
 		self:UnscheduleMethod("EruptionTick")
 	elseif event == "EruptionStart" then
