@@ -172,7 +172,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(27808) then -- Frost Blast
 		table.insert(frostBlastTargets, args.destName)
-		if not timerfrostBlast:IsRunning() then
+		if not timerfrostBlast:IsStarted() then
 			timerfrostBlast:Start()
 		end
 		self:Unschedule(AnnounceBlastTargets)
