@@ -79,7 +79,6 @@ local function AnnounceBlastTargets(self)
 			frostBlastTargets[i] = nil
 		end
 	end
-	timerfrostBlast:Start()
 end
 
 function mod:OnCombatStart()
@@ -173,6 +172,9 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(27808) then -- Frost Blast
 		table.insert(frostBlastTargets, args.destName)
+		if not timerfrostBlast:IsRunning() then
+			timerfrostBlast:Start()
+		end
 		self:Unschedule(AnnounceBlastTargets)
 		self:Schedule(0.5, AnnounceBlastTargets, self)
 		if self.Options.SpecWarn27808target then
