@@ -61,9 +61,9 @@ function mod:OnCombatStart()
 	table.wipe(feverTargets)
 	warnTeleportSoon:Schedule(80.6)
 	timerTeleport:Start()
-	timerEruption:Start(16.6, self.vb.eruptionCount)
+	timerEruption:Start(16.5, self.vb.eruptionCount)
 	timerFever:Start("v11.3-25.9")
-	self:ScheduleMethod(16.6, "EruptionTick", 10)
+	self:ScheduleMethod(16.5, "EruptionTick", 10)
 	if self:IsEvent() or not self:IsTrivial() then
 		self:RegisterShortTermEvents(
 			"SPELL_DAMAGE 29371"
