@@ -79,7 +79,9 @@ end
 function mod:EruptionTick(interval)
 	self.vb.eruptionCount = self.vb.eruptionCount + 1
 	timerEruption:Start(interval, self.vb.eruptionCount)
-	self:ScheduleMethod(interval, "EruptionTick", interval)
+	if not (interval == 10 and self.vb.eruptionCount >= 8) then
+		self:ScheduleMethod(interval, "EruptionTick", interval)
+	end
 end
 
 local function UpdateFeverFrame()
