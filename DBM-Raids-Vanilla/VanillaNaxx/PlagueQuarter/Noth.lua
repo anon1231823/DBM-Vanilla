@@ -174,7 +174,7 @@ function mod:OnSync(msg)
 		timerAddsCD:Stop()
 		local timer
 		if self.vb.teleCount == 1 then
-			timer = "v72.8-74.8"
+			timer = 72.8 -- Variation 72.8-74.8, but cannot schedule a string
 			timerAddsCD:Start(3)
 		elseif self.vb.teleCount == 2 then
 			timer = 97--Unknown in Classic
