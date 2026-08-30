@@ -174,7 +174,7 @@ function mod:OnSync(msg)
 		timerAddsCD:Stop()
 		local timer
 		if self.vb.teleCount == 1 then
-			timer = 72.9
+			timer = "v72.8-74.8"
 			timerAddsCD:Start(3)
 		elseif self.vb.teleCount == 2 then
 			timer = 97--Unknown in Classic
