@@ -90,7 +90,7 @@ function mod:BackInRoom()
 	local timer
 	if self.vb.teleCount == 1 then
 		timer = 109--Unknown in Classic
-		timerAddsCD:Start(3)
+		timerAddsCD:Start("v3.4-7.8")
 	elseif self.vb.teleCount == 2 then
 		timer = 173--Unknown in Classic
 		timerAddsCD:Start(17)
