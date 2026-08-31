@@ -77,12 +77,14 @@ local ccDurations = {
 }
 local ccSpellIcons = {}
 do
-	local ccSpellsList = {polymorphSpells, polymorphIcon, fearSpells, fearIcon, freezingTrapSpells, freezingTrapIcon}
-	for i = 1, #ccSpellsList, 2 do
-		local spells, icon = ccSpellsList[i], ccSpellsList[i + 1]
-		for _, spellId in ipairs(spells) do
-			ccSpellIcons[spellId] = icon
-		end
+	for _, spellId in ipairs(polymorphSpells) do
+		ccSpellIcons[spellId] = polymorphIcon
+	end
+	for _, spellId in ipairs(fearSpells) do
+		ccSpellIcons[spellId] = fearIcon
+	end
+	for _, spellId in ipairs(freezingTrapSpells) do
+		ccSpellIcons[spellId] = freezingTrapIcon
 	end
 end
 
