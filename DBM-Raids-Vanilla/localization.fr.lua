@@ -622,7 +622,7 @@ L:SetGeneralLocalization{
 	name = "Lucifron"
 }
 L:SetWarningLocalization({
-	WarnGuardDied = "Protecteur Attise-flammes: %d/2" -- NPC ID 12119
+	WarnGuardDied = "Protecteur Attise-flammes : %d/2" -- NPC ID 12119
 })
 L:SetOptionLocalization{
 	WarnGuardDied = "Afficher une annonce pour les Protecteurs Attise-flammes restants"
