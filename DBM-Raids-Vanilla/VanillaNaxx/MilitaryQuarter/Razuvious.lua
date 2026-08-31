@@ -125,10 +125,10 @@ end
 
 function mod:OnSync(event, guid, icon)
 	if not self:IsInCombat() then return end
-    if event == "MindExhaustion" and guid then
+    if event == "MindExhaustion" then
         mindExhaustionTimers[guid] = GetTime() + 60
         timerMindExhaustionCD:Start(guid)
-    elseif event == "UnderstudyFound" and guid then
+    elseif event == "UnderstudyFound" then
         if not mindExhaustionNames[guid] then
             mindExhaustionNames[guid] = L.Understudy
             local iconNum = tonumber(icon)
