@@ -26,8 +26,8 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 20604",
 	"SPELL_CAST_SUCCESS 19702 19703 460931 460932",
-	"SPELL_AURA_APPLIED 20604",
-	"SPELL_AURA_REMOVED 20604"
+	"SPELL_AURA_APPLIED 19702 460931",
+	"SPELL_AURA_REMOVED 19702 460931"
 )
 
 --[[
@@ -44,14 +44,36 @@ local timerDoomCD	= mod:NewVarTimer("v21-27", 19702, nil, "RemoveMagic", nil, 2,
 local timerCurseCD	= mod:NewVarTimer("v21-25.9", 19703, nil, "RemoveCurse", nil, 2, nil, DBM_COMMON_L.CURSE_ICON)
 local timerMC		= mod:NewTargetTimer(15, 20604, nil, false, nil, 3)
 
+mod:AddInfoFrameOption(19702, "RemoveMagic")
+
 mod:AddSetIconOption("SetIconOnMC", 20604, true, 0, {1, 2})
+
+local twipe = table.wipe
+local lines, sortedLines = {}, {}
+local doomTargets = {}
+local function updateInfoFrame()
+	twipe(lines)
+	twipe(sortedLines)
+
+	for name in pairs(doomTargets) do
+		sortedLines[#sortedLines + 1] = name
+		lines[name] = ""
+	end
+
+	return lines, sortedLines
+end
 
 mod.vb.lastIcon = 1
 
 function mod:OnCombatStart()
 	self.vb.lastIcon = 1
+	table.wipe(doomTargets)
 	timerDoomCD:Start("v5.7-11.8")
 	timerCurseCD:Start("v11.2-16.3")
+end
+
+function mod:OnCombatEnd()
+	table.wipe(doomTargets)
 end
 
 function mod:MCTarget(targetname)
@@ -78,15 +100,35 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
+local function UpdateDoomFrame()
+	if not mod.Options.InfoFrame then return end
+	if next(doomTargets) then
+		if not DBM.InfoFrame:IsShown() then
+			DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(19702))
+			DBM.InfoFrame:Show(20, "function", updateInfoFrame)
+		else
+			DBM.InfoFrame:UpdateTable(updateInfoFrame)
+		end
+	else
+		DBM.InfoFrame:Hide()
+	end
+end
+
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpell(20604) then
+	if args:IsSpell(19702, 460931) and args:IsDestTypePlayer() then
+		doomTargets[args.destName] = true
+		UpdateDoomFrame()
+	elseif args:IsSpell(20604) then
 		self:MCTarget(args.destName)
 		timerMC:Start(args.destName)
 	end
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpell(20604) and args:IsDestTypePlayer() then
+	if args:IsSpell(19702, 460931) and args:IsDestTypePlayer() then
+		doomTargets[args.destName] = nil
+		UpdateDoomFrame()
+	elseif args:IsSpell(20604) and args:IsDestTypePlayer() then
 		timerMC:Stop(args.destName)
 		if self.Options.SetIconOnMC then
 			self:SetIcon(args.destName, 0)
