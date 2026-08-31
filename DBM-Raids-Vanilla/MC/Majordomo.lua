@@ -30,6 +30,8 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 461056 364908",
 	"SPELL_CAST_SUCCESS 20619 21075 20534 461056",
+	"SPELL_AURA_APPLIED 118 12824 12825 12826 5782 6213 6215 3355 14308 14309",
+	"SPELL_AURA_REMOVED 118 12824 12825 12826 5782 6213 6215 3355 14308 14309",
 	"NAME_PLATE_UNIT_ADDED",
 	"UNIT_DIED"
 )
@@ -62,31 +64,62 @@ do
 	end
 end
 
+local polymorphSpells = {118, 12824, 12825, 12826}
+local fearSpells = {5782, 6213, 6215}
+local freezingTrapSpells = {3355, 14308, 14309}
+local polymorphIcon = "|TInterface\\Icons\\Spell_nature_polymorph:0|t"
+local fearIcon = "|TInterface\\Icons\\Spell_shadow_possession:0|t"
+local freezingTrapIcon = "|TInterface\\Icons\\Spell_frost_chainsofice:0|t"
+local ccDurations = {
+	[118] = 20, [12824] = 30, [12825] = 40, [12826] = 50,
+	[5782] = 10, [6213] = 15, [6215] = 20,
+	[3355] = 10, [14308] = 15, [14309] = 20
+}
+local ccSpellIcons = {}
+do
+	local ccSpellsList = {polymorphSpells, polymorphIcon, fearSpells, fearIcon, freezingTrapSpells, freezingTrapIcon}
+	for i = 1, #ccSpellsList, 2 do
+		local spells, icon = ccSpellsList[i], ccSpellsList[i + 1]
+		for _, spellId in ipairs(spells) do
+			ccSpellIcons[spellId] = icon
+		end
+	end
+end
+
 mod:AddInfoFrameOption(nil, true)
 
 local addNames = {}
 local addIcons = {}
 local addDead = {}
+local ccExpires = {}
+local ccIcons = {}
 
 local updateInfoFrame
 do
 	local twipe = table.wipe
+	local GetTime = GetTime
 	local lines, sortedLines = {}, {}
 	updateInfoFrame = function()
 		twipe(lines)
 		twipe(sortedLines)
+		local t = GetTime()
 		for guid, name in pairs(addNames) do
-			local hp = DBM:GetBossHP(guid)
 			local icon = addIcons[guid]
 			local displayName = icon and ("|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_%d:0|t%s"):format(icon, name) or name
 			local key = guid .. "*" .. displayName
 			sortedLines[#sortedLines + 1] = key
+			local ccTimeLeft = ccExpires[guid] and (ccExpires[guid] - t) or 0
 			if addDead[guid] then
 				lines[key] = DEAD
-			elseif hp and hp > 0 then
-				lines[key] = ("|cffffffff%.0f%%|r"):format(hp)
+			elseif ccTimeLeft > 0 then
+				lines[key] = ccIcons[guid] .. ("|cff00ff00%.0f|r"):format(ccTimeLeft)
 			else
-				lines[key] = ("|cff00ff00%d%%|r"):format(0)
+				local hp = DBM:GetBossHP(guid)
+				if hp and hp > 0 then
+					lines[key] = ("%.0f%%"):format(hp)
+				else
+					lines[key] = ("%d%%"):format(0)
+				end
 			end
 		end
 		return lines, sortedLines
@@ -97,6 +130,8 @@ function mod:OnCombatStart()
 	table.wipe(addNames)
 	table.wipe(addIcons)
 	table.wipe(addDead)
+	table.wipe(ccExpires)
+	table.wipe(ccIcons)
 	timerTeleportCD:Start("v15.8-21.1")
 	timerShieldCD:Start(string.format("v%s-%s", 25.6, 30.7))
 	if DBM:IsSeasonal("SeasonOfDiscovery") then
@@ -115,6 +150,8 @@ function mod:OnCombatEnd()
 	table.wipe(addNames)
 	table.wipe(addIcons)
 	table.wipe(addDead)
+	table.wipe(ccExpires)
+	table.wipe(ccIcons)
 end
 
 function mod:NAME_PLATE_UNIT_ADDED(unitId)
@@ -134,6 +171,27 @@ function mod:OnSync(event, guid, icon)
 				addIcons[guid] = iconNum
 			end
 			ShowInfoFrame()
+		end
+	end
+end
+
+function mod:SPELL_AURA_APPLIED(args)
+	if args:IsSpell(118, 12824, 12825, 12826, 5782, 6213, 6215, 3355, 14308, 14309) and args:IsDestTypeHostile() then
+		local guid = args.destGUID
+		if guid and addCIDs[self:GetCIDFromGUID(guid)] then
+			ccExpires[guid] = GetTime() + ccDurations[args.spellId]
+			ccIcons[guid] = ccSpellIcons[args.spellId]
+			ShowInfoFrame()
+		end
+	end
+end
+
+function mod:SPELL_AURA_REMOVED(args)
+	if args:IsSpell(118, 12824, 12825, 12826, 5782, 6213, 6215, 3355, 14308, 14309) and args:IsDestTypeHostile() then
+		local guid = args.destGUID
+		if guid and addCIDs[self:GetCIDFromGUID(guid)] then
+			ccExpires[guid] = nil
+			ccIcons[guid] = nil
 		end
 	end
 end
