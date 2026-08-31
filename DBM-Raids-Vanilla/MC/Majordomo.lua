@@ -45,6 +45,15 @@ local timerMagicReflect    = mod:NewBuffActiveTimer(10, 20619, nil, "-Melee", ni
 local timerDamageShield    = mod:NewBuffActiveTimer(10, 21075, nil, "Melee", nil, 5, nil, DBM_COMMON_L.DAMAGE_ICON)
 local timerShieldCD        = mod:NewTimer(30.7, "timerShieldCD", nil, nil, nil, 6, DBM_COMMON_L.DAMAGE_ICON)
 
+-- New in SoD
+-- https://sod.warcraftlogs.com/reports/6RBYhaHdc17x94J8#fight=64&type=casts&by=ability&view=events&hostility=1
+local specWarnFlare, specWarnDarkMending, timerNextFlare
+if DBM:IsSeasonal("SeasonOfDiscovery") then
+	specWarnFlare		= mod:NewSpecialWarningSpell(461056, nil, nil, nil, 2, 2, nil, nil, "findshelter")
+	specWarnDarkMending	= mod:NewSpecialWarningInterrupt(364908, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
+	timerNextFlare		= mod:NewNextTimer(30, 461056, nil, nil, nil, 2)
+end
+
 local addCIDs = {}
 do
 	local cids = DBM:IsSeasonal("SeasonOfDiscovery") and {228836, 228837} or {11663, 11664}
@@ -97,13 +106,12 @@ end
 
 local function ShowInfoFrame()
 	if not DBM.InfoFrame:IsShown() and mod.Options.InfoFrame then
-		DBM.InfoFrame:SetHeader(L.name)
-		DBM.InfoFrame:Show(4, "function", updateInfoFrame)
+		DBM.InfoFrame:SetHeader(DBM_COMMON_L.ADDS)
+		DBM.InfoFrame:Show(0.5, "function", updateInfoFrame)
 	end
 end
 
 function mod:OnCombatEnd()
-	DBM.InfoFrame:Hide()
 	table.wipe(addNames)
 	table.wipe(addIcons)
 	table.wipe(addDead)
@@ -117,14 +125,16 @@ end
 
 function mod:OnSync(event, guid, icon)
 	if not self:IsInCombat() then return end
-	if event ~= "AddFound" or not guid then return end
-	if not addNames[guid] then
-		addNames[guid] = L.Flamewaker
-		local iconNum = tonumber(icon)
-		if iconNum and iconNum > 0 then
-			addIcons[guid] = iconNum
+	if event == "AddFound" then
+		if not addNames[guid] then
+			local cid = self:GetCIDFromGUID(guid)
+			addNames[guid] = (cid == 11663 or cid == 228837) and L.FlamewakerHealer or L.FlamewakerElite
+			local iconNum = tonumber(icon)
+			if iconNum and iconNum > 0 then
+				addIcons[guid] = iconNum
+			end
+			ShowInfoFrame()
 		end
-		ShowInfoFrame()
 	end
 end
 
@@ -132,15 +142,6 @@ function mod:UNIT_DIED(args)
 	if args.destGUID and self:GetCIDFromGUID(args.destGUID) and addCIDs[self:GetCIDFromGUID(args.destGUID)] then
 		addDead[args.destGUID] = true
 	end
-end
-
--- New in SoD
--- https://sod.warcraftlogs.com/reports/6RBYhaHdc17x94J8#fight=64&type=casts&by=ability&view=events&hostility=1
-local specWarnFlare, specWarnDarkMending, timerNextFlare
-if DBM:IsSeasonal("SeasonOfDiscovery") then
-	specWarnFlare		= mod:NewSpecialWarningSpell(461056, nil, nil, nil, 2, 2, nil, nil, "findshelter")
-	specWarnDarkMending	= mod:NewSpecialWarningInterrupt(364908, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
-	timerNextFlare		= mod:NewNextTimer(30, 461056, nil, nil, nil, 2)
 end
 
 function mod:SPELL_CAST_START(args)
