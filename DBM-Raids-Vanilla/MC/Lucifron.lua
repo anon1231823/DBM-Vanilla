@@ -41,6 +41,7 @@ local specWarnMC	= mod:NewSpecialWarningYou(20604, nil, nil, nil, 1, 2, nil, nil
 local yellMC		= mod:NewYell(20604)
 
 local timerDoomCD	= mod:NewVarTimer("v21-27", 19702, nil, "RemoveMagic", nil, 2, nil, DBM_COMMON_L.MAGIC_ICON)
+local timerDoom		= mod:NewBuffFadesTimer(10, 19702, nil, "RemoveMagic", nil, 3, nil, DBM_COMMON_L.MAGIC_ICON)
 local timerCurseCD	= mod:NewVarTimer("v21-25.9", 19703, nil, "RemoveCurse", nil, 2, nil, DBM_COMMON_L.CURSE_ICON)
 local timerMC		= mod:NewTargetTimer(15, 20604, nil, false, nil, 3)
 
@@ -111,6 +112,7 @@ local function UpdateDoomFrame()
 		end
 	else
 		DBM.InfoFrame:Hide()
+		timerDoom:Stop()
 	end
 end
 
@@ -139,6 +141,7 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpell(19702, 460931) then
 		warnDoom:Show()
+		timerDoom:Start()
 		if DBM:IsSeasonal("SeasonOfDiscovery") then
 			timerDoomCD:Start("v16-21")
 		else
