@@ -27,7 +27,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 20604",
 	"SPELL_CAST_SUCCESS 19702 19703 460931 460932",
 	"SPELL_AURA_APPLIED 19702 19703 20604 460931 460932",
-	"SPELL_AURA_REMOVED 19702 19703 20604 460931 460932"
+	"SPELL_AURA_REMOVED 19702 19703 20604 460931 460932",
+	"UNIT_DIED"
 )
 
 --[[
@@ -36,6 +37,7 @@ mod:RegisterEventsInCombat(
 local warnDoom		= mod:NewSpellAnnounce(19702, 2)
 local warnCurse		= mod:NewSpellAnnounce(19703, 3)
 local warnMC		= mod:NewTargetNoFilterAnnounce(20604, 4)
+local warnGuardDied	= mod:NewAnnounce("WarnGuardDied", 2, "135829")
 
 local specWarnMC	= mod:NewSpecialWarningYou(20604, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 local specWarnDoom	= mod:NewSpecialWarningDispel(19702, "RemoveMagic", nil, nil, 1, 2, nil, nil, "dispelnow")
@@ -54,6 +56,7 @@ mod:AddSetIconOption("SetIconOnMC", 20604, true, 0, {1, 2})
 local twipe = table.wipe
 local lines, sortedLines = {}, {}
 local doomTargets = {}
+local guardsGuidCheck = {}
 local function updateInfoFrame()
 	twipe(lines)
 	twipe(sortedLines)
@@ -67,16 +70,20 @@ local function updateInfoFrame()
 end
 
 mod.vb.lastIcon = 1
+mod.vb.guardsRemaining = 2
 
 function mod:OnCombatStart()
 	self.vb.lastIcon = 1
+	self.vb.guardsRemaining = 2
 	table.wipe(doomTargets)
+	table.wipe(guardsGuidCheck)
 	timerDoomCD:Start("v5.7-11.8")
 	timerCurseCD:Start("v11.2-16.3")
 end
 
 function mod:OnCombatEnd()
 	table.wipe(doomTargets)
+	table.wipe(guardsGuidCheck)
 end
 
 function mod:MCTarget(targetname)
@@ -165,5 +172,17 @@ function mod:SPELL_CAST_SUCCESS(args)
 			warnCurse:Show()
 		end
 		timerCurseCD:Start()
+	end
+end
+
+function mod:UNIT_DIED(args)
+	local guid = args.destGUID
+	local cid = self:GetCIDFromGUID(guid)
+	if cid == 12119 then -- Flamewaker Protector
+		if not guardsGuidCheck[guid] then
+			guardsGuidCheck[guid] = true
+			self.vb.guardsRemaining = self.vb.guardsRemaining - 1
+			warnGuardDied:Show(self.vb.guardsRemaining, 2)
+		end
 	end
 end
