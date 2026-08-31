@@ -579,6 +579,12 @@ L = DBM:GetModLocalization("Sulfuron")
 L:SetGeneralLocalization{
 	name = "Предвестник Сульфурон"
 }
+L:SetWarningLocalization({
+	WarnGuardDied = "Поджигатель-жрец: %d/4" -- NPC ID 11662
+})
+L:SetOptionLocalization{
+	WarnGuardDied = "Показывать предупреждение об оставшихся поджигателях-жрецах"
+}
 
 ----------------
 --  Golemagg  --
@@ -977,7 +983,7 @@ L:SetMiscLocalization({
 	Yell1P1		= "На корм хозяину!",
 	Yell2P1		= "Сталагг тебя раздавит!",
 	Yell1P2 	= "Отведайте… своих… костей…",
-	Yell2P2 	= "Проломить… тебя!!!",
+	Yell2P2 	= "Растерзаю!!!",
 	Yell3P2 	= "Убей…",
 	EmoteDies 	= "%s умирает.",
 	--EmoteRevive = "%s is jolted back to life!"
