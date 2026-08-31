@@ -676,7 +676,7 @@ L:SetGeneralLocalization{
 	name = "Messager de Sulfuron"
 }
 L:SetWarningLocalization({
-	WarnGuardDied = "Prêtre Attise-flammes: %d/4" -- NPC ID 11662
+	WarnGuardDied = "Prêtre Attise-flammes : %d/4" -- NPC ID 11662
 })
 L:SetOptionLocalization{
 	WarnGuardDied = "Afficher une annonce pour les Prêtres Attise-flammes restants"
