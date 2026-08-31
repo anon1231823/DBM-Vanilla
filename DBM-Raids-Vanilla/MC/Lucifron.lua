@@ -26,8 +26,8 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 20604",
 	"SPELL_CAST_SUCCESS 19702 19703 460931 460932",
-	"SPELL_AURA_APPLIED 19702 20604 460931",
-	"SPELL_AURA_REMOVED 19702 20604 460931"
+	"SPELL_AURA_APPLIED 19702 19703 20604 460931 460932",
+	"SPELL_AURA_REMOVED 19702 19703 20604 460931 460932"
 )
 
 --[[
@@ -38,6 +38,8 @@ local warnCurse		= mod:NewSpellAnnounce(19703, 3)
 local warnMC		= mod:NewTargetNoFilterAnnounce(20604, 4)
 
 local specWarnMC	= mod:NewSpecialWarningYou(20604, nil, nil, nil, 1, 2, nil, nil, "targetyou")
+local specWarnDoom	= mod:NewSpecialWarningDispel(19702, "RemoveMagic", nil, nil, 1, 2, nil, nil, "dispelnow")
+local specWarnCurse	= mod:NewSpecialWarningDispel(19703, "RemoveCurse", nil, nil, 1, 2, nil, nil, "dispelnow")
 local yellMC		= mod:NewYell(20604)
 
 local timerDoom		= mod:NewBuffFadesTimer(10, 19702, nil, "RemoveMagic", nil, 2, nil, DBM_COMMON_L.MAGIC_ICON)
@@ -120,6 +122,15 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(19702, 460931) and args:IsDestTypePlayer() then
 		doomTargets[args.destName] = true
 		UpdateDoomFrame()
+		if self.Options.SpecWarn19702dispel and self:AntiSpam(3, 1) then
+			specWarnDoom:CombinedShow(0.5, args.destName)
+			specWarnDoom:ScheduleVoice(0.5, "dispelnow")
+		end
+	elseif args:IsSpell(19703, 460932) and args:IsDestTypePlayer() then
+		if self.Options.SpecWarn19703dispel and self:AntiSpam(3, 2) then
+			specWarnCurse:CombinedShow(0.5, args.destName)
+			specWarnCurse:ScheduleVoice(0.5, "dispelnow")
+		end
 	elseif args:IsSpell(20604) then
 		self:MCTarget(args.destName)
 		timerMC:Start(args.destName)
