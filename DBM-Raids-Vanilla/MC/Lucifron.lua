@@ -151,15 +151,19 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpell(19702, 460931) then
-		warnDoom:Show()
 		timerDoom:Start()
+		if not self.Options.SpecWarn19702dispel then
+			warnDoom:Show()
+		end
 		if DBM:IsSeasonal("SeasonOfDiscovery") then
 			timerDoomCD:Start("v16-21")
 		else
 			timerDoomCD:Start()
 		end
 	elseif args:IsSpell(19703, 460932) then
-		warnCurse:Show()
+		if not self.Options.SpecWarn19703dispel then
+			warnCurse:Show()
+		end
 		timerCurseCD:Start()
 	end
 end
