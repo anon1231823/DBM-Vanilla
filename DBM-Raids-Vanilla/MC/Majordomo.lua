@@ -29,7 +29,9 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 461056 364908",
-	"SPELL_CAST_SUCCESS 20619 21075 20534 461056"
+	"SPELL_CAST_SUCCESS 20619 21075 20534 461056",
+	"NAME_PLATE_UNIT_ADDED",
+	"UNIT_DIED"
 )
 
 local warnTeleport			= mod:NewTargetNoFilterAnnounce(20534)
@@ -43,6 +45,95 @@ local timerMagicReflect    = mod:NewBuffActiveTimer(10, 20619, nil, "-Melee", ni
 local timerDamageShield    = mod:NewBuffActiveTimer(10, 21075, nil, "Melee", nil, 5, nil, DBM_COMMON_L.DAMAGE_ICON)
 local timerShieldCD        = mod:NewTimer(30.7, "timerShieldCD", nil, nil, nil, 6, DBM_COMMON_L.DAMAGE_ICON)
 
+local addCIDs = {}
+do
+	local cids = DBM:IsSeasonal("SeasonOfDiscovery") and {228836, 228837} or {11663, 11664}
+	for _, cid in ipairs(cids) do
+		addCIDs[cid] = true
+	end
+end
+
+mod:AddInfoFrameOption(nil, true)
+
+local addNames = {}
+local addIcons = {}
+local addDead = {}
+
+local updateInfoFrame
+do
+	local twipe = table.wipe
+	local lines, sortedLines = {}, {}
+	updateInfoFrame = function()
+		twipe(lines)
+		twipe(sortedLines)
+		for guid, name in pairs(addNames) do
+			local hp = DBM:GetBossHP(guid)
+			local icon = addIcons[guid]
+			local displayName = icon and ("|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_%d:0|t%s"):format(icon, name) or name
+			local key = guid .. "*" .. displayName
+			sortedLines[#sortedLines + 1] = key
+			if addDead[guid] then
+				lines[key] = DEAD
+			elseif hp and hp > 0 then
+				lines[key] = ("|cffffffff%.0f%%|r"):format(hp)
+			else
+				lines[key] = ("|cff00ff00%d%%|r"):format(0)
+			end
+		end
+		return lines, sortedLines
+	end
+end
+
+function mod:OnCombatStart()
+	table.wipe(addNames)
+	table.wipe(addIcons)
+	table.wipe(addDead)
+	timerTeleportCD:Start("v15.8-21.1")
+	timerShieldCD:Start(string.format("v%s-%s", 25.6, 30.7))
+	if DBM:IsSeasonal("SeasonOfDiscovery") then
+		timerNextFlare:Start(16)
+	end
+end
+
+local function ShowInfoFrame()
+	if not DBM.InfoFrame:IsShown() and mod.Options.InfoFrame then
+		DBM.InfoFrame:SetHeader(L.name)
+		DBM.InfoFrame:Show(4, "function", updateInfoFrame)
+	end
+end
+
+function mod:OnCombatEnd()
+	DBM.InfoFrame:Hide()
+	table.wipe(addNames)
+	table.wipe(addIcons)
+	table.wipe(addDead)
+end
+
+function mod:NAME_PLATE_UNIT_ADDED(unitId)
+	local guid = UnitGUID(unitId)
+	if not guid or not addCIDs[self:GetCIDFromGUID(guid)] then return end
+	self:SendSync("AddFound", guid, GetRaidTargetIndex(unitId) or 0)
+end
+
+function mod:OnSync(event, guid, icon)
+	if not self:IsInCombat() then return end
+	if event ~= "AddFound" or not guid then return end
+	if not addNames[guid] then
+		addNames[guid] = L.Flamewaker
+		local iconNum = tonumber(icon)
+		if iconNum and iconNum > 0 then
+			addIcons[guid] = iconNum
+		end
+		ShowInfoFrame()
+	end
+end
+
+function mod:UNIT_DIED(args)
+	if args.destGUID and self:GetCIDFromGUID(args.destGUID) and addCIDs[self:GetCIDFromGUID(args.destGUID)] then
+		addDead[args.destGUID] = true
+	end
+end
+
 -- New in SoD
 -- https://sod.warcraftlogs.com/reports/6RBYhaHdc17x94J8#fight=64&type=casts&by=ability&view=events&hostility=1
 local specWarnFlare, specWarnDarkMending, timerNextFlare
@@ -50,14 +141,6 @@ if DBM:IsSeasonal("SeasonOfDiscovery") then
 	specWarnFlare		= mod:NewSpecialWarningSpell(461056, nil, nil, nil, 2, 2, nil, nil, "findshelter")
 	specWarnDarkMending	= mod:NewSpecialWarningInterrupt(364908, "HasInterrupt", nil, nil, 1, 2, nil, nil, "kickcast")
 	timerNextFlare		= mod:NewNextTimer(30, 461056, nil, nil, nil, 2)
-end
-
-function mod:OnCombatStart()
-	timerTeleportCD:Start("v15.8-21.1")
-	timerShieldCD:Start(string.format("v%s-%s", 25.6, 30.7))
-	if DBM:IsSeasonal("SeasonOfDiscovery") then
-		timerNextFlare:Start(16)
-	end
 end
 
 function mod:SPELL_CAST_START(args)
