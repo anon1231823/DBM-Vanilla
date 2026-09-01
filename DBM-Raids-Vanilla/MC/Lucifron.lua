@@ -44,9 +44,9 @@ local specWarnDoom	= mod:NewSpecialWarningDispel(19702, "RemoveMagic", nil, nil,
 local specWarnCurse	= mod:NewSpecialWarningDispel(19703, "RemoveCurse", nil, nil, 1, 2, nil, nil, "dispelnow")
 local yellMC		= mod:NewYell(20604)
 
-local timerDoom		= mod:NewBuffFadesTimer(10, 19702, nil, "RemoveMagic", nil, 2, nil, DBM_COMMON_L.MAGIC_ICON)
-local timerDoomCD	= mod:NewVarTimer("v21-27", 19702, nil, "RemoveMagic", nil, 2, nil, DBM_COMMON_L.MAGIC_ICON)
-local timerCurseCD	= mod:NewVarTimer("v21-25.9", 19703, nil, "RemoveCurse", nil, 2, nil, DBM_COMMON_L.CURSE_ICON)
+local timerDoom		= mod:NewBuffFadesTimer(10, 19702, nil, "RemoveMagic", nil, 3, nil, DBM_COMMON_L.MAGIC_ICON)
+local timerDoomCD	= mod:NewVarTimer("v21-27", 19702, nil, "RemoveMagic", nil, 3, nil, DBM_COMMON_L.MAGIC_ICON)
+local timerCurseCD	= mod:NewVarTimer("v21-25.9", 19703, nil, "RemoveCurse", nil, 3, nil, DBM_COMMON_L.CURSE_ICON)
 local timerMC		= mod:NewTargetTimer(15, 20604, nil, false, nil, 3)
 
 mod:AddInfoFrameOption(19702, "RemoveMagic")
