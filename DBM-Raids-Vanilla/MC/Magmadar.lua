@@ -91,7 +91,7 @@ end
 do
 	local Conflagration = DBM:GetSpellName(19428)
 	function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId, spellName)
-		if (spellId == 19428 or spellName == Conflagration) and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
+		if (spellId == 19428 or spellName == Conflagration) and destGUID == UnitGUID("player") and self:AntiSpam(8, 2) then
 			specWarnGTFO:Show(spellName)
 			specWarnGTFO:Play("watchfeet")
 		end
