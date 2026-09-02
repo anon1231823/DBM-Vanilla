@@ -64,6 +64,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnFrenzy:Show()
 		end
 		timerFrenzy:Start()
+	elseif args:IsSpell(19428) and args:IsPlayer() and self:AntiSpam(8, 2) then
+		specWarnGTFO:Show(args.spellName)
+		specWarnGTFO:Play("watchfeet")
 	end
 end
 
@@ -86,17 +89,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, spellId)
 	if spellId == 364727 or spellId == 461131 then--Lower heat levels (confirmed), higher heat levels?
 		self:SendSync("CoreHound")
 	end
-end
-
-do
-	local Conflagration = DBM:GetSpellName(19428)
-	function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId, spellName)
-		if (spellId == 19428 or spellName == Conflagration) and destGUID == UnitGUID("player") and self:AntiSpam(8, 2) then
-			specWarnGTFO:Show(spellName)
-			specWarnGTFO:Play("watchfeet")
-		end
-	end
-	mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 end
 
 function mod:OnSync(msg)
