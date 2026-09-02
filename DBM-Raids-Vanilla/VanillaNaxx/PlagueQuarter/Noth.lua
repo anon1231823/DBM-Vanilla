@@ -31,8 +31,8 @@ source.id = 15954 and (type = "begincast" or type = "cast")
 --]]
 local warnTeleportNow	= mod:NewAnnounce("WarningTeleportNow", 3, "135736")
 local warnTeleportSoon	= mod:NewAnnounce("WarningTeleportSoon", 2, "135736")
-local warnCurse			= mod:NewSpellAnnounce(29213, 2)
 local warnBlink			= mod:NewSpellAnnounce(29208, 3)
+local warnCurse			= mod:NewSpellAnnounce(29213, 2)
 
 local specWarnAdds		= mod:NewSpecialWarningAdds(29252, "-Healer", nil, nil, 1, 2, nil, "136187", "killmob")
 local specWarnCurse 	= mod:NewSpecialWarningDispel(29213, "RemoveCurse", nil, nil, 1, 2, nil, nil, "dispelnow")
