@@ -129,15 +129,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(19702, 460931) and args:IsDestTypePlayer() then
 		doomTargets[args.destName] = true
 		UpdateDoomFrame()
-		if self.Options.SpecWarn19702dispel and self:AntiSpam(3, 1) then
-			specWarnDoom:CombinedShow(0.5, args.destName)
-			specWarnDoom:ScheduleVoice(0.5, "dispelnow")
-		end
-	elseif args:IsSpell(19703, 460932) and args:IsDestTypePlayer() then
-		if self.Options.SpecWarn19703dispel and self:AntiSpam(3, 2) then
-			specWarnCurse:CombinedShow(0.5, args.destName)
-			specWarnCurse:ScheduleVoice(0.5, "dispelnow")
-		end
 	elseif args:IsSpell(20604) then
 		self:MCTarget(args.destName)
 		timerMC:Start(args.destName)
@@ -158,8 +149,10 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpell(19702, 460931) then
-		timerDoom:Start()
-		if not self.Options.SpecWarn19702dispel then
+		if self.Options.SpecWarn19702dispel then
+			specWarnDoom:Show()
+			specWarnDoom:Play("dispelnow")
+		else
 			warnDoom:Show()
 		end
 		if DBM:IsSeasonal("SeasonOfDiscovery") then
@@ -168,7 +161,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 			timerDoomCD:Start()
 		end
 	elseif args:IsSpell(19703, 460932) then
-		if not self.Options.SpecWarn19703dispel then
+		if self.Options.SpecWarn19703dispel then
+			specWarnCurse:Show()
+			specWarnCurse:Play("dispelnow")
+		else
 			warnCurse:Show()
 		end
 		timerCurseCD:Start()
