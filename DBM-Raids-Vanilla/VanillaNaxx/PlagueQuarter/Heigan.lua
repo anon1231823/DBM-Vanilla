@@ -30,6 +30,7 @@ local warnFever			= mod:NewSpellAnnounce(29998, 2)
 local warnTeleport		= mod:NewSpellAnnounce(30211, 3, "135736")
 local warnTeleportSoon	= mod:NewSoonAnnounce(30211, 2, "135736")
 
+local specWarnFever		= mod:NewSpecialWarningDispel(29998, "RemoveDisease", nil, nil, 1, 2, nil, nil, "dispelnow")
 local specWarnGTFO		= mod:NewSpecialWarningGTFO(29371, nil, nil, nil, 1, 8, nil, nil, "watchfeet")
 
 local timerEruption		= mod:NewNextCountTimer(3, 29371, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
@@ -102,6 +103,10 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(29998) then
 		feverTargets[args.destName] = true
 		UpdateFeverFrame()
+		if self.Options.SpecWarn29998dispel and self:AntiSpam(3, 1) then
+			specWarnFever:CombinedShow(0.5, args.destName)
+			specWarnFever:ScheduleVoice(0.5, "dispelnow")
+		end
 	end
 end
 
@@ -114,7 +119,9 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpell(29998) then
-		warnFever:Show()
+		if not self.Options.SpecWarn29998dispel then
+			warnFever:Show()
+		end
 		timerFever:Start()
 	end
 end
@@ -138,7 +145,7 @@ end
 do
 	local Eruption = DBM:GetSpellName(29371)
 	function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId, spellName)
-		if (spellId == 29371 or spellName == Eruption) and destGUID == UnitGUID("player") and self:AntiSpam() then
+		if (spellId == 29371 or spellName == Eruption) and destGUID == UnitGUID("player") and self:AntiSpam(3, 2) then
 			specWarnGTFO:Show(spellName)
 			specWarnGTFO:Play("watchfeet")
 		end
