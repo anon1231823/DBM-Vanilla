@@ -26,6 +26,7 @@ mod:RegisterEventsInCombat(
 )
 
 local warnDance			= mod:NewSpellAnnounce(29350, 3)
+local warnEruptionSoon	= mod:NewSoonCountAnnounce(29371, 3, nil, false)
 local warnFever			= mod:NewSpellAnnounce(29998, 2)
 local warnTeleport		= mod:NewSpellAnnounce(30211, 3, "135736")
 local warnTeleportSoon	= mod:NewSoonAnnounce(30211, 2, "135736")
@@ -61,6 +62,7 @@ function mod:OnCombatStart()
 	self.vb.eruptionCount = 1
 	table.wipe(feverTargets)
 	warnTeleportSoon:Schedule(80.6)
+	warnEruptionSoon:Schedule(13.5, self.vb.eruptionCount)
 	timerTeleport:Start()
 	timerEruption:Start(16.5, self.vb.eruptionCount)
 	timerFever:Start("v11.3-25.9")
@@ -79,6 +81,9 @@ end
 
 function mod:EruptionTick(interval)
 	self.vb.eruptionCount = self.vb.eruptionCount + 1
+	if interval == 10 then
+		warnEruptionSoon:Schedule(interval - 3, self.vb.eruptionCount)
+	end
 	timerEruption:Start(interval, self.vb.eruptionCount)
 	if not (interval == 10 and self.vb.eruptionCount >= 8) then
 		self:ScheduleMethod(interval, "EruptionTick", interval)
@@ -158,6 +163,7 @@ function mod:OnSync(event)
 		self.vb.eruptionCount = 1
 		warnTeleport:Show()
 		warnTeleportSoon:Cancel()
+		warnEruptionSoon:Cancel()
 		timerTeleport:Stop()
 		timerFever:Stop()
 		timerEruption:Stop()
@@ -176,6 +182,7 @@ function mod:OnSync(event)
 		self:UnscheduleMethod("EruptionTick")
 	elseif event == "EruptionStart" then
 		self.vb.eruptionCount = 1
+		warnEruptionSoon:Schedule(7, self.vb.eruptionCount)
 		timerEruption:Start(10, self.vb.eruptionCount)
 		self:ScheduleMethod(10, "EruptionTick", 10)
 	end
