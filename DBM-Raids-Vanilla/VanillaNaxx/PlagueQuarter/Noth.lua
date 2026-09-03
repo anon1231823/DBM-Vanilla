@@ -143,7 +143,7 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpell(29213) then -- Curse of the Plaguebringer
+	if args:IsSpell(29213) then
 		self.vb.curseCount = self.vb.curseCount + 1
 		if not self.Options.SpecWarn29213dispel then
 			warnCurse:Show()
