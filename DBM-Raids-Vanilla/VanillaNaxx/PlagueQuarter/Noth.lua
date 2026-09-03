@@ -148,8 +148,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if not self.Options.SpecWarn29213dispel then
 			warnCurse:Show()
 		end
-			timerCurse:Start()
-			timerCurseCD:Start()
+		timerCurse:Start()
+		timerCurseCD:Start()
 	elseif args:IsSpell(29208) and args:IsSrcTypeHostile() then
 		warnBlink:Show()
 	end
