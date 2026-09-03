@@ -128,6 +128,10 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(29213) then
 		curseTargets[args.destName] = true
 		UpdateCurseFrame()
+		if self.Options.SpecWarn29213dispel and self:AntiSpam(3, 1) then
+			specWarnCurse:CombinedShow(0.5, args.destName)
+			specWarnCurse:ScheduleVoice(0.5, "dispelnow")
+		end
 	end
 end
 
@@ -139,12 +143,9 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpell(29213) then
+	if args:IsSpell(29213) then -- Curse of the Plaguebringer
 		self.vb.curseCount = self.vb.curseCount + 1
-		if self.Options.SpecWarn29213dispel then
-			specWarnCurse:Show()
-			specWarnCurse:Play("dispelnow")
-		else
+		if not self.Options.SpecWarn29213dispel then
 			warnCurse:Show()
 		end
 			timerCurse:Start()
