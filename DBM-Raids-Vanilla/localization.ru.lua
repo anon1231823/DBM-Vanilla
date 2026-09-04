@@ -903,7 +903,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Pull1				= "Теперь вы принадлежите мне!",
+	Pull1				= "Теперь ты принадлежишь мне.",
 	Pull2				= "Я вижу тебя…",
 	Pull3 				= "Пришло ваше время…"
 })
