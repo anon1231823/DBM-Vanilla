@@ -1,4 +1,4 @@
-## Interface: 11509, 20506, 30405, 38002, 40402, 50504
+## Interface: 11509, 16001, 20506, 30405, 38002, 40402, 50504
 ## ExcludeLoadGameType: standard
 ## Category: DBM
 
@@ -16,6 +16,7 @@
 ## RequiredDeps: DBM-Core
 ## SavedVariables: DBMAzeroth_AllSavedVars
 ## SavedVariablesPerCharacter: DBMAzeroth_SavedStats
+## IconTexture: Interface\AddOns\DBM-Core\textures\dbm_airhorn
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: WORLDBOSS
 ## X-DBM-Mod-Category: Classic
