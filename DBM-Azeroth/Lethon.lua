@@ -21,8 +21,7 @@ else
 	mod:RegisterEventsInCombat(
 		"SPELL_CAST_SUCCESS 24811 24813 24814 24818",
 		"SPELL_AURA_APPLIED 24818",
-		"SPELL_AURA_APPLIED_DOSE 24818",
-		"SPELL_DAMAGE 24820 24821 24822 24835 24836 24837 24838"
+		"SPELL_AURA_APPLIED_DOSE 24818"
 	)
 
 	local warnNoxiousBreath			= mod:NewStackAnnounce(24818, 2, nil, "Tank", 2)
@@ -30,13 +29,11 @@ else
 	local specWarnSleepingFog		= mod:NewSpecialWarningDodge(24814, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 
 	local timerNoxiousBreathCD		= mod:NewVarTimer("v9.6-11.5", 24818, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
-	local timerShadowBoltWhirlCD	= mod:NewVarTimer("v37.8-40.4", 24820, nil, nil, nil, 2)
 	local timerSleepingFogCD		= mod:NewVarTimer("v60.0-61.5", 24814, nil, nil, nil, 3)
 
 	function mod:OnCombatStart(_, yellTriggered)
 		if yellTriggered then
 			timerNoxiousBreathCD:Start(11)
-			timerShadowBoltWhirlCD:Start(7.5)
 			timerSleepingFogCD:Start(30.9)
 		end
 	end
@@ -53,12 +50,6 @@ else
 				specWarnSleepingFog:Play("watchstep")
 			end
 			timerSleepingFogCD:Start()
-		end
-	end
-
-	function mod:SPELL_DAMAGE(_, _, _, _, _, _, _, _, spellId)
-		if (spellId == 24820 or spellId == 24821 or spellId == 24822 or spellId == 24835 or spellId == 24836 or spellId == 24837 or spellId == 24838) and self:AntiSpam(20, "ShadowBoltWhirlTimer") then
-			timerShadowBoltWhirlCD:Start()
 		end
 	end
 
