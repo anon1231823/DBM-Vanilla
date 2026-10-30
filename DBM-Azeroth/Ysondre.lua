@@ -68,7 +68,7 @@ else
 
 
 	function mod:SPELL_CAST_SUCCESS(args)
-		if args:IsSpell(24814, 24813) then
+		if args:IsSpell(24813, 24814) then
 			if self:AntiSpam(600, "SpecWarnFog") then -- It's more active than inactive, only warn for the initial one
 				specWarnSleepingFog:Show()
 				specWarnSleepingFog:Play("watchstep")

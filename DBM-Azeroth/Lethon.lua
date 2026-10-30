@@ -44,7 +44,7 @@ else
 		elseif args:IsSpell(24811) then
 			specWarnDrainSoul:Show()
 			specWarnDrainSoul:Play("killmob")
-		elseif args:IsSpell(24814, 24813) then
+		elseif args:IsSpell(24813, 24814) then
 			if self:AntiSpam(600, "SpecWarnFog") then -- It's more active than inactive, only warn for the initial one
 				specWarnSleepingFog:Show()
 				specWarnSleepingFog:Play("watchstep")

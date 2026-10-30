@@ -54,7 +54,7 @@ else
 		elseif args:IsSpell(24910) then
 			specWarnCorruption:Show()
 			specWarnCorruption:Play("healall")
-		elseif args:IsSpell(24814, 24813) then
+		elseif args:IsSpell(24813, 24814) then
 			if self:AntiSpam(600, "SpecWarnFog") then -- It's more active than inactive, only warn for the initial one
 				specWarnSleepingFog:Show()
 				specWarnSleepingFog:Play("watchstep")
