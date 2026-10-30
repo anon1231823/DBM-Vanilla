@@ -26,7 +26,6 @@ else
 	)
 
 	local warnNoxiousBreath			= mod:NewStackAnnounce(24818, 2, nil, "Tank", 2)
-	
 	local specWarnDrainSoul			= mod:NewSpecialWarningAdds(24811, "Dps", nil, nil, 2, 2, nil, nil, "killmob")
 	local specWarnSleepingFog		= mod:NewSpecialWarningDodge(24814, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 
