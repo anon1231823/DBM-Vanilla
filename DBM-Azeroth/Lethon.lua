@@ -57,7 +57,7 @@ else
 	end
 
 	function mod:SPELL_DAMAGE(_, _, _, _, _, _, _, _, spellId)
-		if (spellId == 24820 or spellId == 24821 or spellId == 24822 or spellId == 24835 or spellId == 24836 or spellId == 24837 or spellId == 24838) and self:AntiSpam(5, "ShadowBoltWhirlTimer") then
+		if (spellId == 24820 or spellId == 24821 or spellId == 24822 or spellId == 24835 or spellId == 24836 or spellId == 24837 or spellId == 24838) and self:AntiSpam(20, "ShadowBoltWhirlTimer") then
 			timerShadowBoltWhirlCD:Start()
 		end
 	end
