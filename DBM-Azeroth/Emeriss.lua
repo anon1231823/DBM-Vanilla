@@ -31,6 +31,7 @@ else
 
 	local specWarnCorruption		= mod:NewSpecialWarningSpell(24910, "Healer", nil, nil, 1, 2, nil, nil, "healall")
 	local specWarnSleepingFog		= mod:NewSpecialWarningDodge(24814, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+	local specWarnVolatileInfection	= mod:NewSpecialWarningYou(24928, nil, nil, nil, 1, 2, nil, nil, "targetyou")
 
 	local timerNoxiousBreathCD		= mod:NewVarTimer("v9.6-11.4", 24818, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 	local timerVolatileInfectionCD	= mod:NewVarTimer("v6.5-19.5", 24928, nil, "RemoveDisease", nil, 3, nil, DBM_COMMON_L.DISEASE_ICON)
@@ -69,7 +70,12 @@ else
 				warnNoxiousBreath:Show(args.destName, args.amount or 1)
 			end
 		elseif args:IsSpell(24928) then
-			warnVolatileInfection:Show(args.destName)
+			if args:IsPlayer() then
+				specWarnVolatileInfection:Show()
+				specWarnVolatileInfection:Play("targetyou")
+			else
+				warnVolatileInfection:Show(args.destName)
+			end
 			if self.Options.SetIconOnVolatileInfection then
 				self:SetIcon(args.destName, 8)
 			end
