@@ -29,8 +29,8 @@ else
 	local warnNoxiousBreath			= mod:NewStackAnnounce(24818, 2, nil, "Tank", 2)
 	local warnVolatileInfection		= mod:NewTargetNoFilterAnnounce(24928, 2)
 
-	local specWarnSleepingFog		= mod:NewSpecialWarningDodge(24814, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 	local specWarnCorruption		= mod:NewSpecialWarningSpell(24910, "Healer", nil, nil, 1, 2, nil, nil, "healall")
+	local specWarnSleepingFog		= mod:NewSpecialWarningDodge(24814, nil, nil, nil, 2, 2, nil, nil, "watchstep")
 
 	local timerNoxiousBreathCD		= mod:NewVarTimer("v9.6-11.4", 24818, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 	local timerVolatileInfectionCD	= mod:NewVarTimer("v6.5-19.5", 24928, nil, "RemoveDisease", nil, 3, nil, DBM_COMMON_L.DISEASE_ICON)
