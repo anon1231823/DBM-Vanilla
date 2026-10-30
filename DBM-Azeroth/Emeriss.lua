@@ -20,7 +20,7 @@ if DBM:IsRestricted() then
 else
 
 	mod:RegisterEventsInCombat(
-		"SPELL_CAST_SUCCESS 24813 24814 24818 24928",
+		"SPELL_CAST_SUCCESS 24813 24814 24818 24910 24928",
 		"SPELL_AURA_APPLIED 24818 24928",
 		"SPELL_AURA_REMOVED 24928",
 		"SPELL_AURA_APPLIED_DOSE 24818"
@@ -30,6 +30,7 @@ else
 	local warnVolatileInfection		= mod:NewTargetNoFilterAnnounce(24928, 2)
 
 	local specWarnSleepingFog		= mod:NewSpecialWarningDodge(24814, nil, nil, nil, 2, 2, nil, nil, "watchstep")
+	local specWarnCorruption		= mod:NewSpecialWarningSpell(24910, "Healer", nil, nil, 1, 2, nil, nil, "healall")
 
 	local timerNoxiousBreathCD		= mod:NewVarTimer("v9.6-11.4", 24818, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 	local timerVolatileInfectionCD	= mod:NewVarTimer("v6.5-19.5", 24928, nil, "RemoveDisease", nil, 3, nil, DBM_COMMON_L.DISEASE_ICON)
@@ -50,6 +51,9 @@ else
 			timerNoxiousBreathCD:Start()
 		elseif args:IsSpell(24928) then
 			timerVolatileInfectionCD:Start()
+		elseif args:IsSpell(24910) then
+			specWarnCorruption:Show()
+			specWarnCorruption:Play("healall")
 		elseif args:IsSpell(24814, 24813) then
 			if self:AntiSpam(600, "SpecWarnFog") then -- It's more active than inactive, only warn for the initial one
 				specWarnSleepingFog:Show()
