@@ -13,7 +13,6 @@ else
 	mod:RegisterCombat("combat_yell", L.Pull)
 end
 
---mod:SetModelID(17887)
 mod:EnableWBEngageSync()--Enable syncing engage in outdoors
 if DBM:IsRestricted() then
 	mod:SetModelID(15366)
@@ -83,8 +82,10 @@ else
 	end
 
 	function mod:SPELL_AURA_REMOVED(args)
-		if args:IsSpell(24928) and self.Options.SetIconOnVolatileInfection then
-			self:SetIcon(args.destName, 0)
+		if args:IsSpell(24928) 
+			if self.Options.SetIconOnVolatileInfection then
+				self:SetIcon(args.destName, 0)
+			end
 		end
 	end
 	mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
