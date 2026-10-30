@@ -82,7 +82,7 @@ else
 	end
 
 	function mod:SPELL_AURA_REMOVED(args)
-		if args:IsSpell(24928) 
+		if args:IsSpell(24928) then
 			if self.Options.SetIconOnVolatileInfection then
 				self:SetIcon(args.destName, 0)
 			end
