@@ -20,9 +20,9 @@ else
 
 	mod:RegisterEventsInCombat(
 		"SPELL_CAST_SUCCESS 24811 24813 24814 24818",
-		"SPELL_DAMAGE 24820",
 		"SPELL_AURA_APPLIED 24818",
-		"SPELL_AURA_APPLIED_DOSE 24818"
+		"SPELL_AURA_APPLIED_DOSE 24818",
+		"SPELL_DAMAGE 24820 24821 24822 24835 24836 24837 24838"
 	)
 
 	local warnNoxiousBreath			= mod:NewStackAnnounce(24818, 2, nil, "Tank", 2)
@@ -57,7 +57,7 @@ else
 	end
 
 	function mod:SPELL_DAMAGE(_, _, _, _, _, _, _, _, spellId)
-		if spellId == 24820 and self:AntiSpam(5, "ShadowBoltWhirlTimer") then
+		if (spellId == 24820 or spellId == 24821 or spellId == 24822 or spellId == 24835 or spellId == 24836 or spellId == 24837 or spellId == 24838) and self:AntiSpam(5, "ShadowBoltWhirlTimer") then
 			timerShadowBoltWhirlCD:Start()
 		end
 	end
