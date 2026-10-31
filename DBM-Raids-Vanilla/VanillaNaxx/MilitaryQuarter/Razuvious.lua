@@ -215,7 +215,8 @@ else
 				local unitId = DBM:GetUnitIdFromGUID(args.sourceGUID)
 				icon = unitId and GetRaidTargetIndex(unitId)
 			end
-			local name = icon and ("|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_%d:0|t%s"):format(icon, args.sourceName) or args.sourceName
+			local sourceName = args.sourceName or DBM_COMMON_L.UNKNOWN
+			local name = icon and ("|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_%d:0|t%s"):format(icon, sourceName) or sourceName
 			warnShieldWall:Show(name)
 		end
 	end
